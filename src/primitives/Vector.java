@@ -2,7 +2,8 @@ package primitives;
 
 public class Vector extends Point{
     public Vector(Double3 xyz) {
-        super(xyz);
+        if(xyz.equals((new Double3(0,0,0))))
+            throw new IllegalArgumentException("cannot create a Vector with a zero coordinate");
     }
     @Override
     public final String toString() {
@@ -11,8 +12,7 @@ public class Vector extends Point{
     @Override
     public final boolean equals(Object obj) {
         if (obj instanceof Vector) {
-            Vector v = (Vector) obj;
-            return this.xyz.equals(v.xyz);
+            return super.equals(obj);
         }
         return false;
     }

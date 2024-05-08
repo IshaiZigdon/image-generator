@@ -1,23 +1,23 @@
 package primitives;
 
 public class Ray {
-    private Point head;
-    private Vector Direction;
-    public Ray(Point head, Vector Direction) {
+    private final Point head;
+    private final Vector direction;
+    public Ray(Point head, Vector direction) {
         this.head = head;
-        this.Direction = Direction;
+        this.direction = direction;
     }
     @Override
     public final boolean equals(Object obj){
         if(obj instanceof Ray){
             Ray r = (Ray)obj;
-            return head.equals(r.head) && Direction.equals(r.Direction);
+            return head.equals(r.head) && direction.equals(r.direction);
         }
         return false;
     }
     @Override
     public final String toString() {
-        return "head=" + head + ", Direction=" + Direction;
+        return "head=" + head + ", direction=" + direction;
     }
 
 }

@@ -28,22 +28,22 @@ public class Point {
         this.xyz = xyz;
     }
     /**
-     * Subtract two floating point triads into a new triad where each couple of
-     * numbers is subtracted
-     * @param  p right hand side operand for addition
-     * @return  vector of the result of substructure
-     */
-    public Vector Subtruct(Point p) {
-        return new Vector(xyz.subtract(p.xyz));
-    }
-    /**
      * Adds two floating point triads into a new triad where each couple of
      * numbers is added
      * @param  v right hand side operand for addition
      * @return  result of add
      */
-    public Point Add(Vector v) {
+    public Point add(Vector v) {
         return new Point(xyz.add(v.xyz));
+    }
+    /**
+     * Subtract two floating point triads into a new triad where each couple of
+     * numbers is subtracted
+     * @param  p right hand side operand for addition
+     * @return  vector of the result of substructure
+     */
+    public Vector subtract(Point p) {
+        return new Vector(xyz.subtract(p.xyz));
     }
     /**
      * Calculates the distance squared between 2 points

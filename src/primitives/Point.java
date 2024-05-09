@@ -9,7 +9,7 @@ public class Point {
     /** Coordinates for the point*/
     protected final Double3 xyz;
     /**Represents the origin point */
-    public static Point ZERO = new Point(new Double3(0.0, 0.0, 0.0));
+    public static Point ZERO = new Point(Double3.ZERO);
     /**
      * Constructor to initialize Point based object with its three number values
      * @param x first number value

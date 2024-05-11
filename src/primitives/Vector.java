@@ -35,27 +35,44 @@ public class Vector extends Point{
     public Vector add(Vector v) {
        return new Vector(this.xyz.add(v.xyz));
     }
-    /***/
+    /***
+     * multiplying by a scale number
+     * @param scale - the number to multiply with
+     * @return new vector that is multiplied with the scale
+     */
     public Vector scale(double scale) {
         return new Vector(this.xyz.scale(scale));
     }
-    /***/
+    /**
+     * multiply vector with another vector
+     * @param v the vector to multiply with
+     */
     public double dotProduct(Vector v) {
         return (xyz.d1*v.xyz.d1+xyz.d2*v.xyz.d2+xyz.d3*v.xyz.d3);
     }
-    /***/
+    /***
+     * doing cross-product multiplication
+     * @param v the vector to make the calculations with
+     * @return new vector that is vertical to both of the vectors
+     */
     public Vector crossProduct(Vector v) {
         return new Vector((xyz.d2*v.xyz.d3-xyz.d3*v.xyz.d2),(xyz.d3*v.xyz.d1-xyz.d1*v.xyz.d3),(xyz.d1*v.xyz.d2-xyz.d2*v.xyz.d1));
     }
-    /***/
+    /**
+     * calculates the length of a vector squared
+     */
     public double lengthSquared(){
         return xyz.d1*xyz.d1+xyz.d2*xyz.d2+xyz.d3*xyz.d3;
     }
-    /***/
+    /**
+     * calculates the length of the vector
+     */
     public double length(){
         return Math.sqrt(lengthSquared());
     }
-    /***/
+    /**
+     * normalizes the current vector
+     */
     public Vector normalize() {
         return scale(1/length());
     }

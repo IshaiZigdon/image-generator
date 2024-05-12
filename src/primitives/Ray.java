@@ -16,10 +16,8 @@ public class Ray {
      */
     public Ray(Point head, Vector direction) {
         this.head = head;
-        if(direction.length() != 1)
-            this.direction= direction.normalize();
-        else
-            this.direction = direction;
+        ///if its already normalized, it will not change
+        this.direction= direction.normalize();
     }
     @Override
     public final boolean equals(Object obj){

@@ -13,7 +13,7 @@ public class Vector extends Point{
      */
     public Vector(double x, double y, double z) {
         super(x, y, z);
-        if(x==0 && y==0 && z==0)
+        if(xyz.equals(Double3.ZERO))
             throw new IllegalArgumentException("cannot create a Vector with a zero coordinate");
     }
     /**
@@ -24,7 +24,6 @@ public class Vector extends Point{
         super(xyz);
         if(xyz.equals(Double3.ZERO))
             throw new IllegalArgumentException("cannot create a Vector with a zero coordinate");
-        
     }
     /**
      *adds algebraically the vectors

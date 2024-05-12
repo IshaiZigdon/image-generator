@@ -1,7 +1,8 @@
 package geometries;
-
 /***
- * Triangle class, not implemented yet
+ * Triangle class, empty at this point
+ * @author Ishai zigdon
+ * @author Zaki zafrani
  */
 public class Triangle extends Polygon{
 }

@@ -1,5 +1,4 @@
 package primitives;
-
 /**
  * This class will represent point with 3 coordinates
  * @author Ishai zigdon
@@ -51,6 +50,7 @@ public class Point {
      * @return distance squared
      */
     public double distanceSquared(Point p) {
+        // d^2 = (x1-x2)^2 + (y1-y2)^2 + (z1-z2)^2
         Double3 temp = this.xyz.subtract(p.xyz);
         return ((temp.d1 * temp.d1) + (temp.d2 * temp.d2) + (temp.d3 * temp.d3));
     }
@@ -65,14 +65,13 @@ public class Point {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Point) {
-            Point p = (Point) obj;
+        if (obj instanceof Point p)
             return xyz.equals(p.xyz);
-        }
         return false;
     }
+
     @Override
     public String toString() {
-        return "x,y,z=" + xyz;
+        return xyz.toString();
     }
 }

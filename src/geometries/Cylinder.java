@@ -9,10 +9,9 @@ import primitives.*;
 public class Cylinder extends Tube{
     /**height of the cylinder*/
     final private double height;
-
     /**
      * constructor to initialize Cylinder based object with its ray, radius and height
-     * @param r the ray that @todo zaki idk how to say what it does
+     * @param r the ray that represent the axis
      * @param radius radius of the base of the cylinder
      * @param height height of the cylinder
      */
@@ -22,6 +21,6 @@ public class Cylinder extends Tube{
     }
     @Override
     public Vector getNormal(Point p) {
-        return null;
+        return super.getNormal(p);
     }
 }

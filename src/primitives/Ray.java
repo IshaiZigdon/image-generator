@@ -21,15 +21,13 @@ public class Ray {
     }
     @Override
     public final boolean equals(Object obj){
-        if(obj instanceof Ray){
-            Ray r = (Ray)obj;
+        if(obj instanceof Ray r)
             return head.equals(r.head) && direction.equals(r.direction);
-        }
         return false;
     }
     @Override
     public final String toString() {
-        return "head=" + head + ", direction=" + direction;
+        return head.toString() + direction.toString();
     }
 
 }

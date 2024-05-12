@@ -1,15 +1,15 @@
 package geometries;
-
 import primitives.*;
-
 /***
  * this interface will serve all geometry shapes in the program
  * 2D and 3D
+ * @author Ishai zigdon
+ * @author Zaki zafrani
  */
 public interface Geometry {
      /***
       * all the classes will implement this function, calculates the
-      * vertical vector for the current shape
+      * vertical (normal) vector for the various shapes
       * @param p a point on the shape
       * @return a vertical vector for the shape
       */

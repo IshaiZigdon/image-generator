@@ -26,7 +26,7 @@ public class Vector extends Point{
             throw new IllegalArgumentException("cannot create a Vector with a zero coordinate");
     }
     /**
-     *adds algebraically the vectors
+     * adds algebraically the vectors
      * @param v represents the vector to be added
      * @return new vector with the added coordinates using the father
      * add function
@@ -59,18 +59,21 @@ public class Vector extends Point{
     }
     /**
      * calculates the length of a vector squared
+     * @return the squared length of the vector
      */
     public double lengthSquared(){
         return xyz.d1*xyz.d1+xyz.d2*xyz.d2+xyz.d3*xyz.d3;
     }
     /**
      * calculates the length of the vector
+     * @return the length of the vector
      */
     public double length(){
         return Math.sqrt(lengthSquared());
     }
     /**
      * normalizes the current vector
+     * @return the new normalized vector
      */
     public Vector normalize() {
         return scale(1/length());

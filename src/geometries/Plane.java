@@ -1,16 +1,15 @@
 package geometries;
-
 import primitives.*;
-
 /***
  * this class represent an infinite plane field with a point and a vector
+ * @author Ishai zigdon
+ * @author Zaki zafrani
  */
 public class Plane implements Geometry {
     /** a point on the plane field */
     private final Point q;
     /** a vector in the field  */
     private final Vector normal;
-
     /***
      * a constructor to calculate the plane with 3 points, calculates the normal
      * based on the calculations of normal to a triangle
@@ -22,7 +21,6 @@ public class Plane implements Geometry {
         q = a;
         normal = null;
     }
-
     /***
      * constructor to initialize Plane with a point and a vector
      * @param q the point
@@ -36,10 +34,9 @@ public class Plane implements Geometry {
     public Vector getNormal(Point p) {
         return normal;
     }
-
     /***
      * a function to return the normal of the plane
-     * @return the normal vector @todo zaki go thtough it im not sure its good
+     * @return the normal vector of the plane
      */
     public Vector getNormal() {
         return normal;

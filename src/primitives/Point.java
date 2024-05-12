@@ -51,8 +51,8 @@ public class Point {
      * @return distance squared
      */
     public double distanceSquared(Point p) {
-        xyz.subtract(p.xyz);
-        return ((xyz.d1 * xyz.d1) + (xyz.d2 * xyz.d2) + (xyz.d3 * xyz.d3));
+        Double3 temp = this.xyz.subtract(p.xyz);
+        return ((temp.d1 * temp.d1) + (temp.d2 * temp.d2) + (temp.d3 * temp.d3));
     }
     /**
      * Calculates the distance between 2 points
@@ -75,5 +75,4 @@ public class Point {
     public String toString() {
         return "x,y,z=" + xyz;
     }
-
 }

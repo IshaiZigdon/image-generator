@@ -2,7 +2,7 @@ package geometries;
 
 import primitives.*;
 
-/***
+/**
  * this interface will serve all geometry shapes in the program
  * 2D and 3D
  * @author Ishai zigdon

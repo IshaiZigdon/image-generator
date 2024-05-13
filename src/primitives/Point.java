@@ -72,7 +72,6 @@ public class Point {
         double dz = this.xyz.d3 - p.xyz.d3;
         return dx * dx + dy * dy + dz * dz;
     }
-
     /**
      * Calculates the distance between 2 points
      *
@@ -91,6 +90,6 @@ public class Point {
 
     @Override
     public String toString() {
-        return "" + xyz;
+        return "Point: " + xyz;
     }
 }

@@ -2,7 +2,7 @@ package geometries;
 
 import primitives.*;
 
-/***
+/**
  * this class represent an infinite plane field with a point and a vector
  * @author Ishai zigdon
  * @author Zaki zafrani
@@ -11,7 +11,7 @@ public class Plane implements Geometry {
     private final Point q;
     private final Vector normal;
 
-    /***
+    /**
      * a constructor to calculate the plane with 3 points, calculates the normal
      * based on the calculations of normal to a triangle
      * @param a first point
@@ -23,7 +23,7 @@ public class Plane implements Geometry {
         normal = null;
     }
 
-    /***
+    /**
      * constructor to initialize Plane with a point and a vector
      * @param q the point
      * @param normal the vector
@@ -39,7 +39,7 @@ public class Plane implements Geometry {
         return normal;
     }
 
-    /***
+    /**
      * a function to return the normal of the plane
      * @return the normal vector of the plane
      */

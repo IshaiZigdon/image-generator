@@ -42,7 +42,7 @@ public class Vector extends Point {
         return new Vector(this.xyz.add(v.xyz));
     }
 
-    /***
+    /**
      * multiplying by a scale number
      * @param scale - the number to multiply with
      * @return new vector that is multiplied with the scale
@@ -61,7 +61,7 @@ public class Vector extends Point {
         return (xyz.d1 * v.xyz.d1 + xyz.d2 * v.xyz.d2 + xyz.d3 * v.xyz.d3);
     }
 
-    /***
+    /**
      * doing cross-product multiplication
      * @param v the vector to make the calculations with
      * @return new vector that is vertical to both of the vectors

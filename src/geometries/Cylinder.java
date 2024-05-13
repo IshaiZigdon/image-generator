@@ -7,7 +7,6 @@ import primitives.*;
  * @author Zaki
  */
 public class Cylinder extends Tube{
-    /**height of the cylinder*/
     final private double height;
     /**
      * constructor to initialize Cylinder based object with its ray, radius and height

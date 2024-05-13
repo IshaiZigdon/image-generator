@@ -5,9 +5,7 @@ package primitives;
  * @author Zaki zafrani
  */
 public class Ray {
-    /** coordinates of where the ray begins*/
     private final Point head;
-    /**direction of where the ray is moving towards */
     private final Vector direction;
     /**
      * constructor to initialize ray with head and direction

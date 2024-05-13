@@ -6,9 +6,7 @@ import primitives.*;
  * @author Zaki zafrani
  */
 public class Plane implements Geometry {
-    /** a point on the plane field */
     private final Point q;
-    /** a vector in the field  */
     private final Vector normal;
     /***
      * a constructor to calculate the plane with 3 points, calculates the normal

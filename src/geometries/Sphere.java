@@ -6,7 +6,6 @@ import primitives.*;
  * @author Zaki zafrani
  */
 public class Sphere extends RadialGeometry{
-    /** a point that represent the center of the sphere */
     final private Point center;
     /***
      * constructor to initialize Sphere with a point and a radius

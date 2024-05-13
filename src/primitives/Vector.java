@@ -45,6 +45,7 @@ public class Vector extends Point{
     /**
      * multiply vector with another vector
      * @param v the vector to multiply with
+     * @return the result
      */
     public double dotProduct(Vector v) {
         return (xyz.d1*v.xyz.d1+xyz.d2*v.xyz.d2+xyz.d3*v.xyz.d3);

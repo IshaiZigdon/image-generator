@@ -39,7 +39,7 @@ public class Vector extends Point {
      * add function
      */
     public Vector add(Vector v) {
-        return new Vector(this.xyz.add(v.xyz));
+        return new Vector(xyz.add(v.xyz));
     }
 
     /**
@@ -48,7 +48,7 @@ public class Vector extends Point {
      * @return new vector that is multiplied with the scale
      */
     public Vector scale(double scale) {
-        return new Vector(this.xyz.scale(scale));
+        return new Vector(xyz.scale(scale));
     }
 
     /**

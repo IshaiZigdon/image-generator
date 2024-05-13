@@ -24,7 +24,7 @@ public class Point {
      * @param z third number value
      */
     public Point(double x, double y, double z) {
-        this.xyz = new Double3(x, y, z);
+        xyz = new Double3(x, y, z);
     }
 
     /**
@@ -67,9 +67,9 @@ public class Point {
      */
     public double distanceSquared(Point p) {
         // d^2 = (x1-x2)^2 + (y1-y2)^2 + (z1-z2)^2
-        double dx = this.xyz.d1 - p.xyz.d1;
-        double dy = this.xyz.d2 - p.xyz.d2;
-        double dz = this.xyz.d3 - p.xyz.d3;
+        double dx = xyz.d1 - p.xyz.d1;
+        double dy = xyz.d2 - p.xyz.d2;
+        double dz = xyz.d3 - p.xyz.d3;
         return dx * dx + dy * dy + dz * dz;
     }
 

@@ -6,4 +6,5 @@ package geometries;
  * @author Zaki zafrani
  */
 public class Triangle extends Polygon {
+    public Triangle() {}
 }

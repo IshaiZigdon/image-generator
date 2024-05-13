@@ -39,7 +39,7 @@ public class Vector extends Point {
      * add function
      */
     public Vector add(Vector v) {
-        return new Vector(this.xyz.add(v.xyz));
+        return new Vector(xyz.add(v.xyz));
     }
 
     /**

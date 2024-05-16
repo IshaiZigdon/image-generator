@@ -1,7 +1,10 @@
 package geometries;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * unit test for Geometries.Triangle
+ *
+ * @author Ishai zigdon
+ * @author Zaki zafrani
+ */
 class TriangleTest {
-
 }

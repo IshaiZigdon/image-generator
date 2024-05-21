@@ -2,6 +2,8 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,9 +19,33 @@ class TubeTest {
      */
     @Test
     void getNormal() {
+        Point pM110 = new Point(-1,1,0);
+        Point p100 = new Point(1,0,0);
+        Vector v100= new Vector(1,0,0);
+        Tube t = new Tube(new Ray(p100,v100),1);
         // ============ Equivalence Partitions Tests ==============
+        //TC1: simple test
+        // ensure there are no exceptions
+        assertDoesNotThrow(() -> t.getNormal(pM110), "");
+        // generate the test result
+        Vector normal = t.getNormal(pM110);
+        // ensure |result| = 1
+        assertEquals(1, normal.length(), 0.000001, "Plane's normal is not a unit vector");
+        // ensure the result is orthogonal to the tube
+        assertEquals(0d, normal.dotProduct(v100),
+                "Sphere: wrong normal values");
 
         // =============== Boundary Values Tests ==================
-
+        Point p110 = new Point(1,1,0);
+        //TC2: point facing the head point
+        // ensure there are no exceptions
+        assertDoesNotThrow(() -> t.getNormal(p110), "");
+        // generate the test result
+        Vector normal2 = t.getNormal(p110);
+        // ensure |result| = 1
+        assertEquals(1, normal2.length(), 0.000001, "Plane's normal is not a unit vector");
+        // ensure the result is orthogonal to the tube
+        assertThrows(IllegalArgumentException.class,()->
+                normal2.crossProduct(p110.subtract(p100)),"Sphere: wrong normal values");
     }
 }

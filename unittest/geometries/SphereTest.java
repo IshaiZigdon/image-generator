@@ -23,6 +23,7 @@ class SphereTest {
         Vector n = sphere.getNormal(Point.ZERO);
         //ensure |n| = 1
         assertEquals(1, n.length(),"Sphere's normal is not a unit vector");
+        // ensure the result is orthogonal to the sphere
         assertThrows(IllegalArgumentException.class,()->
                 n.crossProduct(Point.ZERO.subtract(pt)),"Sphere: wrong normal values");
 

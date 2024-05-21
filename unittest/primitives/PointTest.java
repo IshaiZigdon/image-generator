@@ -22,8 +22,6 @@ class PointTest {
         // TC01: simple test
         assertDoesNotThrow(() -> new Point(1, 2, 3),"Point Constructor: failed 3 doubles constructor");
         assertDoesNotThrow(() -> new Point(new Double3(1,2,3)),"Point Constructor: failed Double3 constructor");
-
-        // =============== Boundary Values Tests ==================
     }
     /**
      * Test method for {@link Point#add(Vector)}

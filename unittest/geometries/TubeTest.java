@@ -30,22 +30,24 @@ class TubeTest {
         // generate the test result
         Vector normal = t.getNormal(pM110);
         // ensure |result| = 1
-        assertEquals(1, normal.length(), 0.000001, "Plane's normal is not a unit vector");
+        assertEquals(1, normal.length(), 0.000001, "Tube's normal is not a unit vector");
         // ensure the result is orthogonal to the tube
         assertEquals(0d, normal.dotProduct(v100),
-                "Sphere: wrong normal values");
+                "Tube: wrong normal values");
 
         // =============== Boundary Values Tests ==================
         Point p110 = new Point(1,1,0);
-        //TC2: point facing the head point
-        // ensure there are no exceptions
+        /*
+        TC2: vector between the points is vertical to the direction vector
+         ensure there are no exceptions
+        */
         assertDoesNotThrow(() -> t.getNormal(p110), "");
         // generate the test result
         Vector normal2 = t.getNormal(p110);
         // ensure |result| = 1
-        assertEquals(1, normal2.length(), 0.000001, "Plane's normal is not a unit vector");
+        assertEquals(1, normal2.length(), 0.000001, "Tube's normal is not a unit vector");
         // ensure the result is orthogonal to the tube
         assertThrows(IllegalArgumentException.class,()->
-                normal2.crossProduct(p110.subtract(p100)),"Sphere: wrong normal values");
+                normal2.crossProduct(p110.subtract(p100)),"Tube: wrong normal values");
     }
 }

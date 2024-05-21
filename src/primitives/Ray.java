@@ -22,6 +22,22 @@ public class Ray {
         this.direction = direction.normalize();
     }
 
+    /**
+     * todo
+     * @return
+     */
+    public Point getHead() {
+        return head;
+    }
+
+    /**
+     * todo
+     * @return
+     */
+    public Vector getDirection() {
+        return direction;
+    }
+
     @Override
     public final boolean equals(Object obj) {
         if (this == obj) return true;

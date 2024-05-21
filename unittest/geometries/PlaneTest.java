@@ -38,10 +38,18 @@ class PlaneTest {
     void getNormal() {
         /// ============ Equivalence Partitions Tests ==============
         //TC1: simple test
-        Plane p1 = new Plane(new Point(1,0,0),new Point(0,1,0),new Point(-1,0,0));
-        Vector normal = p1.getNormal();
-        assertDoesNotThrow(()->new Vector(0,0,1).crossProduct(normal),"Plane getNormal: wrong normal");
-        // =============== Boundary Values Tests ==================
+        Point[] pts ={new Point(1,0,0),new Point(0,1,0),new Point(-1,0,0)};
+        Plane p1 = new Plane(pts[0],pts[1],pts[2]);
+        // ensure there are no exceptions
+        assertDoesNotThrow(() -> p1.getNormal(new Point(1, 0, 0)), "");
+        // generate the test result
+        Vector normal = p1.getNormal(new Point(1, 0, 0));
+        // ensure |result| = 1
+        assertEquals(1, normal.length(), 0.000001, "Plane's normal is not a unit vector");
+        // ensure the result is orthogonal to the plane
+        for (int i = 0; i < 2; ++i)
+            assertEquals(0d, normal.dotProduct(pts[i].subtract(pts[i == 0 ? 2 : i - 1])), 0.000001,
+                    "Plane's normal is not orthogonal to one of the vectors");
     }
 
     /**

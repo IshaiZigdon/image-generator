@@ -24,8 +24,8 @@ class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         // TC01: simple test
-        assertDoesNotThrow(() -> new Vector(1.0, 2.0, 3.0),"Vector Constructor: failed 3 doubles constructor");
-        assertDoesNotThrow(() -> new Vector(new Double3(1.0,2.0,3.0)),"Vector Constructor: failed Double3 constructor");
+        assertDoesNotThrow(() -> new Vector(1, 2, 3),"Vector Constructor: failed 3 doubles constructor");
+        assertDoesNotThrow(() -> new Vector(new Double3(1,2,3)),"Vector Constructor: failed Double3 constructor");
 
         // =============== Boundary Values Tests ==================
         //TC02: if Throws an error when implemented with 0 values
@@ -40,17 +40,17 @@ class VectorTest {
     void testAdd() {
         // ============ Equivalence Partitions Tests ==============
         //TC1: Less then 90 degree between vectors
-        assertEquals(new Vector(2.0,0.0,1.0),
-                new Vector(1.0, 0.0, 0.0).add(new Vector(1.0, 0.0, 1.0)),
+        assertEquals(new Vector(2,0,1),
+                new Vector(1, 0, 0).add(new Vector(1, 0, 1)),
                 "Vector add: Less then 90 degree Didnt work");
         //TC2: More the 90 degree between vectors
-        assertEquals(new Vector(0.0,0.0,1.0),
-                new Vector(1.0, 0.0, 0.0).add(new Vector(-1.0, 0.0, 1.0)),
+        assertEquals(new Vector(0,0,1),
+                new Vector(1, 0, 0).add(new Vector(-1, 0, 1)),
                 "Vector add: More then 90 degree Didnt work");
         // =============== Boundary Values Tests ==================
         //TC3: Opposite side vectors
         assertThrows(IllegalArgumentException.class,
-                ()-> new Vector(1.0, 0.0, 0.0).add(new Vector(-1.0, 0.0, 0.0)),
+                ()-> new Vector(1, 0, 0).add(new Vector(-1, 0, 0)),
                 "Vector add: Opposite Vector didn't throw an exception");
  ;   }
 
@@ -78,13 +78,13 @@ class VectorTest {
     void testScale() {
         // ============ Equivalence Partitions Tests ==============
         //TC1: Checks if the function works
-        assertEquals(new Vector(2.0,0.0,0.0),
-                new Vector(1.0, 0.0, 0.0).scale(2.0),
+        assertEquals(new Vector(2,0,0),
+                new Vector(1, 0, 0).scale(2),
                 "Vector Scale: Regular vector scale didn't work");
 
         // =============== Boundary Values Tests ==================
         //TC2: Checks multiplication with 0
-        assertThrows(IllegalArgumentException.class,()->new Vector(1.0, 0.0, 0.0).scale(0.0),
+        assertThrows(IllegalArgumentException.class,()->new Vector(1, 0, 0).scale(0),
                 "Vector Scale: Multiplication with 0 didn't throw an exception");
     }
 
@@ -95,21 +95,21 @@ class VectorTest {
     void testDotProduct() {
         // ============ Equivalence Partitions Tests ==============
         //TC1: Less then 90 degree between vectors
-        assertEquals(2.0,
-                new Vector(2.0, 0.0, 0.0).dotProduct(new Vector(1.0, 0.0, 1.0)),
+        assertEquals(2,
+                new Vector(2, 0, 0).dotProduct(new Vector(1, 0, 1)),
                 "Dot product: Less then 90 degree Didnt work");
         //TC2: More the 90 degree between vectors
-        assertEquals(-2.0,
-                new Vector(2.0, 0.0, 0.0).dotProduct(new Vector(-1.0, 0.0, 1.0)),
+        assertEquals(-2,
+                new Vector(2, 0, 0).dotProduct(new Vector(-1, 0, 1)),
                 "Dot product: More then 90 degree Didnt work");
         // =============== Boundary Values Tests ==================
         //TC3: Vertical vectors
-        assertEquals(0.0,
-                new Vector(2.0, 0.0, 0.0).dotProduct(new Vector(0.0, 1.0, 0.0)),
+        assertEquals(0,
+                new Vector(2, 0, 0).dotProduct(new Vector(0, 1, 0)),
                 "Dot product: Vertical vectors result is not 0");
         //TC4: Unit vector
         assertEquals(3,
-                new Vector(1, 2, 3).dotProduct(new Vector(0.0, 0.0, 1.0)),
+                new Vector(1, 2, 3).dotProduct(new Vector(0, 0, 1)),
                 "Dot product: Unit vector didn't work");
     }
 
@@ -120,30 +120,35 @@ class VectorTest {
     void testCrossProduct() {
         // ============ Equivalence Partitions Tests ==============
         //TC1: Less then 90 degree between vectors
-        assertEquals(new Vector(0.0,-2.0,0.0),
-                new Vector(2.0, 0.0, 0.0).crossProduct(new Vector(1.0, 0.0, 1.0)),
+        assertEquals(new Vector(0,-2,0),
+                new Vector(2, 0, 0).crossProduct(new Vector(1, 0, 1)),
                 "Cross product: Less then 90 degree Didnt work");
+        assertEquals(0,new Vector(0,-2,0).dotProduct(new Vector(2,0,0)),
+                "Cross product: result is not orthogonal to 1st operand");
+        assertEquals(0,new Vector(0,-2,0).dotProduct(new Vector(1,0,1)),
+                "Cross product: result is not orthogonal to 2nd operand");
         //TC2: More the 90 degree between vectors
-        assertEquals(new Vector(0.0,-2.0,0.0),
-                new Vector(2.0, 0.0, 0.0).crossProduct(new Vector(-1.0, 0.0, 1.0)),
+        assertEquals(new Vector(0,-2,0),
+                new Vector(2, 0, 0).crossProduct(new Vector(-1, 0, 1)),
                 "Cross product: More then 90 degree Didnt work");
 
         // =============== Boundary Values Tests ==================
+        //todo fix the same vectors
         //TC3: Parallel vectors, different length
         assertThrows(IllegalArgumentException.class,()->
-                new Vector(1.0, 0.0, 0.0).crossProduct(new Vector(2.0, 0.0, 0.0)),
+                new Vector(1, 0, 0).crossProduct(new Vector(2, 0, 0)),
                 "Cross product:  Parallel vectors, different length didn't throw an exception");
         //TC4: Parallel vectors, same length
         assertThrows(IllegalArgumentException.class,()->
-                new Vector(1.0, 0.0, 0.0).crossProduct(new Vector(1.0, 0.0, 0.0)),
+                new Vector(1, 0, 0).crossProduct(new Vector(1, 0, 0)),
                 "Cross product: Parallel vectors, same length didn't throw an exception");
         //TC5: different directions , same length
         assertThrows(IllegalArgumentException.class,()->
-                new Vector(1.0, 0.0, 0.0).crossProduct(new Vector(-1.0, 0.0, 0.0)),
+                new Vector(1, 0, 0).crossProduct(new Vector(-1, 0, 0)),
                 "Cross product:  Different directions, same length didn't throw an exception");
         //TC6: different directions , different length
         assertThrows(IllegalArgumentException.class,()->
-                new Vector(1.0, 0.0, 0.0).crossProduct(new Vector(-2.0, 0.0, 0.0)),
+                new Vector(1, 0, 0).crossProduct(new Vector(-2, 0, 0)),
                 "Cross product: Different directions, different length didn't throw an exception");
     }
 

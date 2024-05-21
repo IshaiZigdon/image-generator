@@ -20,8 +20,8 @@ class PointTest {
         // ============ Equivalence Partitions Tests ==============
 
         // TC01: simple test
-        assertDoesNotThrow(() -> new Point(1.0, 2.0, 3.0),"Point Constructor: failed 3 doubles constructor");
-        assertDoesNotThrow(() -> new Point(new Double3(1.0,2.0,3.0)),"Point Constructor: failed Double3 constructor");
+        assertDoesNotThrow(() -> new Point(1, 2, 3),"Point Constructor: failed 3 doubles constructor");
+        assertDoesNotThrow(() -> new Point(new Double3(1,2,3)),"Point Constructor: failed Double3 constructor");
 
         // =============== Boundary Values Tests ==================
     }
@@ -32,13 +32,13 @@ class PointTest {
     void testAdd() {
         // ============ Equivalence Partitions Tests ==============
         //TC1: simple test
-        assertEquals(new Point(2.0,0.0,1.0),
-                new Point(1.0, 0.0, 0.0).add(new Vector(1.0, 0.0, 1.0)),
+        assertEquals(new Point(2,0,1),
+                new Point(1, 0, 0).add(new Vector(1, 0, 1)),
                 "Point add: simple add didn't work");
         // =============== Boundary Values Tests ==================
         //TC2: 0 test
         assertEquals(Point.ZERO,
-                new Point(1.0, 0.0, 0.0).add(new Vector(-1.0, 0.0, 0.0)),
+                new Point(1, 0, 0).add(new Vector(-1, 0, 0)),
                 "Point add: opposite values didn't work");
     }
 
@@ -49,13 +49,13 @@ class PointTest {
     void testSubtract() {
         // ============ Equivalence Partitions Tests ==============
         //TC1: simple test
-        assertEquals(new Vector(1.0,0.0,0.0),
-                new Point(2.0, 0.0, 1.0).subtract(new Point(1.0, 0.0, 1.0)),
+        assertEquals(new Vector(1,0,0),
+                new Point(2, 0, 1).subtract(new Point(1, 0, 1)),
                 "Point subtract: simple sub didn't work");
         // =============== Boundary Values Tests ==================
         //TC1: vector 0 test
         assertThrows(IllegalArgumentException.class,()->
-                new Point(1.0, 0.0, 0.0).subtract(new Point(1.0, 0.0, 0.0)),
+                new Point(1, 0, 0).subtract(new Point(1, 0, 0)),
                 "Point subtract: zero vector didn't threw an exception");
     }
 

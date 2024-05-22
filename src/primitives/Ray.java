@@ -23,16 +23,16 @@ public class Ray {
     }
 
     /**
-     * todo
-     * @return
+     * function for head
+     * @return head
      */
     public Point getHead() {
         return head;
     }
 
     /**
-     * todo
-     * @return
+     * function for direction
+     * @return direction
      */
     public Vector getDirection() {
         return direction;

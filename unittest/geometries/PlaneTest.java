@@ -23,15 +23,15 @@ class PlaneTest {
         Point p010 = new Point(0,1,0);
         // TC01: simple test
         assertDoesNotThrow(() -> new Plane(new Point(1,1,1),new Vector(1,0,0)),
-                "Point Constructor: failed point and vector constructor");
+                "Plane Constructor: failed point and vector constructor");
         assertDoesNotThrow(() -> new Plane(p100,new Point(0,0,1),p010)
-                ,"Point Constructor: failed 3 points constructor");
+                ,"Plane Constructor: failed 3 points constructor");
         // =============== Boundary Values Tests ==================
         //TC2: same points
         assertThrows(IllegalArgumentException.class, () -> new Plane(p100,p100,p010)
-                ,"Point Constructor: same points didn't throw an exception");
+                ,"Plane Constructor: same points didn't throw an exception");
         assertThrows(IllegalArgumentException.class, () -> new Plane(p100,p100,p100)
-                ,"Point Constructor: same points didn't throw an exception");
+                ,"Plane Constructor: same points didn't throw an exception");
     }
     /**
      * Test method for {@link Plane#getNormal(Point)}

@@ -18,6 +18,7 @@ class SphereTest {
     @Test
     void getNormal() {
         // ============ Equivalence Partitions Tests ==============
+        //TC1: simple test
         Point pt = new Point(1,0, 0);
         Sphere sphere = new Sphere(pt,1);
         Vector n = sphere.getNormal(Point.ZERO);

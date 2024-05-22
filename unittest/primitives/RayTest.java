@@ -12,11 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class RayTest {
     /**
-     * Test method for {@link Point#Point(double, double, double)}.
-     * and Test method for {@link Point#Point(Double3)}.
+     * Test method for {@link Ray#Ray(Point,Vector)}.
      */
     @Test
-    public void testConstructors() {
+    public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
         Point p123 = new Point(1,2,3);
         // TC01: simple test

@@ -5,7 +5,8 @@ import primitives.Point;
 import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals; /**
+import static org.junit.jupiter.api.Assertions.assertEquals;
+/**
  * unit test for Geometries.Triangle
  *
  * @author Ishai zigdon
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals; /**
  */
 class TriangleTest {
     /**
-     * Test method for {@link Plane#getNormal(Point)}
+     * Test method for {@link Triangle#getNormal(Point)}
      */
     @Test
     void getNormal() {

@@ -22,12 +22,13 @@ class CylinderTest {
                 new Ray(Point.ZERO, v100), 1, 1);
 
         // ============ Equivalence Partitions Tests ==============
+
         //TC1: point on the side of the cylinder
-        Point phalf10 = new Point(0.5, 1, 0);
+        Point pHalf10 = new Point(0.5, 1, 0);
         // ensure there are no exceptions
-        assertDoesNotThrow(() -> c.getNormal(phalf10), "");
+        assertDoesNotThrow(() -> c.getNormal(pHalf10), "");
         // generate the test result
-        Vector normal = c.getNormal(phalf10);
+        Vector normal = c.getNormal(pHalf10);
         // ensure |result| = 1
         assertEquals(1, normal.length(), 0.000001, "Cylinder's normal is not a unit vector");
         // ensure the result is orthogonal to the cylinder
@@ -53,9 +54,10 @@ class CylinderTest {
         assertEquals(1, normal3.length(), 0.000001, "Cylinder's normal is not a unit vector");
         // ensure the result is orthogonal to the Cylinder
         assertEquals(normal3, v100, "Cylinder: wrong normal values");
-        // =============== Boundary Values Tests ==================
-        //TC4: point on base 1 IN THE MIDDLE
 
+        // =============== Boundary Values Tests ==================
+
+        //TC4: point on base 1 IN THE MIDDLE
         assertDoesNotThrow(() -> c.getNormal(Point.ZERO), "");
         // generate the test result
         Vector normal4 = c.getNormal(Point.ZERO);

@@ -28,24 +28,17 @@ public class Cylinder extends Tube {
 
     @Override
     public Vector getNormal(Point p) {
-        /*
-         * //t = v * (p-p0)
-         *         double t = axis.getDirection().dotProduct(p.subtract(axis.getHead()));
-         *         //o = P0 +t*v
-         *         if (t==0)//normal =p-p0 (vector)
-         *            return p.subtract(axis.getHead()).normalize();
-         *         else// normal = p-o (vector)
-         *             return p.subtract(axis.getHead().add(axis.getDirection().scale(t))).normalize();
-         */
-
-        //if p is the same as p0
+        //if p is the same as p0, meaning p is in the middle of the base
         if(p.equals(axis.getHead()))
             return axis.getDirection();
-        //if p on base 1 or base 2 or in the mid of base 2
+        //the distance between p0 and o
         double t = axis.getDirection().dotProduct(p.subtract(axis.getHead()));
-        if (t==0 || t==height)//normal =p-p0 (vector)
+        if (t==0 || t==height)
+            //meaning the distance between p0 and o is 0(p is on the base on which p0 is)
+            //or height(p is on the other base), that also includes the points on the edges of the bases.
+            //so the normal of all those points is the direction vector itself
             return axis.getDirection() ;
-        //if is on the side surface
+        //p is on the side surface
         return super.getNormal(p);
     }
 }

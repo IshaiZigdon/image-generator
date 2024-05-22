@@ -23,7 +23,7 @@ public class Ray {
     }
 
     /**
-     * function for head
+     * get function for head
      * @return head
      */
     public Point getHead() {
@@ -31,7 +31,7 @@ public class Ray {
     }
 
     /**
-     * function for direction
+     * get function for direction
      * @return direction
      */
     public Vector getDirection() {
@@ -48,5 +48,4 @@ public class Ray {
     public final String toString() {
         return "Ray:" + head.xyz + "->" + direction.xyz;
     }
-
 }

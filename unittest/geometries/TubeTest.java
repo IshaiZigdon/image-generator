@@ -24,6 +24,7 @@ class TubeTest {
         Vector v100= new Vector(1,0,0);
         Tube t = new Tube(new Ray(p100,v100),1);
         // ============ Equivalence Partitions Tests ==============
+
         //TC1: simple test
         // ensure there are no exceptions
         assertDoesNotThrow(() -> t.getNormal(pM110), "");
@@ -36,6 +37,7 @@ class TubeTest {
                 "Tube: wrong normal values");
 
         // =============== Boundary Values Tests ==================
+
         Point p110 = new Point(1,1,0);
         /*
         TC2: vector between the points is vertical to the direction vector

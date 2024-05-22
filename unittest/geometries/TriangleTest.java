@@ -19,9 +19,10 @@ class TriangleTest {
     @Test
     void getNormal() {
         /// ============ Equivalence Partitions Tests ==============
+
         //TC1: simple test
         Point[] pts = {new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 0, 0)};
-        Triangle t1 = new Triangle();
+        Triangle t1 = new Triangle(); //????
         // ensure there are no exceptions
         assertDoesNotThrow(() -> t1.getNormal(new Point(1, 0, 0)), "");
         // generate the test result
@@ -30,7 +31,7 @@ class TriangleTest {
         assertEquals(1, normal.length(), 0.000001, "Triangle's normal is not a unit vector");
         // ensure the result is orthogonal to the triangle
         for (int i = 0; i < 2; ++i)
-            assertEquals(0d, normal.dotProduct(pts[i].subtract(pts[i == 0 ? 2 : i - 1])), 0.000001,
+            assertEquals(0d, normal.dotProduct(pts[i].subtract(pts[i == 0 ? 2 : 0])), 0.000001,
                     "Triangle's normal is not orthogonal to one of the vectors");
     }
 }

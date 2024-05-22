@@ -29,11 +29,14 @@ class PointTest {
     @Test
     void testAdd() {
         // ============ Equivalence Partitions Tests ==============
+
         //TC1: simple test
         assertEquals(new Point(2,0,1),
                 new Point(1, 0, 0).add(new Vector(1, 0, 1)),
                 "Point add: simple add didn't work");
+
         // =============== Boundary Values Tests ==================
+
         //TC2: 0 test
         assertEquals(Point.ZERO,
                 new Point(1, 0, 0).add(new Vector(-1, 0, 0)),
@@ -46,11 +49,14 @@ class PointTest {
     @Test
     void testSubtract() {
         // ============ Equivalence Partitions Tests ==============
+
         //TC1: simple test
         assertEquals(new Vector(1,0,0),
                 new Point(2, 0, 1).subtract(new Point(1, 0, 1)),
                 "Point subtract: simple sub didn't work");
+
         // =============== Boundary Values Tests ==================
+
         //TC1: vector 0 test
         assertThrows(IllegalArgumentException.class,()->
                 new Point(1, 0, 0).subtract(new Point(1, 0, 0)),
@@ -63,11 +69,14 @@ class PointTest {
     @Test
     void testDistanceSquared() {
         // ============ Equivalence Partitions Tests ==============
+
         //TC1: simple test
         assertEquals(1,
                 new Point(2, 0, 1).distanceSquared(new Point(1, 0, 1)),
                 "Point DistanceSquared: simple DistanceSquared didn't work");
+
         // =============== Boundary Values Tests ==================
+
         //TC2: 0 test
         assertEquals(0,
                 new Point(2, 0, 1).distanceSquared(new Point(2, 0, 1)),
@@ -80,11 +89,14 @@ class PointTest {
     @Test
     void testDistance() {
         // ============ Equivalence Partitions Tests ==============
+
         //TC1: simple test
         assertEquals(1,
                 new Point(2, 0, 1).distance(new Point(1, 0, 1)),
                 "Point Distance: simple Distance didn't work");
+
         // =============== Boundary Values Tests ==================
+
         //TC2: 0 test
         assertEquals(0,
                 new Point(2, 0, 1).distance(new Point(2, 0, 1)),
@@ -97,6 +109,7 @@ class PointTest {
     @Test
     void testEquals() {
         // ============ Equivalence Partitions Tests ==============
+
         //TC1: simple test
         Point p1 = new Point(1,2,3);
         Point p2 = new Point(1,2,3);
@@ -111,6 +124,7 @@ class PointTest {
     @Test
     void testToString() {
         // ============ Equivalence Partitions Tests ==============
+
         //TC1: simple test
         assertEquals("Point: (1.0,2.0,3.0)",new Point(1,2,3).toString(),
                 "Point- toString: Regular case didnt work");

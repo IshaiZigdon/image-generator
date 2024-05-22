@@ -1,7 +1,5 @@
 package geometries;
 
-import primitives.*;
-
 /**
  * an abstract class that all the radial shapes are using
  * @author Ishai zigdon

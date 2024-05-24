@@ -68,18 +68,19 @@ class PointTest {
      */
     @Test
     void testDistanceSquared() {
+        Point p201 = new Point(2, 0, 1);
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
         assertEquals(1,
-                new Point(2, 0, 1).distanceSquared(new Point(1, 0, 1)),
+                p201.distanceSquared(new Point(1, 0, 1)),
                 "Point DistanceSquared: simple DistanceSquared didn't work");
 
         // =============== Boundary Values Tests ==================
 
         //TC2: 0 test
         assertEquals(0,
-                new Point(2, 0, 1).distanceSquared(new Point(2, 0, 1)),
+                p201.distanceSquared(p201),
                 "Point DistanceSquared: 0 DistanceSquared didn't work");
     }
 
@@ -88,18 +89,19 @@ class PointTest {
      */
     @Test
     void testDistance() {
+        Point p201 = new Point(2, 0, 1);
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
         assertEquals(1,
-                new Point(2, 0, 1).distance(new Point(1, 0, 1)),
+                p201.distance(new Point(1, 0, 1)),
                 "Point Distance: simple Distance didn't work");
 
         // =============== Boundary Values Tests ==================
 
         //TC2: 0 test
         assertEquals(0,
-                new Point(2, 0, 1).distance(new Point(2, 0, 1)),
+                p201.distance(p201),
                 "Point Distance: 0 Distance didn't work");
     }
 

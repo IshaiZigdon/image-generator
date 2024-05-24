@@ -135,31 +135,28 @@ class VectorTest {
      */
     @Test
     void testCrossProduct() {
-        Vector v0M20 = new Vector(0, -2,0);
-        Vector v101 = new Vector(1, 0,1);
-        Vector v200 = new Vector(2, 0,0);
+        Vector vr = new Vector(-13, 2,3);
+        Vector v123 = new Vector(1, 2,3);
+        Vector v03M2 = new Vector(0, 3,-2);
         Vector v100 = new Vector(1, 0,0);
         // ============ Equivalence Partitions Tests ==============
 
-        //TC1: Less then 90 degree between vectors
-        assertEquals(v0M20,
-                v200.crossProduct(v101),
+        //TC1: simple test
+        assertEquals(vr,
+                v123.crossProduct(v03M2),
                 "Cross product: Less then 90 degree Didnt work");
-        assertEquals(0,v0M20.dotProduct(v200),
+        assertEquals(v123.length() * v03M2.length(), vr.length(),
+                0.000001, "crossProduct: wrong result length");
+        assertEquals(0,vr.dotProduct(v123),
                 "Cross product: result is not orthogonal to 1st operand");
-        assertEquals(0,v0M20.dotProduct(v101),
+        assertEquals(0,vr.dotProduct(v03M2),
                 "Cross product: result is not orthogonal to 2nd operand");
-
-        //TC2: More the 90 degree between vectors
-        assertEquals(v0M20,
-                v200.crossProduct(new Vector(-1, 0, 1)),
-                "Cross product: More then 90 degree Didnt work");
 
         // =============== Boundary Values Tests ==================
 
         //TC3: Parallel vectors, different length
         assertThrows(IllegalArgumentException.class,()->
-                v100.crossProduct(v200),
+                v100.crossProduct(new Vector(2,0,0)),
                 "Cross product:  Parallel vectors, different length didn't throw an exception");
 
         //TC4: Parallel vectors, same length

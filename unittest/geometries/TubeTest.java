@@ -19,10 +19,10 @@ class TubeTest {
      */
     @Test
     void getNormal() {
-        Point pM110 = new Point(-1,1,0);
-        Point p100 = new Point(1,0,0);
-        Vector v100= new Vector(1,0,0);
-        Tube t = new Tube(new Ray(p100,v100),1);
+        Point pM110 = new Point(-1, 1, 0);
+        Point p100 = new Point(1, 0, 0);
+        Vector v100 = new Vector(1, 0, 0);
+        Tube t = new Tube(new Ray(p100, v100), 1);
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
@@ -38,7 +38,7 @@ class TubeTest {
 
         // =============== Boundary Values Tests ==================
 
-        Point p110 = new Point(1,1,0);
+        Point p110 = new Point(1, 1, 0);
         /*
         TC2: vector between the points is vertical to the direction vector
          ensure there are no exceptions
@@ -49,7 +49,7 @@ class TubeTest {
         // ensure |result| = 1
         assertEquals(1, normal2.length(), 0.000001, "Tube's normal is not a unit vector");
         // ensure the result is orthogonal to the tube
-        assertThrows(IllegalArgumentException.class,()->
-                normal2.crossProduct(p110.subtract(p100)),"Tube: wrong normal values");
+        assertThrows(IllegalArgumentException.class, () ->
+                normal2.crossProduct(p110.subtract(p100)), "Tube: wrong normal values");
     }
 }

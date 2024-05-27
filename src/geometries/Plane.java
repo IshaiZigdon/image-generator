@@ -4,6 +4,7 @@ import primitives.*;
 
 /**
  * this class represent an infinite plane field with a point and a vector
+ *
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
@@ -14,6 +15,7 @@ public class Plane implements Geometry {
     /**
      * a constructor to calculate the plane with 3 points, calculates the normal
      * based on the calculations of normal to a triangle
+     *
      * @param a first point
      * @param b second point
      * @param c third point
@@ -27,7 +29,8 @@ public class Plane implements Geometry {
 
     /**
      * constructor to initialize Plane with a point and a vector
-     * @param q the point
+     *
+     * @param q      the point
      * @param normal the vector
      */
     @SuppressWarnings("unused")
@@ -43,6 +46,7 @@ public class Plane implements Geometry {
 
     /**
      * a function to return the normal of the plane
+     *
      * @return the normal vector of the plane
      */
     public Vector getNormal() {

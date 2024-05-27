@@ -21,14 +21,14 @@ class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         // TC01: simple test
-        assertDoesNotThrow(() -> new Vector(1, 2, 3),"Vector Constructor: failed 3 doubles constructor");
-        assertDoesNotThrow(() -> new Vector(new Double3(1,2,3)),"Vector Constructor: failed Double3 constructor");
+        assertDoesNotThrow(() -> new Vector(1, 2, 3), "Vector Constructor: failed 3 doubles constructor");
+        assertDoesNotThrow(() -> new Vector(new Double3(1, 2, 3)), "Vector Constructor: failed Double3 constructor");
 
         // =============== Boundary Values Tests ==================
 
         //TC02: if Throws an error when implemented with 0 values
         assertThrows(IllegalArgumentException.class,
-                ()->new Vector(Double3.ZERO),"Vector Constructor: zero vector does not throw an exception");
+                () -> new Vector(Double3.ZERO), "Vector Constructor: zero vector does not throw an exception");
     }
 
     /**
@@ -36,16 +36,16 @@ class VectorTest {
      */
     @Test
     void testAdd() {
-        Vector v100 = new Vector(1, 0,0);
+        Vector v100 = new Vector(1, 0, 0);
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: Less then 90 degree between vectors
-        assertEquals(new Vector(2,0,1),
+        assertEquals(new Vector(2, 0, 1),
                 v100.add(new Vector(1, 0, 1)),
                 "Vector add: Less then 90 degree Didnt work");
 
         //TC2: More the 90 degree between vectors
-        assertEquals(new Vector(0,0,1),
+        assertEquals(new Vector(0, 0, 1),
                 v100.add(new Vector(-1, 0, 1)),
                 "Vector add: More then 90 degree Didnt work");
 
@@ -53,7 +53,7 @@ class VectorTest {
 
         //TC3: Opposite side vectors
         assertThrows(IllegalArgumentException.class,
-                ()-> v100.add(new Vector(-1, 0, 0)),
+                () -> v100.add(new Vector(-1, 0, 0)),
                 "Vector add: Opposite Vector didn't throw an exception");
     }
 
@@ -62,7 +62,7 @@ class VectorTest {
      */
     @Test
     void testSubtract() {
-        Vector v100 = new Vector(1, 0,0);
+        Vector v100 = new Vector(1, 0, 0);
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
@@ -73,7 +73,7 @@ class VectorTest {
         // =============== Boundary Values Tests ==================
 
         //TC1: vector 0 test
-        assertThrows(IllegalArgumentException.class,()->
+        assertThrows(IllegalArgumentException.class, () ->
                         v100.subtract(v100),
                 "Vector subtract: zero vector didn't threw an exception");
     }
@@ -83,18 +83,18 @@ class VectorTest {
      */
     @Test
     void testScale() {
-        Vector v100 = new Vector(1, 0,0);
+        Vector v100 = new Vector(1, 0, 0);
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: Checks if the function works
-        assertEquals(new Vector(2,0,0),
+        assertEquals(new Vector(2, 0, 0),
                 v100.scale(2),
                 "Vector Scale: Regular vector scale didn't work");
 
         // =============== Boundary Values Tests ==================
 
         //TC2: Checks multiplication with 0
-        assertThrows(IllegalArgumentException.class,()->v100.scale(0),
+        assertThrows(IllegalArgumentException.class, () -> v100.scale(0),
                 "Vector Scale: Multiplication with 0 didn't throw an exception");
     }
 
@@ -103,8 +103,8 @@ class VectorTest {
      */
     @Test
     void testDotProduct() {
-        Vector v200 = new Vector(2, 0,0);
-        Vector v001 = new Vector(0, 0,1);
+        Vector v200 = new Vector(2, 0, 0);
+        Vector v001 = new Vector(0, 0, 1);
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: Less then 90 degree between vectors
@@ -135,10 +135,10 @@ class VectorTest {
      */
     @Test
     void testCrossProduct() {
-        Vector vr = new Vector(-13, 2,3);
-        Vector v123 = new Vector(1, 2,3);
-        Vector v03M2 = new Vector(0, 3,-2);
-        Vector v100 = new Vector(1, 0,0);
+        Vector vr = new Vector(-13, 2, 3);
+        Vector v123 = new Vector(1, 2, 3);
+        Vector v03M2 = new Vector(0, 3, -2);
+        Vector v100 = new Vector(1, 0, 0);
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
@@ -147,31 +147,31 @@ class VectorTest {
                 "Cross product: Less then 90 degree Didnt work");
         assertEquals(v123.length() * v03M2.length(), vr.length(),
                 0.000001, "crossProduct: wrong result length");
-        assertEquals(0,vr.dotProduct(v123),
+        assertEquals(0, vr.dotProduct(v123),
                 "Cross product: result is not orthogonal to 1st operand");
-        assertEquals(0,vr.dotProduct(v03M2),
+        assertEquals(0, vr.dotProduct(v03M2),
                 "Cross product: result is not orthogonal to 2nd operand");
 
         // =============== Boundary Values Tests ==================
 
         //TC3: Parallel vectors, different length
-        assertThrows(IllegalArgumentException.class,()->
-                v100.crossProduct(new Vector(2,0,0)),
+        assertThrows(IllegalArgumentException.class, () ->
+                        v100.crossProduct(new Vector(2, 0, 0)),
                 "Cross product:  Parallel vectors, different length didn't throw an exception");
 
         //TC4: Parallel vectors, same length
-        assertThrows(IllegalArgumentException.class,()->
-                v100.crossProduct(v100),
+        assertThrows(IllegalArgumentException.class, () ->
+                        v100.crossProduct(v100),
                 "Cross product: Parallel vectors, same length didn't throw an exception");
 
         //TC5: different directions , same length
-        assertThrows(IllegalArgumentException.class,()->
-                v100.crossProduct(new Vector(-1, 0, 0)),
+        assertThrows(IllegalArgumentException.class, () ->
+                        v100.crossProduct(new Vector(-1, 0, 0)),
                 "Cross product:  Different directions, same length didn't throw an exception");
 
         //TC6: different directions , different length
-        assertThrows(IllegalArgumentException.class,()->
-                v100.crossProduct(new Vector(-2, 0, 0)),
+        assertThrows(IllegalArgumentException.class, () ->
+                        v100.crossProduct(new Vector(-2, 0, 0)),
                 "Cross product: Different directions, different length didn't throw an exception");
     }
 
@@ -183,14 +183,14 @@ class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: regular case
-        assertEquals(14,new Vector(1,2,3).lengthSquared()
-                ,"LengthSquared: Regular case didnt work");
+        assertEquals(14, new Vector(1, 2, 3).lengthSquared()
+                , "LengthSquared: Regular case didnt work");
 
         // =============== Boundary Values Tests ==================
 
         //TC2: Unit vector
-        assertEquals(1,new Vector(0,1,0).lengthSquared()
-                ,"LengthSquared: Unit vector didnt work");
+        assertEquals(1, new Vector(0, 1, 0).lengthSquared()
+                , "LengthSquared: Unit vector didnt work");
     }
 
     /**
@@ -201,14 +201,14 @@ class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: regular case
-        assertEquals(5,new Vector(3,4,0).length()
-                ,"Length: Regular case didnt work");
+        assertEquals(5, new Vector(3, 4, 0).length()
+                , "Length: Regular case didnt work");
 
         // =============== Boundary Values Tests =================
 
         //TC2: Unit vector
-        assertEquals(1,new Vector(0,1,0).length()
-                ,"Length: Unit vector didnt work");
+        assertEquals(1, new Vector(0, 1, 0).length()
+                , "Length: Unit vector didnt work");
     }
 
     /**
@@ -216,20 +216,20 @@ class VectorTest {
      */
     @Test
     void testNormalize() {
-        Vector v = new Vector(0,3,4);
+        Vector v = new Vector(0, 3, 4);
         Vector n = v.normalize();
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: regular case
-        assertEquals(1,n.lengthSquared(),0.00001,"Normalize: Regular case didnt work");
-        assertThrows(IllegalArgumentException.class,()->v.crossProduct(n),
+        assertEquals(1, n.lengthSquared(), 0.00001, "Normalize: Regular case didnt work");
+        assertThrows(IllegalArgumentException.class, () -> v.crossProduct(n),
                 "Normalize: Normalize vector not in the same direction");
-        assertEquals(new Vector(0.0,0.6,0.8),n,"Normalize: Wrong normalize vector");
+        assertEquals(new Vector(0.0, 0.6, 0.8), n, "Normalize: Wrong normalize vector");
 
         // =============== Boundary Values Tests ==================
 
         //TC2: Normal of normalized vector
-        assertEquals(n.normalize(),n,"Normalize: Normal of a normalized vector didn't work");
+        assertEquals(n.normalize(), n, "Normalize: Normal of a normalized vector didn't work");
     }
 
     /**
@@ -240,7 +240,7 @@ class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
-        assertEquals("Vector: (1.0,2.0,3.0)",new Vector(1,2,3).toString(),
+        assertEquals("Vector: (1.0,2.0,3.0)", new Vector(1, 2, 3).toString(),
                 "Vector- toString: Regular case didnt work");
     }
 
@@ -252,10 +252,10 @@ class VectorTest {
         // ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
-        Vector v1 = new Vector(1,2,3);
-        Vector v2 = new Vector(1,2,3);
+        Vector v1 = new Vector(1, 2, 3);
+        Vector v2 = new Vector(1, 2, 3);
         assertTrue(v1.equals(v2), "Vector equals didn't work");
-        Vector v3 = new Vector(1,2,4);
+        Vector v3 = new Vector(1, 2, 4);
         assertFalse(v1.equals(v3), "Vector equals didn't work");
     }
 }

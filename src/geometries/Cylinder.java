@@ -1,5 +1,7 @@
 package geometries;
 
+import static primitives.Util.isZero;
+
 import primitives.*;
 
 /**
@@ -29,15 +31,15 @@ public class Cylinder extends Tube {
     @Override
     public Vector getNormal(Point p) {
         //if p is the same as p0, meaning p is in the middle of the base
-        if(p.equals(axis.getHead()))
+        if (p.equals(axis.getHead()))
             return axis.getDirection();
         //the distance between p0 and o
         double t = axis.getDirection().dotProduct(p.subtract(axis.getHead()));
-        if (t==0 || t==height)
+        if (isZero(t) || isZero(t - height))
             //meaning the distance between p0 and o is 0(p is on the base on which p0 is)
             //or height(p is on the other base), that also includes the points on the edges of the bases.
             //so the normal of all those points is the direction vector itself
-            return axis.getDirection() ;
+            return axis.getDirection();
         //p is on the side surface
         return super.getNormal(p);
     }

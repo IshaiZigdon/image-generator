@@ -44,6 +44,7 @@ public class Vector extends Point {
 
     /**
      * multiplying by a scale number
+     *
      * @param scale - the number to multiply with
      * @return new vector that is multiplied with the scale
      */
@@ -63,6 +64,7 @@ public class Vector extends Point {
 
     /**
      * doing cross-product multiplication
+     *
      * @param v the vector to make the calculations with
      * @return new vector that is vertical to both of the vectors
      */

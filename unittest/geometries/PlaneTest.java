@@ -13,28 +13,28 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class PlaneTest {
     /**
-     * Test method for {@link Plane#Plane(Point,Point,Point)}.
-     * and Test method for {@link Plane#Plane(Point,Vector)}.
+     * Test method for {@link Plane#Plane(Point, Point, Point)}.
+     * and Test method for {@link Plane#Plane(Point, Vector)}.
      */
     @Test
     public void testConstructors() {
-        Point p100 =new Point(1,0,0);
-        Point p010 = new Point(0,1,0);
+        Point p100 = new Point(1, 0, 0);
+        Point p010 = new Point(0, 1, 0);
         // ============ Equivalence Partitions Tests ==============
 
         // TC01: simple test
-        assertDoesNotThrow(() -> new Plane(new Point(1,1,1),new Vector(1,0,0)),
+        assertDoesNotThrow(() -> new Plane(new Point(1, 1, 1), new Vector(1, 0, 0)),
                 "Plane Constructor: failed point and vector constructor");
-        assertDoesNotThrow(() -> new Plane(p100,new Point(0,0,1),p010)
-                ,"Plane Constructor: failed 3 points constructor");
+        assertDoesNotThrow(() -> new Plane(p100, new Point(0, 0, 1), p010)
+                , "Plane Constructor: failed 3 points constructor");
 
         // =============== Boundary Values Tests ==================
 
         //TC2: same points
-        assertThrows(IllegalArgumentException.class, () -> new Plane(p100,p100,p010)
-                ,"Plane Constructor: same points didn't throw an exception");
-        assertThrows(IllegalArgumentException.class, () -> new Plane(p100,p100,p100)
-                ,"Plane Constructor: same points didn't throw an exception");
+        assertThrows(IllegalArgumentException.class, () -> new Plane(p100, p100, p010)
+                , "Plane Constructor: same points didn't throw an exception");
+        assertThrows(IllegalArgumentException.class, () -> new Plane(p100, p100, p100)
+                , "Plane Constructor: same points didn't throw an exception");
     }
 
     /**
@@ -45,11 +45,11 @@ class PlaneTest {
         /// ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
-        Point p100 =new Point(1,0,0);
-        Point[] pts ={p100,new Point(0,1,0),new Point(-1,0,0)};
-        Plane p1 = new Plane(pts[0],pts[1],pts[2]);
+        Point p100 = new Point(1, 0, 0);
+        Point[] pts = {p100, new Point(0, 1, 0), new Point(-1, 0, 0)};
+        Plane p1 = new Plane(pts[0], pts[1], pts[2]);
         // ensure there are no exceptions
-        assertDoesNotThrow(() -> p1.getNormal(p100),"");
+        assertDoesNotThrow(() -> p1.getNormal(p100), "");
         // generate the test result
         Vector normal = p1.getNormal(p100);
         // ensure |result| = 1
@@ -68,8 +68,8 @@ class PlaneTest {
         /// ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
-        Point[] pts ={new Point(1,0,0),new Point(0,1,0),new Point(-1,0,0)};
-        Plane p1 = new Plane(pts[0],pts[1],pts[2]);
+        Point[] pts = {new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 0, 0)};
+        Plane p1 = new Plane(pts[0], pts[1], pts[2]);
         // ensure there are no exceptions
         assertDoesNotThrow(() -> p1.getNormal(), "");
         // generate the test result

@@ -6,6 +6,7 @@ import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * unit test for Geometries.Triangle
  *
@@ -22,7 +23,7 @@ class TriangleTest {
 
         //TC1: simple test
         Point[] pts = {new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 0, 0)};
-        Triangle t1 = new Triangle(); //????
+        Triangle t1 = new Triangle(pts[0], pts[1], pts[2]); //
         // ensure there are no exceptions
         assertDoesNotThrow(() -> t1.getNormal(new Point(1, 0, 0)), "");
         // generate the test result

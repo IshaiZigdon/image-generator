@@ -24,6 +24,7 @@ public class Ray {
 
     /**
      * get function for head
+     *
      * @return head
      */
     public Point getHead() {
@@ -32,6 +33,7 @@ public class Ray {
 
     /**
      * get function for direction
+     *
      * @return direction
      */
     public Vector getDirection() {

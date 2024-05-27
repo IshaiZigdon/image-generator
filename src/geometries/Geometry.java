@@ -1,6 +1,7 @@
 package geometries;
 
-import primitives.*;
+import primitives.Point;
+import primitives.Vector;
 
 /**
  * this interface will serve all geometry shapes in the program
@@ -9,7 +10,7 @@ import primitives.*;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-public interface Geometry {
+public interface Geometry extends Intersectable{
     /**
      * this function calculates the
      * vertical (normal) vector for the various shapes at a point

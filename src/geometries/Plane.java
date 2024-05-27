@@ -1,6 +1,10 @@
 package geometries;
 
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
+
+import java.util.List;
 
 /**
  * this class represent an infinite plane field with a point and a vector
@@ -51,5 +55,10 @@ public class Plane implements Geometry {
      */
     public Vector getNormal() {
         return normal;
+    }
+
+    @Override
+    public List<Point> findIntersections(Ray ray){
+        return null;
     }
 }

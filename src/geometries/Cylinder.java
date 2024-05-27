@@ -1,8 +1,10 @@
 package geometries;
 
-import static primitives.Util.isZero;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
-import primitives.*;
+import static primitives.Util.isZero;
 
 /**
  * Cylinder class models a 3D shape with circular bases and a curved surface in

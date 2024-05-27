@@ -1,9 +1,12 @@
 package geometries;
 
 import org.junit.jupiter.api.Test;
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * unit test for Geometries.Cylinder
@@ -75,5 +78,11 @@ class CylinderTest {
         assertEquals(1, normal5.length(), 0.000001, "Cylinder's normal is not a unit vector");
         // ensure the result is orthogonal to the Cylinder
         assertEquals(normal5, v100, "Cylinder: wrong normal values");
+    }
+    /**
+     * Test method for {@link Cylinder#findIntersections(Ray)}.
+     */
+    @Test
+    public void testFindIntersections() {
     }
 }

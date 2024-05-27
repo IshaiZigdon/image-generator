@@ -52,4 +52,10 @@ class TubeTest {
         assertThrows(IllegalArgumentException.class, () ->
                 normal2.crossProduct(p110.subtract(p100)), "Tube: wrong normal values");
     }
+    /**
+     * Test method for {@link Tube#findIntersections(Ray)}.
+     */
+    @Test
+    public void testFindIntersections() {
+    }
 }

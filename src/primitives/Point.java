@@ -8,13 +8,13 @@ package primitives;
  */
 public class Point {
     /**
-     * Coordinates for the point
-     */
-    protected final Double3 xyz;
-    /**
      * Represents the origin point
      */
     public static Point ZERO = new Point(Double3.ZERO);
+    /**
+     * Coordinates for the point
+     */
+    protected final Double3 xyz;
 
     /**
      * Constructor to initialize Point based object with its three number values

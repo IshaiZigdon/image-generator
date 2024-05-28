@@ -129,7 +129,7 @@ public class SphereTest {
         final var result15 = sphere.findIntersections(new Ray(p020, v300));
         assertEquals(0, result15.size(), "Wrong number of points");
         // TC23: Ray's line is inside, ray is orthogonal to ray start to sphere's center line
-        final Point p04 = new Point(0.6, 0.8, 0);
+        final Point p04 = new Point(0.8, 0.6, 0);
         final var result16 = sphere.findIntersections(new Ray(p04, v310));
         assertEquals(1, result15.size(), "Wrong number of points");
         exp = List.of(gp2);

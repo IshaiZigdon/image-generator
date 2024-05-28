@@ -13,14 +13,19 @@ import java.util.List;
  */
 public class Triangle extends Polygon {
     /**
-     * empty default constructor
+     * Triangle constructor that receives the 3 points of the triangle
+     * and call the father constructor
+     *
+     * @param a first point
+     * @param b second point
+     * @param c third point
      */
     public Triangle(Point a, Point b, Point c) {
         super(a, b, c);
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray){
+    public List<Point> findIntersections(Ray ray) {
         return null;
     }
 }

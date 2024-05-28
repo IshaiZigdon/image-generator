@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-class TubeTest {
+public class TubeTest {
     /**
      * Test method for {@link Tube#getNormal(Point)}
      */
@@ -52,6 +52,7 @@ class TubeTest {
         assertThrows(IllegalArgumentException.class, () ->
                 normal2.crossProduct(p110.subtract(p100)), "Tube: wrong normal values");
     }
+
     /**
      * Test method for {@link Tube#findIntersections(Ray)}.
      */

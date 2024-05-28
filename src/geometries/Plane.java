@@ -13,7 +13,13 @@ import java.util.List;
  * @author Zaki zafrani
  */
 public class Plane implements Geometry {
+    /**
+     * point on the plane
+     */
     private final Point q;
+    /**
+     * normal of the plane
+     */
     private final Vector normal;
 
     /**
@@ -58,7 +64,7 @@ public class Plane implements Geometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray){
+    public List<Point> findIntersections(Ray ray) {
         return null;
     }
 }

@@ -10,7 +10,7 @@ import primitives.Vector;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-public interface Geometry extends Intersectable{
+public interface Geometry extends Intersectable {
     /**
      * this function calculates the
      * vertical (normal) vector for the various shapes at a point

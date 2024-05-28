@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-class CylinderTest {
+public class CylinderTest {
     /**
      * Test method for {@link Cylinder#getNormal(Point)}
      */
@@ -79,6 +79,7 @@ class CylinderTest {
         // ensure the result is orthogonal to the Cylinder
         assertEquals(normal5, v100, "Cylinder: wrong normal values");
     }
+
     /**
      * Test method for {@link Cylinder#findIntersections(Ray)}.
      */

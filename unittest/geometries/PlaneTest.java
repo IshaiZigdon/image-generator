@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-class PlaneTest {
+public class PlaneTest {
     /**
      * Test method for {@link Plane#Plane(Point, Point, Point)}.
      * and Test method for {@link Plane#Plane(Point, Vector)}.
@@ -83,6 +83,7 @@ class PlaneTest {
             assertEquals(0d, normal.dotProduct(pts[i].subtract(pts[i == 0 ? 2 : 0])), 0.000001,
                     "Plane's normal is not orthogonal to one of the vectors");
     }
+
     /**
      * Test method for {@link Plane#findIntersections(Ray)}.
      */

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-class TriangleTest {
+public class TriangleTest {
     /**
      * Test method for {@link Triangle#getNormal(Point)}
      */
@@ -36,6 +36,7 @@ class TriangleTest {
             assertEquals(0d, normal.dotProduct(pts[i].subtract(pts[i == 0 ? 2 : 0])), 0.000001,
                     "Triangle's normal is not orthogonal to one of the vectors");
     }
+
     /**
      * Test method for {@link Triangle#findIntersections(Ray)}.
      */

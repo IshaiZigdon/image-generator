@@ -13,6 +13,7 @@ public class Vector extends Point {
      * @param x first number value
      * @param y second number value
      * @param z third number value
+     * @throws IllegalArgumentException if x,y,z values are 0
      */
     public Vector(double x, double y, double z) {
         super(x, y, z);
@@ -24,6 +25,7 @@ public class Vector extends Point {
      * constructor to initialize vector with Double3 object
      *
      * @param xyz the coordinates
+     * @throws IllegalArgumentException if all xyz values are 0
      */
     public Vector(Double3 xyz) {
         super(xyz);

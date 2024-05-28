@@ -41,8 +41,9 @@ public class Tube extends RadialGeometry {
         else// normal = (vector)p-o
             return p.subtract(axis.getHead().add(axis.getDirection().scale(t))).normalize();
     }
+
     @Override
-    public List<Point> findIntersections(Ray ray){
+    public List<Point> findIntersections(Ray ray) {
         return null;
     }
 }

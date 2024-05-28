@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-class PointTest {
+public class PointTest {
     /**
      * Test method for {@link Point#Point(double, double, double)}.
      * and Test method for {@link Point#Point(Double3)}.

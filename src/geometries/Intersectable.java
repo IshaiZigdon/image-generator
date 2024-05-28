@@ -1,5 +1,7 @@
 package geometries;
-import primitives.*;
+
+import primitives.Point;
+import primitives.Ray;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ public interface Intersectable {
     /**
      * calculates where are the intersecting points of the
      * shape with the given ray
+     *
      * @param ray the ray
      * @return list of intersecting points
      */

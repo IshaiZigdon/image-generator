@@ -7,7 +7,13 @@ package primitives;
  * @author Zaki zafrani
  */
 public class Ray {
+    /**
+     * head point of the ray
+     */
     private final Point head;
+    /**
+     * the direction of the ray
+     */
     private final Vector direction;
 
     /**

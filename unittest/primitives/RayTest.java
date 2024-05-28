@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-class RayTest {
+public class RayTest {
     /**
      * Test method for {@link Ray#Ray(Point, Vector)}.
      */

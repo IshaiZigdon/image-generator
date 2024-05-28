@@ -6,5 +6,5 @@ package geometries;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-class RadialGeometryTest {
+public class RadialGeometryTest {
 }

@@ -13,6 +13,9 @@ import java.util.List;
  * @author Zaki zafrani
  */
 public class Sphere extends RadialGeometry {
+    /**
+     * the center of the sphere
+     */
     final private Point center;
 
     /**
@@ -32,7 +35,7 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray){
+    public List<Point> findIntersections(Ray ray) {
         return null;
     }
 }

@@ -5,6 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -15,13 +17,19 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PlaneTest {
     /**
+     * point 100 for testing
+     */
+    private final Point p100 = new Point(1, 0, 0);
+    /**
+     * point 010 for testing
+     */
+    private final Point p010 = new Point(0, 1, 0);
+    /**
      * Test method for {@link Plane#Plane(Point, Point, Point)}.
      * and Test method for {@link Plane#Plane(Point, Vector)}.
      */
     @Test
     public void testConstructors() {
-        Point p100 = new Point(1, 0, 0);
-        Point p010 = new Point(0, 1, 0);
         // ============ Equivalence Partitions Tests ==============
 
         // TC01: simple test
@@ -47,8 +55,7 @@ public class PlaneTest {
         /// ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
-        Point p100 = new Point(1, 0, 0);
-        Point[] pts = {p100, new Point(0, 1, 0), new Point(-1, 0, 0)};
+        Point[] pts = {p100, p010, new Point(-1, 0, 0)};
         Plane p1 = new Plane(pts[0], pts[1], pts[2]);
         // ensure there are no exceptions
         assertDoesNotThrow(() -> p1.getNormal(p100), "");
@@ -70,7 +77,7 @@ public class PlaneTest {
         /// ============ Equivalence Partitions Tests ==============
 
         //TC1: simple test
-        Point[] pts = {new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 0, 0)};
+        Point[] pts = {p100, p010, new Point(-1, 0, 0)};
         Plane p1 = new Plane(pts[0], pts[1], pts[2]);
         // ensure there are no exceptions
         assertDoesNotThrow(() -> p1.getNormal(), "");
@@ -89,5 +96,45 @@ public class PlaneTest {
      */
     @Test
     public void testFindIntersections() {
+        Plane plane = new Plane(Point.ZERO,p100,p010);
+
+        /// ============ Equivalence Partitions Tests ==============
+
+        final Vector v101 = new Vector(1,0,1);
+        //TC01: Ray intersects the plane
+        final Point pM10M1 = new Point(-1, 0, -1);
+        final var result01 = plane.findIntersections(new Ray(pM10M1, v101));
+        var exp = List.of(Point.ZERO);
+        assertEquals(exp, result01, "Plane: findIntersections TC01 failed");
+        //TC02: Ray doesn't intersect the plane
+        final Point pHalf = new Point(0.5, 0, 0.5);
+        assertNull(plane.findIntersections(new Ray(pHalf, v101)), "Ray's line out of plane");
+
+        // =============== Boundary Values Tests ==================
+
+        // **** Group: Ray's line parallel to the plane
+        final Vector v100 = new Vector(1,0,0);
+        //TC10: Ray is on the plane
+        assertNull(plane.findIntersections(new Ray(p100, v100)), "Ray's line is on the plane");
+        //TC11: Ray not on the plane
+        //pHalf = new Point(0.5, 0, 0.5);
+        assertNull(plane.findIntersections(new Ray(pHalf, v101)), "Ray's line out of plane");
+        // **** Group: Ray's line vertical to the plane
+        final Vector v001 = new Vector(0,0,1);
+        //TC12: Ray begins before the plane
+        final Point pM100 = new Point(-1, 0, 0);
+        final var result12 = plane.findIntersections(new Ray(pM100, v001));
+        //exp = List.of(Point.ZERO);
+        assertEquals(exp, result12, "Plane: findIntersections TC12 failed");
+        //TC13: Ray begins on the plane
+        assertNull(plane.findIntersections(new Ray(p100, v001)), "Ray's line out of plane");
+        //TC14: Ray begins after the plane
+        //pHalf = new Point(0.5, 0, 0.5);
+        assertNull(plane.findIntersections(new Ray(pHalf, v001)), "Ray's line out of plane");
+        // **** Group: special cases
+        //TC15: Ray head point is the same as plane q point
+        assertNull(plane.findIntersections(new Ray(Point.ZERO, v101)), "Ray's line out of plane");
+        //TC16: Ray head point is on the plane
+        assertNull(plane.findIntersections(new Ray(p100, v101)), "Ray's line out of plane");
     }
 }

@@ -58,5 +58,13 @@ public class TubeTest {
      */
     @Test
     public void testFindIntersections() {
+        // ============ Equivalence Partitions Tests ==============
+        //TC01:
+
+        // =============== Boundary Values Tests ==================
+
+        // **** Group: Ray's line goes through the axis
+        // **** Group: Ray's line is tangent to the Tube (all tests 0 points)
+        // **** Group: Ray's line crosses the sphere (but not the center)
     }
 }

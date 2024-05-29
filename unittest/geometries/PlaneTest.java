@@ -118,7 +118,7 @@ public class PlaneTest {
         assertNull(plane.findIntersections(new Ray(p100, v100)), "Ray's line is on the plane");
         //TC11: Ray not on the plane
         //pHalf = new Point(0.5, 0, 0.5);
-        assertNull(plane.findIntersections(new Ray(pHalf, v101)), "Ray's line out of plane");
+        assertNull(plane.findIntersections(new Ray(pHalf, v100)), "Ray's line out of plane");
         // **** Group: Ray's line vertical to the plane
         final Vector v001 = new Vector(0,0,1);
         //TC12: Ray begins before the plane

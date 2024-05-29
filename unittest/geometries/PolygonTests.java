@@ -87,7 +87,7 @@ public class PolygonTests {
      */
     @Test
     public void testFindIntersections() {
-        Point[] pts = {new Point(0, 0, 1), Point.ZERO, new Point(0, 1, 0), new Point(1, 1, 0)};
+        Point[] pts = {new Point(1,0,0), Point.ZERO, new Point(0, 1, 0), new Point(1, 1, 0)};
         Polygon polygon = new Polygon(pts);
         final Vector v001 = new Vector(0,0,1);
 

@@ -6,6 +6,8 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static primitives.Util.*;
+
 /**
  * this class represent an infinite plane field with a point and a vector
  *
@@ -65,7 +67,21 @@ public class Plane implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-
+        Point p0 = ray.getHead();
+        Vector v = ray.getDirection();
+        double nv = normal.dotProduct(v);
+        double nQMinusP0;
+        if (isZero(nv))
+            return null;
+        try {
+            nQMinusP0 = normal.dotProduct(q.subtract(p0));
+        } catch (IllegalArgumentException msg) {
+            return null;
+        }
+        double t = alignZero(nQMinusP0 / nv);
+        if (t > 0) {
+            return List.of(p0.add(v.scale(t)));
+        }
         return null;
     }
 }

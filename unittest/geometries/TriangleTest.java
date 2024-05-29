@@ -25,6 +25,11 @@ public class TriangleTest {
      */
     private final Point p010 = new Point(0, 1, 0);
     /**
+     * point 110 for testing
+     */
+    private final Point p110 = new Point(1, 1, 0);
+
+    /**
      * Test method for {@link Triangle#getNormal(Point)}
      */
     @Test
@@ -51,32 +56,28 @@ public class TriangleTest {
      */
     @Test
     public void testFindIntersections() {
-        Triangle triangle = new Triangle(Point.ZERO,p100,p010);
-        final Vector v001 = new Vector(0,0,1);
+        Triangle triangle = new Triangle(p110, p100, p010);
+        final Vector v001 = new Vector(0, 0, 1);
 
         /// ============ Equivalence Partitions Tests ==============
 
         //TC01: Ray intersects the triangle
-        final var result01 = triangle.findIntersections(new Ray(new Point(0.3,0.3,-1),v001));
-        var exp = List.of(new Point(0.3,0.3,0));
-        assertEquals(exp,result01,"Triangle: findIntersection TC01 didnt work");
+        final var result01 = triangle.findIntersections(new Ray(new Point(0.7, 0.7, -1), v001));
+        var exp = List.of(new Point(0.7, 0.7, 0));
+        assertEquals(exp, result01, "Triangle: findIntersection TC01 didnt work");
         // **** Group: Ray doesn't intersect the triangle (but does the plane)
         //TC02: in front of edge
-        assertNull(triangle.findIntersections(new Ray(new Point(1,1,-1),v001)),"Ray's line is outside of the triangle");
+        assertNull(triangle.findIntersections(new Ray(new Point(0.3, 0.3, -1), v001)), "Ray's line is outside of the triangle");
         //TC03: in front of vertex
-        assertNull(triangle.findIntersections(new Ray(new Point(2,-1,-1),v001)),"Ray's line is outside of the triangle");
+        assertNull(triangle.findIntersections(new Ray(new Point(2, 2, -1), v001)), "Ray's line is outside of the triangle");
 
         // =============== Boundary Values Tests ==================
 
         //TC10: Ray intersects the triangle on the edge
-        final var result10 = triangle.findIntersections(new Ray(new Point(0.5,0.5,-1),v001));
-        exp = List.of(new Point(0.5,0.5,0));
-        assertEquals(exp,result10,"Triangle: findIntersection TC10 didnt work");
+        assertNull(triangle.findIntersections(new Ray(new Point(0.5, 0.5, -1), v001)), "Ray's line is outside of the triangle");
         //TC11: Ray intersects the triangle on the vertex
-        final var result11 = triangle.findIntersections(new Ray(Point.ZERO,v001));
-        exp = List.of(Point.ZERO);
-        assertEquals(exp,result11,"Triangle: findIntersection TC11 didnt work");
+        assertNull(triangle.findIntersections(new Ray(p100, v001)), "Ray's line is outside of the triangle");
         //TC12: Ray intersects the triangle on the edge line but not on the triangle
-        assertNull(triangle.findIntersections(new Ray(new Point(-2,3,-1),v001)),"Ray's line is outside of the triangle");
+        assertNull(triangle.findIntersections(new Ray(new Point(-2, 3, -1), v001)), "Ray's line is outside of the triangle");
     }
 }

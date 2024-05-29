@@ -24,6 +24,7 @@ public class PlaneTest {
      * point 010 for testing
      */
     private final Point p010 = new Point(0, 1, 0);
+
     /**
      * Test method for {@link Plane#Plane(Point, Point, Point)}.
      * and Test method for {@link Plane#Plane(Point, Vector)}.
@@ -96,11 +97,11 @@ public class PlaneTest {
      */
     @Test
     public void testFindIntersections() {
-        Plane plane = new Plane(Point.ZERO,p100,p010);
+        Plane plane = new Plane(Point.ZERO, p100, p010);
 
         /// ============ Equivalence Partitions Tests ==============
 
-        final Vector v101 = new Vector(1,0,1);
+        final Vector v101 = new Vector(1, 0, 1);
         //TC01: Ray intersects the plane
         final Point pM10M1 = new Point(-1, 0, -1);
         final var result01 = plane.findIntersections(new Ray(pM10M1, v101));
@@ -113,17 +114,17 @@ public class PlaneTest {
         // =============== Boundary Values Tests ==================
 
         // **** Group: Ray's line parallel to the plane
-        final Vector v100 = new Vector(1,0,0);
+        final Vector v100 = new Vector(1, 0, 0);
         //TC10: Ray is on the plane
         assertNull(plane.findIntersections(new Ray(p100, v100)), "Ray's line is on the plane");
         //TC11: Ray not on the plane
         //pHalf = new Point(0.5, 0, 0.5);
         assertNull(plane.findIntersections(new Ray(pHalf, v100)), "Ray's line out of plane");
         // **** Group: Ray's line vertical to the plane
-        final Vector v001 = new Vector(0,0,1);
+        final Vector v001 = new Vector(0, 0, 1);
         //TC12: Ray begins before the plane
-        final Point pM100 = new Point(-1, 0, 0);
-        final var result12 = plane.findIntersections(new Ray(pM100, v001));
+        final Point p00M1 = new Point(0, 0, -1);
+        final var result12 = plane.findIntersections(new Ray(p00M1, v001));
         //exp = List.of(Point.ZERO);
         assertEquals(exp, result12, "Plane: findIntersections TC12 failed");
         //TC13: Ray begins on the plane

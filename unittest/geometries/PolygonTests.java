@@ -90,7 +90,7 @@ public class PolygonTests {
      */
     @Test
     public void testFindIntersections() {
-        Point[] pts = {new Point(1, 0, 0), new Point(2,0,0), new Point(2, 1, 0), new Point(1, 1, 0)};
+        Point[] pts = {new Point(1, 0, 0), new Point(2, 0, 0), new Point(2, 1, 0), new Point(1, 1, 0)};
         Polygon polygon = new Polygon(pts);
         final Vector v001 = new Vector(0, 0, 1);
 
@@ -109,9 +109,9 @@ public class PolygonTests {
         // =============== Boundary Values Tests ==================
 
         //TC10: Ray intersects the polygon on the edge
-        assertNull(polygon.findIntersections(new Ray(new Point(1.5, 1, -1), v001)),  "Polygon: findIntersection TC10 didnt work");
+        assertNull(polygon.findIntersections(new Ray(new Point(1.5, 1, -1), v001)), "Polygon: findIntersection TC10 didnt work");
         //TC11: Ray intersects the polygon on the vertex
-        assertNull(polygon.findIntersections(new Ray( new Point(2,0,-1), v001)),"Polygon: findIntersection TC11 didnt work");
+        assertNull(polygon.findIntersections(new Ray(new Point(2, 0, -1), v001)), "Polygon: findIntersection TC11 didnt work");
         //TC12: Ray on the todo continue\ of the edge
         assertNull(polygon.findIntersections(new Ray(new Point(1, 1.5, -1), v001)), "Ray's line is outside of the polygon");
     }

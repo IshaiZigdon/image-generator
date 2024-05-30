@@ -58,8 +58,8 @@ public class Sphere extends RadialGeometry {
         if (thSquared < 0)
             return null;
         double th = sqrt(thSquared);
-        double t1 = alignZero(tm + th);
-        double t2 = alignZero(tm - th);
+        double t1 = alignZero(tm - th);
+        double t2 = alignZero(tm + th);
         if (t1 <= 0 && t2 <= 0)
             return null;
         List<Point> lst = new ArrayList<>();

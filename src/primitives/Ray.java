@@ -49,14 +49,15 @@ public class Ray {
     }
 
     /**
-     * im sexy and i know it
-     * @param t
-     * @return
+     * return a point on the ray, in distance t from head
+     *
+     * @param t the length
+     * @return the point
      */
-    public Point getPoint(double t)
-    {
-        return isZero(t)? head : head.add(direction.scale(t));
+    public Point getPoint(double t) {
+        return isZero(t) ? head : head.add(direction.scale(t));
     }
+
     @Override
     public final boolean equals(Object obj) {
         if (this == obj) return true;

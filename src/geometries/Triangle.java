@@ -1,8 +1,8 @@
 package geometries;
 
-import primitives.*;
-
-import static primitives.Util.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import java.util.List;
 
@@ -27,7 +27,6 @@ public class Triangle extends Polygon {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        Plane plane = new Plane(vertices.get(0), vertices.get(1), vertices.get(2));
         List<Point> lst = plane.findIntersections(ray);
         if (lst == null)
             return null;

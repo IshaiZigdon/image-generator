@@ -23,6 +23,29 @@ public class RayTest {
     }
 
     /**
+     * Test method for {@link Ray#getPoint(double)}
+     */
+    @Test
+    void testGetPoint() {
+        // ============ Equivalence Partitions Tests ==============
+        //TC01: t positive
+        Ray r1 = new Ray(new Point(1, 2, 3), new Vector(1, 0, 0));
+        Point p01 = r1.getPoint(2);
+        assertEquals(new Point(3, 2, 3), p01, "TC01: wrong point");
+
+        //TC02: t negative
+        Ray r2 = new Ray(new Point(1, 2, 3), new Vector(1, 0, 0));
+        Point p02 = r2.getPoint(-2);
+        assertEquals(new Point(-1, 2, 3), p02, "TC02: wrong point");
+
+        // =============== Boundary Values Tests ==================
+        //TC10: t is 0
+        Ray r3 = new Ray(new Point(1, 2, 3), new Vector(1, 0, 0));
+        Point p10 = r2.getPoint(0);
+        assertEquals(r3.getHead(), p10, "TC10: wrong point");
+    }
+
+    /**
      * Test method for {@link Ray#equals(Object)}
      */
     @Test

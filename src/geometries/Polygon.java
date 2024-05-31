@@ -4,9 +4,10 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import static primitives.Util.*;
+import static primitives.Util.isZero;
 
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
@@ -95,6 +96,31 @@ public class Polygon implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        List<Point> lst = plane.findIntersections(ray);
+        if (lst == null)
+            return null;
+        Point p0 = ray.getHead();
+        Vector v = ray.getDirection();
+        List<Vector> vList = new LinkedList<>();
+        List<Vector> normals = new LinkedList<>();
+        try {
+            for (Point i : vertices) {
+                vList.add(i.subtract(p0));
+            }
+            for (int i = 0; i < vList.size(); ++i) {
+                normals.add(vList.get(i).crossProduct(vList.get(i == 0 ? vList.size() - 1 : i - 1)).normalize());
+            }
+        } catch (IllegalArgumentException msg) {
+            return null;
+        }
+        double[] x = new double[normals.size()];
+        for (int i = 0; i < normals.size(); ++i) {
+            x[i] = v.dotProduct(normals.get(i));
+        }
+        for (int i = 1; i < x.length; ++i) {
+            if (!((x[i] > 0 && x[i - 1] > 0) || (x[i] < 0 && x[i - 1] < 0)))
+                return null;
+        }
+        return lst;
     }
 }

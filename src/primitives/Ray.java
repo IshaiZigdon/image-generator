@@ -1,5 +1,7 @@
 package primitives;
 
+import static primitives.Util.isZero;
+
 /**
  * This class will represent a ray with point and vector
  *
@@ -46,6 +48,15 @@ public class Ray {
         return direction;
     }
 
+    /**
+     * im sexy and i know it
+     * @param t
+     * @return
+     */
+    public Point getPoint(double t)
+    {
+        return isZero(t)? head : head.add(direction.scale(t));
+    }
     @Override
     public final boolean equals(Object obj) {
         if (this == obj) return true;

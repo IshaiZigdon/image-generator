@@ -64,9 +64,9 @@ public class Sphere extends RadialGeometry {
             return null;
         List<Point> lst = new ArrayList<>();
         if (t1 > 0)
-            lst.add(p0.add(v.scale(t1)));
+            lst.add(ray.getPoint(t1));
         if (t2 > 0)
-            lst.add(p0.add(v.scale(t2)));
+            lst.add(ray.getPoint(t2));
         return lst;
     }
 }

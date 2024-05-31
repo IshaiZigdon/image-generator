@@ -26,7 +26,7 @@ public class CylinderTest {
 
         // ============ Equivalence Partitions Tests ==============
 
-        //TC1: point on the side of the cylinder
+        //TC01: point on the side of the cylinder
         Point pHalf10 = new Point(0.5, 1, 0);
         // ensure there are no exceptions
         assertDoesNotThrow(() -> c.getNormal(pHalf10), "");
@@ -38,7 +38,7 @@ public class CylinderTest {
         assertEquals(0d, normal.dotProduct(v100),
                 "Cylinder: wrong normal values");
 
-        //TC2: point on base 1(not in the middle)
+        //TC02: point on base 1(not in the middle)
         Point p0half0 = new Point(0, 0.5, 0);
         assertDoesNotThrow(() -> c.getNormal(p0half0), "");
         // generate the test result
@@ -48,7 +48,7 @@ public class CylinderTest {
         // ensure the result is orthogonal to the Cylinder
         assertEquals(normal2, v100, "Cylinder: wrong normal values");
 
-        //TC3: point on base 2(not in the middle)
+        //TC03: point on base 2(not in the middle)
         Point p1half0 = new Point(1, 0.5, 0);
         assertDoesNotThrow(() -> c.getNormal(p1half0), "");
         // generate the test result
@@ -60,7 +60,7 @@ public class CylinderTest {
 
         // =============== Boundary Values Tests ==================
 
-        //TC4: point on base 1 IN THE MIDDLE
+        //TC10: point on base 1 IN THE MIDDLE
         assertDoesNotThrow(() -> c.getNormal(Point.ZERO), "");
         // generate the test result
         Vector normal4 = c.getNormal(Point.ZERO);
@@ -69,7 +69,7 @@ public class CylinderTest {
         // ensure the result is orthogonal to the Cylinder
         assertEquals(normal4, v100, "Cylinder: wrong normal values");
 
-        //TC5: point on base 2 IN THE MIDDLE
+        //TC11: point on base 2 IN THE MIDDLE
         Point p100 = new Point(1, 0, 0);
         assertDoesNotThrow(() -> c.getNormal(p100), "");
         // generate the test result

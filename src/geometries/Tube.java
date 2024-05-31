@@ -35,11 +35,10 @@ public class Tube extends RadialGeometry {
     public Vector getNormal(Point p) {
         //t = v * (p-p0)
         double t = axis.getDirection().dotProduct(p.subtract(axis.getHead()));
-        if (isZero(t))//normal = (vector)p-p0
-            return p.subtract(axis.getHead()).normalize();
-            //o = P0 +t*v
-        else// normal = (vector)p-o
-            return p.subtract(axis.getHead().add(axis.getDirection().scale(t))).normalize();
+        //normal = (vector)p-p0
+        // o = P0 +t*v
+        // normal = (vector)p-o
+        return p.subtract(axis.getPoint(t)).normalize();
     }
 
     @Override

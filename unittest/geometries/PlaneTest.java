@@ -24,7 +24,9 @@ public class PlaneTest {
      * point 010 for testing
      */
     private final Point p010 = new Point(0, 1, 0);
-
+    /**
+     * point 110 for testing
+     */
     private final Point p110 = new Point(1, 1, 0);
 
     /**

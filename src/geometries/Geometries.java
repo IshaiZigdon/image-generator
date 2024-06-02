@@ -25,9 +25,8 @@ public class Geometries implements Intersectable {
      * @param geometries a group of unknown size geometries
      */
     public Geometries(Intersectable... geometries) {
-        if (geometries == null)
-            return;
-        intersectables.addAll(Arrays.asList(geometries));
+        if (geometries != null)
+            this.add(geometries);
     }
 
     /**

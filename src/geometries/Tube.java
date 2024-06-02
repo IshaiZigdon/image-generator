@@ -6,8 +6,6 @@ import primitives.Vector;
 
 import java.util.List;
 
-import static primitives.Util.isZero;
-
 /**
  * this class represents a 3D tube inherits from RadialGeometry
  *

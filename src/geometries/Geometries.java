@@ -1,29 +1,34 @@
 package geometries;
-import java.util.*;
-import primitives.*;
+
+import primitives.Point;
+import primitives.Ray;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
  */
-public class Geometries implements Intersectable{
+public class Geometries implements Intersectable {
     private final List<Intersectable> intersectables = new LinkedList<>();
-    private Geometries() {}
+
+    private Geometries() {
+    }
 
     /**
-     *
      * @param geometries
      */
-    public Geometries(Intersectable ... geometries) {
+    public Geometries(Intersectable... geometries) {
 
     }
 
     /**
-     *
      * @param geometries
      */
-    public void add(Intersectable ... geometries) {
+    public void add(Intersectable... geometries) {
 
     }
+
     /**
      * calculates where are the intersecting points of the
      * shape with the given ray

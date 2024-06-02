@@ -64,7 +64,12 @@ public class TubeTest {
         // =============== Boundary Values Tests ==================
 
         // **** Group: Ray's line goes through the axis
+        //1:start before the axis
+        //2:starts with the axis
+        //3:start after the axis
         // **** Group: Ray's line is tangent to the Tube (all tests 0 points)
-        // **** Group: Ray's line crosses the sphere (but not the center)
+        //4:only one case that i can think of/ regular case
+        // **** Group: Ray's line crosses the Tube (but not the center)
+        //
     }
 }

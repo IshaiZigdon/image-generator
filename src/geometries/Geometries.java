@@ -51,9 +51,9 @@ public class Geometries implements Intersectable {
             return null;
         List<Point> result = new LinkedList<>();
         for (Intersectable i : intersectables) {
-            List<Point> d = i.findIntersections(ray);
-            if (d != null)
-                result.addAll(d);
+            List<Point> points = i.findIntersections(ray);
+            if (points != null)
+                result.addAll(points);
         }
         return result.isEmpty() ? null : result;
     }

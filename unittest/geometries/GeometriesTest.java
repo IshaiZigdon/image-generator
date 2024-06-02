@@ -5,8 +5,10 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GeometriesTest {
     /**
@@ -38,9 +40,9 @@ public class GeometriesTest {
 
         // ============ Equivalence Partitions Tests ==============
         //TC01: simple test
-        //intersects with plane and  polygon
-        Ray ray01 = new Ray(new Point(1.5, 0.7, -2), new Vector(0, 0, 1));
-        assertEquals(2, geometries.findIntersections(ray01).size(), "TC01: wrong amount");
+        //intersects with plane and sphere
+        Ray ray01 = new Ray(new Point(0.2, 0.2, -2), new Vector(0, 0, 1));
+        assertEquals(3, geometries.findIntersections(ray01).size(), "TC01: wrong amount");
         // =============== Boundary Values Tests ==================
         //TC10: all the shapes are intersecting
         Ray ray10 = new Ray(new Point(0.7, 0.7, -1), new Vector(0, 0, 1));

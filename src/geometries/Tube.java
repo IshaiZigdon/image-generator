@@ -41,6 +41,19 @@ public class Tube extends RadialGeometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+        double t1,t2,a,b,c;
+        //a = Vx^2+ Vy^2
+        Vector vec = ray.getDirection();
+        Point p = ray.getPoint(0);
+        a = vec.lengthSquared();//we need to somehow do it without the z
+        //b = 2X0Vx+2Y0Vy
+        b=
+        //c = X0^2+Y0^2-R^2
+        c= p.distanceSquared(Point.ZERO)-radiusSquared;
+        //Δ = b^2-4ac
+        //Δ<0: no points
+        //Δ=0:one point (tangent so its zero too)
+        //Δ>0: 2 points( could be one practicly because it can start in the middle
         return null;
     }
 }

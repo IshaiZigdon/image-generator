@@ -1,10 +1,8 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
+import java.util.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import primitives.*;
 
 /**
  *
@@ -19,14 +17,16 @@ public class Geometries implements Intersectable {
      * @param geometries
      */
     public Geometries(Intersectable... geometries) {
-
+        if (geometries == null)
+            return;
+        intersectables.addAll(Arrays.asList(geometries));
     }
 
     /**
      * @param geometries
      */
     public void add(Intersectable... geometries) {
-
+        intersectables.addAll(Arrays.asList(geometries));
     }
 
     /**
@@ -38,6 +38,15 @@ public class Geometries implements Intersectable {
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        if (intersectables.isEmpty())
+            return null;
+        List<Point> result = new LinkedList<>();
+
+        for (Intersectable i : intersectables) {
+            List<Point> d = i.findIntersections(ray);
+            if (d != null)
+                result.addAll(d);
+        }
+        return result.isEmpty() ? null : result;
     }
 }

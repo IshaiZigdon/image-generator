@@ -15,6 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class TubeTest {
     /**
+     * Default constructor for TubeTest.
+     */
+    public TubeTest() {/*just fot the javadoc*/}
+    /**
      * Test method for {@link Tube#getNormal(Point)}
      */
     @Test

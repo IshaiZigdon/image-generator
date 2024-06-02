@@ -7,4 +7,8 @@ package geometries;
  * @author Zaki zafrani
  */
 public class RadialGeometryTest {
+    /**
+     * Default constructor for RadialGeometryTest.
+     */
+    public RadialGeometryTest() {/*just fot the javadoc*/}
 }

@@ -17,6 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class TriangleTest {
     /**
+     * Default constructor for TriangleTest.
+     */
+    public TriangleTest() {/*just fot the javadoc*/}
+    /**
      * point 100 for testing
      */
     private final Point p100 = new Point(1, 0, 0);
@@ -67,17 +71,17 @@ public class TriangleTest {
         assertEquals(exp, result01, "Triangle: findIntersection TC01 didnt work");
         // **** Group: Ray doesn't intersect the triangle (but does the plane)
         //TC02: in front of edge
-        assertNull(triangle.findIntersections(new Ray(new Point(0.3, 0.3, -1), v001)), "Ray's line is outside of the triangle");
+        assertNull(triangle.findIntersections(new Ray(new Point(0.3, 0.3, -1), v001)), "TC02: Ray's line is outside of the triangle");
         //TC03: in front of vertex
-        assertNull(triangle.findIntersections(new Ray(new Point(2, 2, -1), v001)), "Ray's line is outside of the triangle");
+        assertNull(triangle.findIntersections(new Ray(new Point(2, 2, -1), v001)), "TC03: Ray's line is outside of the triangle");
 
         // =============== Boundary Values Tests ==================
 
         //TC10: Ray intersects the triangle on the edge
-        assertNull(triangle.findIntersections(new Ray(new Point(0.5, 0.5, -1), v001)), "Ray's line is outside of the triangle");
+        assertNull(triangle.findIntersections(new Ray(new Point(0.5, 0.5, -1), v001)), "TC10: Ray's line is outside of the triangle");
         //TC11: Ray intersects the triangle on the vertex
-        assertNull(triangle.findIntersections(new Ray(p100, v001)), "Ray's line is outside of the triangle");
+        assertNull(triangle.findIntersections(new Ray(p100, v001)), "TC11: Ray's line is outside of the triangle");
         //TC12: Ray intersects the triangle on the edge line but not on the triangle
-        assertNull(triangle.findIntersections(new Ray(new Point(-2, 3, -1), v001)), "Ray's line is outside of the triangle");
+        assertNull(triangle.findIntersections(new Ray(new Point(-2, 3, -1), v001)), "TC12: Ray's line is outside of the triangle");
     }
 }

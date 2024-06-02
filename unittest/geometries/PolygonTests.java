@@ -16,6 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PolygonTests {
     /**
+     * Default constructor for PolygonTests.
+     */
+    public PolygonTests() {/*just fot the javadoc*/}
+    /**
      * Delta value for accuracy when comparing the numbers of type 'double' in
      * assertEquals
      */
@@ -84,9 +88,6 @@ public class PolygonTests {
 
     /**
      * Test method for {@link Polygon#findIntersections(Ray)}.
-     *
-     * @author Ishai zigdon
-     * @author Zaki zafrani
      */
     @Test
     public void testFindIntersections() {
@@ -99,20 +100,20 @@ public class PolygonTests {
         //TC01: Ray intersects the polygon
         final var result01 = polygon.findIntersections(new Ray(new Point(1.5, 0.5, -1), v001));
         var exp = List.of(new Point(1.5, 0.5, 0));
-        assertEquals(exp, result01, "Polygon: findIntersection TC01 didnt work");
+        assertEquals(exp, result01, "TC01: Polygon: findIntersection TC01 didnt work");
         // **** Group: Ray doesn't intersect the polygon (but does the plane he lays in)
         //TC02: in front of edge
-        assertNull(polygon.findIntersections(new Ray(new Point(1.5, 1.5, -1), v001)), "Ray's line is outside of the polygon");
+        assertNull(polygon.findIntersections(new Ray(new Point(1.5, 1.5, -1), v001)), "TC02: Ray's line is outside of the polygon");
         //TC03: in front of vertex
-        assertNull(polygon.findIntersections(new Ray(new Point(0.5, 1.5, -1), v001)), "Ray's line is outside of the polygon");
+        assertNull(polygon.findIntersections(new Ray(new Point(0.5, 1.5, -1), v001)), "TC03: Ray's line is outside of the polygon");
 
         // =============== Boundary Values Tests ==================
 
         //TC10: Ray intersects the polygon on the edge
-        assertNull(polygon.findIntersections(new Ray(new Point(1.5, 1, -1), v001)), "Polygon: findIntersection TC10 didnt work");
+        assertNull(polygon.findIntersections(new Ray(new Point(1.5, 1, -1), v001)), "TC10: Polygon: findIntersection TC10 didnt work");
         //TC11: Ray intersects the polygon on the vertex
-        assertNull(polygon.findIntersections(new Ray(new Point(2, 0, -1), v001)), "Polygon: findIntersection TC11 didnt work");
+        assertNull(polygon.findIntersections(new Ray(new Point(2, 0, -1), v001)), "PTC11: Polygon: findIntersection TC11 didnt work");
         //TC12: Ray on the continue of the edge
-        assertNull(polygon.findIntersections(new Ray(new Point(1, 1.5, -1), v001)), "Ray's line is outside of the polygon");
+        assertNull(polygon.findIntersections(new Ray(new Point(1, 1.5, -1), v001)), "TC12: Ray's line is outside of the polygon");
     }
 }

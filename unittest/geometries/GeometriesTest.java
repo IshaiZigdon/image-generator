@@ -10,7 +10,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit test for geometries.{@link Geometries}
+ */
 public class GeometriesTest {
+    /**
+     * Default constructor for GeometriesTest.
+     */
+    public GeometriesTest() {/*just fot the javadoc*/}
     /**
      * point 100 for testing
      */
@@ -23,19 +30,29 @@ public class GeometriesTest {
      * point 110 for testing
      */
     private final Point p110 = new Point(1, 1, 0);
+    /** triangle using the points for testing */
+    private final Triangle triangle = new Triangle(p110, p100, p010);
+    /**  plane using the points for testing */
+    private final Plane plane = new Plane(p110, p100, p010);
+    /** sphere using a point for testing */
+    private final Sphere sphere = new Sphere(p100, 1d);
 
+    /**
+     * test method for {@link Geometries#add(Intersectable...)}
+     */
     @Test
     void testAdd() {
+
     }
 
+    /**
+     * test method for {@link Geometries#findIntersections(Ray)}
+     */
     @Test
     void testFindIntersections() {
 
         Point[] pts = {new Point(0.5, 0, 1), new Point(2, 0, 1), new Point(2, 1, 1), new Point(0.5, 1, 1)};
         Polygon polygon = new Polygon(pts);
-        Triangle triangle = new Triangle(p110, p100, p010);
-        Plane plane = new Plane(p110, p100, p010);
-        Sphere sphere = new Sphere(p100, 1d);
         Geometries geometries = new Geometries(polygon, triangle, plane, sphere);
 
         // ============ Equivalence Partitions Tests ==============

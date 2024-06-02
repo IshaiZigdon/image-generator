@@ -1,10 +1,6 @@
 package geometries;
 
 import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
-
-import java.util.List;
 
 /**
  * Triangle class, empty at this point

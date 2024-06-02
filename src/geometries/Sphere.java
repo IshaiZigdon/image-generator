@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.sqrt;
-import static primitives.Util.*;
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 /**
  * Sphere class represent a 3D sphere and inherits from RadialGeometry

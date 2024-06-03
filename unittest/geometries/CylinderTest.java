@@ -5,8 +5,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * unit test for Geometries.Cylinder
@@ -89,5 +88,43 @@ public class CylinderTest {
      */
     @Test
     public void testFindIntersections() {
+        Point p100 = new Point(1, 0, 0);
+        Vector v200 = new Vector(2, 0, 0);
+        Cylinder cylinder = new Cylinder(new Ray(p100,v200), 1, 1);
+
+        // ============ Equivalence Partitions Tests ==============
+
+        // =============== Boundary Values Tests ==================
+        Vector v001 = new Vector(0, 0, 1);
+        //1: ray line is on 1 base
+        Ray ray1 = new Ray(new Point(1,0,-2),v001);
+        assertNull(cylinder.findIntersections(ray1),"does not return null");
+        //2: ray line is on 2 base
+        Ray ray2 = new Ray(new Point(2,0,-2),v001);
+        assertNull(cylinder.findIntersections(ray2),"does not return null");
+
+        // **** Group: only intersects on the edge of base 1
+        Vector v303 = new Vector(3, 0, 3);
+        //11:before
+        Ray ray11 = new Ray(new Point(-1,0,-1), v303);
+        assertNull(cylinder.findIntersections(ray11),"does not return null");
+        //12:on
+        Ray ray12 = new Ray(new Point(1,0,1), v303);
+        assertNull(cylinder.findIntersections(ray12),"does not return null");
+        //13:after
+        Ray ray13 = new Ray(new Point(2,0,2), v303);
+        assertNull(cylinder.findIntersections(ray13),"does not return null");
+
+        // **** Group: only intersects on the edge of base 2
+        Vector v30M3 = new Vector(3, 0, -3);
+        //21:before
+        Ray ray21 = new Ray(new Point(4,0,-1), v30M3);
+        assertNull(cylinder.findIntersections(ray21),"does not return null");
+        //22:on
+        Ray ray22 = new Ray(new Point(2,0,1), v30M3);
+        assertNull(cylinder.findIntersections(ray22),"does not return null");
+        //23:after
+        Ray ray23 = new Ray(new Point(1,0,2), v30M3);
+        assertNull(cylinder.findIntersections(ray23),"does not return null");
     }
 }

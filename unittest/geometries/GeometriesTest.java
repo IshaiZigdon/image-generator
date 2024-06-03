@@ -36,23 +36,15 @@ public class GeometriesTest {
     private final Plane plane = new Plane(p110, p100, p010);
     /** sphere using a point for testing */
     private final Sphere sphere = new Sphere(p100, 1d);
-
-    /**
-     * test method for {@link Geometries#add(Intersectable...)}
-     */
-    @Test
-    void testAdd() {
-
-    }
+    Point[] pts = {new Point(0.5, 0, 1), new Point(2, 0, 1), new Point(2, 1, 1), new Point(0.5, 1, 1)};
+    /** polygon using a point for testing */
+    private final Polygon polygon = new Polygon(pts);
 
     /**
      * test method for {@link Geometries#findIntersections(Ray)}
      */
     @Test
     void testFindIntersections() {
-
-        Point[] pts = {new Point(0.5, 0, 1), new Point(2, 0, 1), new Point(2, 1, 1), new Point(0.5, 1, 1)};
-        Polygon polygon = new Polygon(pts);
         Geometries geometries = new Geometries(polygon, triangle, plane, sphere);
 
         // ============ Equivalence Partitions Tests ==============

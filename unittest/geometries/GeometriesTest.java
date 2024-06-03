@@ -36,6 +36,7 @@ public class GeometriesTest {
     private final Plane plane = new Plane(p110, p100, p010);
     /** sphere using a point for testing */
     private final Sphere sphere = new Sphere(p100, 1d);
+    /** array of points for testing*/
     Point[] pts = {new Point(0.5, 0, 1), new Point(2, 0, 1), new Point(2, 1, 1), new Point(0.5, 1, 1)};
     /** polygon using a point for testing */
     private final Polygon polygon = new Polygon(pts);

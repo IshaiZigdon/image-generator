@@ -5,41 +5,49 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Unit test for geometries.{@link Geometries}
  */
 public class GeometriesTest {
     /**
-     * Default constructor for GeometriesTest.
-     */
-    public GeometriesTest() {/*just fot the javadoc*/}
-    /**
      * point 100 for testing
      */
-    private final Point p100 = new Point(1, 0, 0);
+    private static final Point p100 = new Point(1, 0, 0);
     /**
      * point 010 for testing
      */
-    private final Point p010 = new Point(0, 1, 0);
+    private static final Point p010 = new Point(0, 1, 0);
     /**
      * point 110 for testing
      */
-    private final Point p110 = new Point(1, 1, 0);
-    /** triangle using the points for testing */
-    private final Triangle triangle = new Triangle(p110, p100, p010);
-    /**  plane using the points for testing */
-    private final Plane plane = new Plane(p110, p100, p010);
-    /** sphere using a point for testing */
-    private final Sphere sphere = new Sphere(p100, 1d);
-    /** array of points for testing*/
-    Point[] pts = {new Point(0.5, 0, 1), new Point(2, 0, 1), new Point(2, 1, 1), new Point(0.5, 1, 1)};
-    /** polygon using a point for testing */
-    private final Polygon polygon = new Polygon(pts);
+    private static final Point p110 = new Point(1, 1, 0);
+    /**
+     * triangle using the points for testing
+     */
+    private static final Triangle triangle = new Triangle(p110, p100, p010);
+    /**
+     * plane using the points for testing
+     */
+    private static final Plane plane = new Plane(p110, p100, p010);
+    /**
+     * sphere using a point for testing
+     */
+    private static final Sphere sphere = new Sphere(p100, 1d);
+    /**
+     * array of points for testing
+     */
+    static Point[] pts = {new Point(0.5, 0, 1), new Point(2, 0, 1), new Point(2, 1, 1), new Point(0.5, 1, 1)};
+    /**
+     * polygon using a point for testing
+     */
+    private static final Polygon polygon = new Polygon(pts);
+    /**
+     * Default constructor for GeometriesTest.
+     */
+    public GeometriesTest() {/*just fot the javadoc*/}
 
     /**
      * test method for {@link Geometries#findIntersections(Ray)}

@@ -15,6 +15,7 @@ public class VectorTest {
      * Default constructor for VectorTest.
      */
     public VectorTest() {/*just fot the javadoc*/}
+
     /**
      * Test method for {@link Vector#Vector(double, double, double)}.
      * and Test method for {@link Vector#Vector(Double3)}.

@@ -15,6 +15,7 @@ public class PointTest {
      * Default constructor for PointTest.
      */
     public PointTest() {/*just fot the javadoc*/}
+
     /**
      * Test method for {@link Point#Point(double, double, double)}.
      * and Test method for {@link Point#Point(Double3)}.

@@ -15,6 +15,7 @@ public class RayTest {
      * Default constructor for RayTest.
      */
     public RayTest() {/*just fot the javadoc*/}
+
     /**
      * Test method for {@link Ray#Ray(Point, Vector)}.
      */

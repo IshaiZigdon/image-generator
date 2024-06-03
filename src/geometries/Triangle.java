@@ -1,10 +1,13 @@
 package geometries;
 
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import java.util.List;
 
 import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 /**
  * Triangle class, empty at this point
@@ -38,7 +41,8 @@ public class Triangle extends Polygon {
         Vector v2 = vertices.get(1).subtract(p0);
         Vector n1 = v1.crossProduct(v2).normalize();
         double x1 = alignZero(v.dotProduct(n1));
-        if (x1 == 0) return null;
+
+        if (isZero(x1)) return null;
 
         Vector v3 = vertices.get(2).subtract(p0);
         Vector n2 = v2.crossProduct(v3).normalize();

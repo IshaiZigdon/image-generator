@@ -5,8 +5,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -19,11 +17,13 @@ public class TubeTest {
     /**
      * vector 100 for testing
      */
-    private final Vector v100 = new Vector(1, 0, 0);
+    private static final Vector v100 = new Vector(1, 0, 0);
+
     /**
      * Default constructor for TubeTest.
      */
     public TubeTest() {/*just fot the javadoc*/}
+
     /**
      * Test method for {@link Tube#getNormal(Point)}
      */

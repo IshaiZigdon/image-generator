@@ -1,8 +1,11 @@
 package geometries;
 
-import java.util.*;
+import primitives.Point;
+import primitives.Ray;
 
-import primitives.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * this class is for all the geometries that can intersect with a ray ,altogether

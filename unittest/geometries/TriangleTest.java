@@ -17,21 +17,21 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class TriangleTest {
     /**
-     * Default constructor for TriangleTest.
-     */
-    public TriangleTest() {/*just fot the javadoc*/}
-    /**
      * point 100 for testing
      */
-    private final Point p100 = new Point(1, 0, 0);
+    private static final Point p100 = new Point(1, 0, 0);
     /**
      * point 010 for testing
      */
-    private final Point p010 = new Point(0, 1, 0);
+    private static final Point p010 = new Point(0, 1, 0);
     /**
      * point 110 for testing
      */
-    private final Point p110 = new Point(1, 1, 0);
+    private static final Point p110 = new Point(1, 1, 0);
+    /**
+     * Default constructor for TriangleTest.
+     */
+    public TriangleTest() {/*just fot the javadoc*/}
 
     /**
      * Test method for {@link Triangle#getNormal(Point)}

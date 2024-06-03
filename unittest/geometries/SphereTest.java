@@ -18,13 +18,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class SphereTest {
     /**
+     * center of testing sphere
+     */
+    private static final Point p100 = new Point(1, 0, 0);
+
+    /**
      * Default constructor for SphereTest.
      */
     public SphereTest() {/*just fot the javadoc*/}
-    /**
-     * center of testing sphere
-     */
-    private final Point p100 = new Point(1, 0, 0);
 
     /**
      * Test method for {@link Sphere#getNormal(Point)}

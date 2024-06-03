@@ -4,9 +4,9 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.LinkedList;
 import java.util.List;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 /**
@@ -96,31 +96,27 @@ public class Polygon implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+        // Find intersections with the plane
         List<Point> lst = plane.findIntersections(ray);
         if (lst == null)
             return null;
+
         Point p0 = ray.getHead();
         Vector v = ray.getDirection();
-        List<Vector> vList = new LinkedList<>();
-        List<Vector> normals = new LinkedList<>();
-        try {
-            for (Point i : vertices) {
-                vList.add(i.subtract(p0));
+
+        double x1 = 0, x2;
+        for (int i = 0; i < size; i++) {
+            Vector v1 = vertices.get(i).subtract(p0);
+            Vector v2 = vertices.get((i + 1) % size).subtract(p0);
+            Vector normal = v1.crossProduct(v2).normalize();
+            x2 = alignZero(v.dotProduct(normal));
+            if (isZero(i)) {
+                x1 = x2;
+                if (isZero(x1)) return null;
             }
-            for (int i = 0; i < vList.size(); ++i) {
-                normals.add(vList.get(i).crossProduct(vList.get(i == 0 ? vList.size() - 1 : i - 1)).normalize());
-            }
-        } catch (IllegalArgumentException msg) {
-            return null;
-        }
-        double[] x = new double[normals.size()];
-        for (int i = 0; i < normals.size(); ++i) {
-            x[i] = v.dotProduct(normals.get(i));
-        }
-        for (int i = 1; i < x.length; ++i) {
-            if (!((x[i] > 0 && x[i - 1] > 0) || (x[i] < 0 && x[i - 1] < 0)))
-                return null;
+            if (x1 * x2 <= 0) return null;
         }
         return lst;
     }
+
 }

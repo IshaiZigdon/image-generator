@@ -46,20 +46,20 @@ public class Tube extends RadialGeometry {
         double t1, t2, a, b, c;
         //a = Vx^2+ Vy^2
         Vector vec = ray.getDirection();
-        Point p = ray.getPoint(0);
+        Point p ;
         a = vec.lengthSquared();//we need to somehow do it without the z
         //b = 2X0Vx+2Y0Vy
-        /**b=ray.getPoint(2)*/
+        p=ray.getPoint(2);
         b = 0;
         //c = X0^2+Y0^2-R^2
-        c = p.distanceSquared(Point.ZERO) - radiusSquared;
+        c = ray.getHead().distanceSquared(Point.ZERO) - radiusSquared;
         //Δ = b^2-4ac
         double delta = b * b - 4 * a * c;
         //Δ<0: no points
         //Δ=0:one point (tangent so its zero too)
         if (delta <= 0)
             return null;
-        //Δ>0: 2 points( could be one practicly because it can start in the middle
+        //Δ>0: 2 points( could be one practically because it can start in the middle
         //*2 points
         t1 = (-b - sqrt(delta)) / 2 * a;
         t2 = (b - sqrt(delta)) / 2 * a;

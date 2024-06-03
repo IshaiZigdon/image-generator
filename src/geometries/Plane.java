@@ -70,19 +70,19 @@ public class Plane implements Geometry {
     public List<Point> findIntersections(Ray ray) {
         Point p0 = ray.getHead();
         Vector v = ray.getDirection();
+
         double nv = normal.dotProduct(v);
-        double nQMinusP0;
         if (isZero(nv))
             return null;
+
+        double nQMinusP0;
         try {
             nQMinusP0 = normal.dotProduct(q.subtract(p0));
         } catch (IllegalArgumentException msg) {
             return null;
         }
+
         double t = alignZero(nQMinusP0 / nv);
-        if (t > 0) {
-            return List.of(ray.getPoint(t));
-        }
-        return null;
+        return t <= 0 ? null : List.of(ray.getPoint(t));
     }
 }

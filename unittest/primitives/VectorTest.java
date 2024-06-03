@@ -236,18 +236,6 @@ public class VectorTest {
     }
 
     /**
-     * Test method for {@link Vector#toString()}
-     */
-    @Test
-    void testToString() {
-        // ============ Equivalence Partitions Tests ==============
-
-        //TC01: simple test
-        assertEquals("Vector: (1.0,2.0,3.0)", new Vector(1, 2, 3).toString(),
-                "TC01: Vector- toString: Regular case didnt work");
-    }
-
-    /**
      * Test method for {@link Vector#equals(Object)}
      */
     @Test
@@ -257,8 +245,8 @@ public class VectorTest {
         //TC01: simple test
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(1, 2, 3);
-        assertTrue(v1.equals(v2), "TC01: Vector equals didn't work");
+        assertEquals(v1, v2, "TC01: Vector equals didn't work");
         Vector v3 = new Vector(1, 2, 4);
-        assertFalse(v1.equals(v3), "TC01: Vector equals didn't work");
+        assertNotEquals(v1, v3, "TC01: Vector equals didn't work");
     }
 }

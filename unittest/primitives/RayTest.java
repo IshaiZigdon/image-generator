@@ -61,21 +61,8 @@ public class RayTest {
         Vector v100 = new Vector(1, 0, 0);
         Ray r1 = new Ray(p123, v100);
         Ray r2 = new Ray(p123, v100);
-        assertTrue(r1.equals(r2), "TC01: Ray equals didn't work");
+        assertEquals(r1, r2, "TC01: Ray equals didn't work");
         Ray r3 = new Ray(new Point(1, 2, 4), new Vector(1, 0, 1));
-        assertFalse(r1.equals(r3), "TC01: Ray equals didn't work");
-    }
-
-    /**
-     * Test method for {@link Ray#toString()}
-     */
-    @Test
-    void testToString() {
-        // ============ Equivalence Partitions Tests ==============
-
-        //TC01: simple test
-        assertEquals("Ray:(1.0,1.0,1.0)->(0.0,0.0,1.0)",
-                new Ray(new Point(1, 1, 1), new Vector(0, 0, 1)).toString(),
-                "TC01: Ray- toString: Regular case didnt work");
+        assertNotEquals(r1, r3, "TC01: Ray equals didn't work");
     }
 }

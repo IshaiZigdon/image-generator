@@ -1,6 +1,10 @@
 package geometries;
 
-import primitives.Point;
+import primitives.*;
+
+import java.util.List;
+
+import static primitives.Util.alignZero;
 
 /**
  * Triangle class, empty at this point
@@ -21,35 +25,30 @@ public class Triangle extends Polygon {
         super(a, b, c);
     }
 
-//    @Override
-//    public List<Point> findIntersections(Ray ray) {
-//        List<Point> lst = plane.findIntersections(ray);
-//        if (lst == null)
-//            return null;
-//        Point p0 = ray.getHead();
-//        Vector v = ray.getDirection();
-//        Vector v1;
-//        Vector v2;
-//        Vector v3;
-//        Vector n1;
-//        Vector n2;
-//        Vector n3;
-//        try {
-//            v1 = vertices.get(0).subtract(p0);
-//            v2 = vertices.get(1).subtract(p0);
-//            v3 = vertices.get(2).subtract(p0);
-//            n1 = v1.crossProduct(v2).normalize();
-//            n2 = v2.crossProduct(v3).normalize();
-//            n3 = v3.crossProduct(v1).normalize();
-//        } catch (IllegalArgumentException msg) {
-//            return null;
-//        }
-//        double x1 = v.dotProduct(n1);
-//        double x2 = v.dotProduct(n2);
-//        double x3 = v.dotProduct(n3);
-//        if ((x1 > 0 && x2 > 0 && x3 > 0) || (x1 < 0 && x2 < 0 && x3 < 0)) {
-//            return lst;
-//        }
-//        return null;
-//    }
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        List<Point> lst = plane.findIntersections(ray);
+        if (lst == null)
+            return null;
+
+        Point p0 = ray.getHead();
+        Vector v = ray.getDirection();
+
+        Vector v1 = vertices.get(0).subtract(p0);
+        Vector v2 = vertices.get(1).subtract(p0);
+        Vector n1 = v1.crossProduct(v2).normalize();
+        double x1 = alignZero(v.dotProduct(n1));
+        if (x1 == 0) return null;
+
+        Vector v3 = vertices.get(2).subtract(p0);
+        Vector n2 = v2.crossProduct(v3).normalize();
+        double x2 = alignZero(v.dotProduct(n2));
+        if (x1 * x2 <= 0) return null;
+
+        Vector n3 = v3.crossProduct(v1).normalize();
+        double x3 = alignZero(v.dotProduct(n3));
+        if (x1 * x3 <= 0) return null;
+
+        return lst;
+    }
 }

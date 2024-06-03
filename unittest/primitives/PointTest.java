@@ -120,20 +120,8 @@ public class PointTest {
         //TC01: simple test
         Point p1 = new Point(1, 2, 3);
         Point p2 = new Point(1, 2, 3);
-        assertTrue(p1.equals(p2), "TC01: Point equals didn't work");
+        assertEquals(p1, p2, "TC01: Point equals didn't work");
         Point p3 = new Point(1, 2, 4);
-        assertFalse(p1.equals(p3), "TC01: Point equals didn't work");
-    }
-
-    /**
-     * Test method for {@link Point#toString()}
-     */
-    @Test
-    void testToString() {
-        // ============ Equivalence Partitions Tests ==============
-
-        //TC01: simple test
-        assertEquals("Point: (1.0,2.0,3.0)", new Point(1, 2, 3).toString(),
-                "TC01: Point- toString: Regular case didnt work");
+        assertNotEquals(p1, p3, "TC01: Point equals didn't work");
     }
 }

@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static java.lang.Math.sqrt;
-import static primitives.Util.*;
 
 /**
  * this class represents a 3D tube inherits from RadialGeometry
@@ -45,10 +44,10 @@ public class Tube extends RadialGeometry {
         double t1, t2, a, b, c;
         //a = Vx^2+ Vy^2
         Vector vec = ray.getDirection();
-        Point p ;
+        Point p;
         a = vec.lengthSquared();//we need to somehow do it without the z
         //b = 2X0Vx+2Y0Vy
-        p=ray.getPoint(2);
+        p = ray.getPoint(2);
         b = 0;
         //c = X0^2+Y0^2-R^2
         c = ray.getHead().distanceSquared(Point.ZERO) - radiusSquared;

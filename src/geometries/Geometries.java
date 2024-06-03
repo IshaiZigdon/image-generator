@@ -16,7 +16,7 @@ public class Geometries implements Intersectable {
     /**
      * empty constructor for now
      */
-    private Geometries() {
+    public Geometries() {
     }
 
     /**
@@ -47,14 +47,16 @@ public class Geometries implements Intersectable {
      */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        if (intersectables.isEmpty())
-            return null;
-        List<Point> result = new LinkedList<>();
+        List<Point> result = null;
         for (Intersectable i : intersectables) {
             List<Point> points = i.findIntersections(ray);
-            if (points != null)
-                result.addAll(points);
+            if (points != null) {
+                if (result == null)
+                    result = new LinkedList<>(points);
+                else
+                    result.addAll(points);
+            }
         }
-        return result.isEmpty() ? null : result;
+        return result;
     }
 }

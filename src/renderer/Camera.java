@@ -1,6 +1,12 @@
 package renderer;
 
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
+
+import java.util.MissingResourceException;
+
+import static primitives.Util.isZero;
 
 /**
  * this class represent the camera
@@ -9,6 +15,90 @@ import primitives.*;
  * @author Zaki zafrani
  */
 public class Camera implements Cloneable {
+    /**
+     * class for builder
+     */
+    public static class Builder {
+        final Camera camera;
+
+        /**
+         * constructor that initialize camera with given Camera object
+         *
+         * @param c given camera
+         */
+        public Builder(Camera c) {
+            camera = c;
+        }
+
+        /**
+         * function for set location
+         *
+         * @param p the location point
+         * @return builder with given location
+         */
+        public Builder setLocation(Point p) {
+            camera.p0 = p;
+            return this;
+        }
+
+        /**
+         * function for set direction
+         *
+         * @param vUp vertical vector
+         * @param vTo vector to distance
+         * @return builder with given direction
+         */
+        public Builder setDirection(Vector vUp, Vector vTo) {
+            if (isZero(vUp.dotProduct(vTo))) {
+                camera.vRight = vUp.crossProduct(vTo).normalize();
+                camera.vTo = vTo.normalize();
+                camera.vUp = vUp.normalize();
+                return this;
+            }
+            throw new IllegalArgumentException("camera vectors must be vertical to each other");
+        }
+
+        /**
+         * function for set size of plane
+         *
+         * @param width  the width
+         * @param height the height
+         * @return builder with plane with the given size
+         */
+        public Builder setVpSize(double width, double height) {
+            if (width*height > 0 && width > 0) {
+                camera.viewPlaneWidth = width;
+                camera.viewPlaneHeight = height;
+                return this;
+            }
+            throw new IllegalArgumentException("view plane width and height values must be greater than 0");
+        }
+
+        /**
+         * function for set distance
+         * @param distance the distance
+         * @return builder with given distance
+         */
+        public Builder setVpDistance(double distance) {
+            if (distance > 0) {
+                camera.viewPlaneWidth = distance;
+                return this;
+            }
+            throw new IllegalArgumentException("view plane distance value must be greater than 0");
+        }
+
+        public Camera build() {
+            if (isZero(camera.viewPlaneWidth)) {
+                throw new IllegalArgumentException("missing render resource for viewplanewidth");
+            }
+            if(isZero(camera.viewPlaneHeight)) {
+            }
+            if(isZero(camera.viewPlaneWidth)) {
+                throw new MissingResourceException()
+            }
+        }
+    }
+
     /**
      * point
      */
@@ -32,88 +122,92 @@ public class Camera implements Cloneable {
     /**
      * the height of the view plane
      */
-    private double viewPlaneHeight =0.0;
+    private double viewPlaneHeight = 0.0;
     /**
      * the distance of the view plane
      */
     private double viewPlaneDistance = 0.0;
-    /**
-     * class for builder
-     */
-    public static class Builder{
-        final Camera camera;
-        /**
-         * constructor that initialize camera with given Camera object
-         * @param c given camera
-         */
-        public Builder(Camera c){
-            camera = c;
-        }
-    }
+
     /**
      * get function for po
+     *
      * @return po
      */
-    Point getP0(){
+    Point getP0() {
         return p0;
     }
+
     /**
      * get function for vTo
+     *
      * @return vTo
      */
-    Vector getVTo(){
+    Vector getVTo() {
         return vTo;
     }
+
     /**
      * get function for vUp
+     *
      * @return vUp
      */
-    Vector getVUp(){
+    Vector getVUp() {
         return vUp;
     }
+
     /**
      * get function for vRight
+     *
      * @return vRight
      */
-    Vector getVRight(){
+    Vector getVRight() {
         return vRight;
     }
+
     /**
      * get function for viewPlaneHeight
+     *
      * @return viewPlaneHeight
      */
-    double getViewPlaneHeight(){
+    double getViewPlaneHeight() {
         return viewPlaneHeight;
     }
+
     /**
      * get function for viewPlaneWidth
+     *
      * @return viewPlaneWidth
      */
-    double getViewPlaneWidth(){
+    double getViewPlaneWidth() {
         return viewPlaneWidth;
     }
+
     /**
      * get function for viewPlaneDistance
+     *
      * @return viewPlaneDistance
      */
-    double getViewPlaneDistance(){
+    double getViewPlaneDistance() {
         return viewPlaneDistance;
     }
+
     /**
      * default constructor
      */
-    private Camera(){
+    private Camera() {
     }
+
     /**
      * todo
      */
-    public static Builder getBuilder(){
+    public static Builder getBuilder() {
         return null;
     }
+
     /**
      * todo
      */
-    public Ray constructRay(int nX, int nY, int j, int i){
+    public Ray constructRay(int nX, int nY, int j, int i) {
         return null;
     }
 }

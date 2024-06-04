@@ -66,7 +66,7 @@ public class Camera implements Cloneable {
          * @return builder with plane with the given size
          */
         public Builder setVpSize(double width, double height) {
-            if (width*height > 0 && width > 0) {
+            if (width * height > 0 && width > 0) {
                 camera.viewPlaneWidth = width;
                 camera.viewPlaneHeight = height;
                 return this;
@@ -76,6 +76,7 @@ public class Camera implements Cloneable {
 
         /**
          * function for set distance
+         *
          * @param distance the distance
          * @return builder with given distance
          */
@@ -87,15 +88,31 @@ public class Camera implements Cloneable {
             throw new IllegalArgumentException("view plane distance value must be greater than 0");
         }
 
+        /**
+         * function to build camera with valid values
+         *
+         * @return the camera
+         */
         public Camera build() {
+            String message = "Missing render resource. ";
+            String fields = "";
             if (isZero(camera.viewPlaneWidth)) {
-                throw new IllegalArgumentException("missing render resource for viewplanewidth");
+                fields += "viewPlaneWidth ";
+                if (isZero(camera.viewPlaneHeight)) {
+                    fields += "viewPlaneHeight ";
+                    if (isZero(camera.viewPlaneDistance)) {
+                        fields += "viewPlaneDistance ";
+                        throw new MissingResourceException(message, camera.getClass().getName(), fields);
+                    }
+                    throw new MissingResourceException(message, camera.getClass().getName(), fields);
+                }
+                throw new MissingResourceException(message, camera.getClass().getName(), fields);
             }
-            if(isZero(camera.viewPlaneHeight)) {
+            if (isZero(camera.vUp .dotProduct(camera.vTo))) {
+                camera.vRight = camera.vUp.crossProduct(camera.vTo).normalize();
+                return camera;
             }
-            if(isZero(camera.viewPlaneWidth)) {
-                throw new MissingResourceException()
-            }
+            throw new IllegalArgumentException("camera vectors are vertical to each other");
         }
     }
 

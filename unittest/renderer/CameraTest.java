@@ -1,11 +1,11 @@
 package renderer;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 
 import primitives.*;
 import renderer.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 // import scene.Scene;
 
 /**
@@ -20,6 +20,20 @@ class CameraTest {
             .setLocation(Point.ZERO)
             .setDirection(new Vector(0, 0, -1), new Vector(0, -1, 0))
             .setVpDistance(10);
+    /**
+     * Test method for
+     * {@link Camera.Builder#build()}
+     */
+    void buildTest()
+    {
+        // ============ Equivalence Partitions Tests ==============
+        //TC1: simple test
+        Camera.Builder camera1 = Camera.getBuilder().setVpSize(10,10).setVpDistance(10)
+                .setDirection(new Vector(0, 0, 1), new Vector(0, 1, 0))
+                .setLocation(Point.ZERO);
+        Camera tc1 = camera1.build();
+        assertThrows(IllegalArgumentException.class,()->tc1.getVRight().crossProduct(new Vector(1,0,0)),"");
+    }
 
     /**
      * Test method for

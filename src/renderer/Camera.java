@@ -94,20 +94,19 @@ public class Camera implements Cloneable {
          * @return the camera
          */
         public Camera build() {
-            String message = "Missing render resource. ";
+            final String message = "Missing render resource. ";
             String fields = "";
             if (isZero(camera.viewPlaneWidth)) {
                 fields += "viewPlaneWidth ";
-                if (isZero(camera.viewPlaneHeight)) {
-                    fields += "viewPlaneHeight ";
-                    if (isZero(camera.viewPlaneDistance)) {
-                        fields += "viewPlaneDistance ";
-                        throw new MissingResourceException(message, camera.getClass().getName(), fields);
-                    }
-                    throw new MissingResourceException(message, camera.getClass().getName(), fields);
-                }
-                throw new MissingResourceException(message, camera.getClass().getName(), fields);
             }
+            if (isZero(camera.viewPlaneHeight)) {
+                fields += "viewPlaneHeight ";
+            }
+            if (isZero(camera.viewPlaneDistance)) {
+                fields += "viewPlaneDistance ";
+            }
+            if(isZero(fields.length()))
+                throw new MissingResourceException(message, camera.getClass().getName(), fields);
             if (isZero(camera.vUp .dotProduct(camera.vTo))) {
                 camera.vRight = camera.vUp.crossProduct(camera.vTo).normalize();
                 return camera;

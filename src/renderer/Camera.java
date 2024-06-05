@@ -217,7 +217,7 @@ public class Camera implements Cloneable {
      * todo
      */
     public static Builder getBuilder() {
-        return null;
+        return new Builder(new Camera());
     }
 
     /**

@@ -82,7 +82,7 @@ public class Camera implements Cloneable {
          */
         public Builder setVpDistance(double distance) {
             if (distance > 0) {
-                camera.viewPlaneWidth = distance;
+                camera.viewPlaneDistance = distance;
                 return this;
             }
             throw new IllegalArgumentException("view plane distance value must be greater than 0");
@@ -105,7 +105,7 @@ public class Camera implements Cloneable {
             if (isZero(camera.viewPlaneDistance)) {
                 fields += "viewPlaneDistance ";
             }
-            if(isZero(fields.length()))
+            if(!isZero(fields.length()))
                 throw new MissingResourceException(message, camera.getClass().getName(), fields);
             if (isZero(camera.vUp .dotProduct(camera.vTo))) {
                 camera.vRight = camera.vUp.crossProduct(camera.vTo).normalize();

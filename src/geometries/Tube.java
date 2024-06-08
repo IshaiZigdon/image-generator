@@ -48,26 +48,32 @@ public class Tube extends RadialGeometry {
         Vector d = axis.getDirection();
         //ray direction ==v
         Vector v = ray.getDirection();
-        // w= distance between the point of ray and the point of axis
         double a, b, c;
+
         //dv = d x v
         Vector dv;
+
         // w= distance between the point of ray and the point of axis
         Vector w;
+
         //dw = d x w
         Vector dw;
+
         if (d.dotProduct(v) == d.length() * v.length())
             return null;
         dv = d.crossProduct(v);
+
+        //a= |d x v|^2/|d|^2
+        a = alignZero((dv.lengthSquared()) / d.lengthSquared());
+
         if (ray.getHead().equals(axis.getHead())) {
-            a = alignZero((dv.lengthSquared()) / d.lengthSquared());
-            return List.of(ray.getPoint(alignZero(radius / Math.sqrt(a))));
+            return List.of(ray.getPoint(alignZero(radius / sqrt(a))));
         }
         //but for now it will be null
         w = ray.getHead().subtract(axis.getHead());
-        if (d.dotProduct(w) == d.length() * w.length()) {
+        if (isZero(d.dotProduct(w) - d.length() * w.length())) {
             double temp = v.dotProduct(d) / d.dotProduct(d);
-            if (temp != 0) {
+            if (temp != 0) {//im not sure if this always 0
                 Vector tempD = d.scale(-temp);
                 Vector v_90 = v.add(tempD);
                 return List.of(ray.getPoint(alignZero(radius / v_90.length())));
@@ -75,8 +81,6 @@ public class Tube extends RadialGeometry {
             return List.of(ray.getPoint(alignZero(radius / v.length())));
         }
         dw = d.crossProduct(w);
-        //a= |d x v|^2/|d|^2
-        a = alignZero((dv.lengthSquared()) / d.lengthSquared());
         //b = 2* (d x w) * (d x v)  / |d|^2
         b = alignZero((2 * dv.dotProduct(dw)) / d.lengthSquared());
         //c = |d x w|^2 / |d|^2 - r^2
@@ -86,15 +90,16 @@ public class Tube extends RadialGeometry {
         double discriminant = alignZero(b * b - 4 * a * c);
         if (discriminant >= 0) {
             double t1, t2;
-            t1 = (-b - Math.sqrt(discriminant)) / 2 * a;
-            t2 = (-b + Math.sqrt(discriminant)) / 2 * a;
+            t1 = alignZero((-b - sqrt(discriminant)) / 2 * a);
+            t2 = alignZero((-b + sqrt(discriminant)) / 2 * a);
             if (t2 <= 0)
                 return null;
             if (t1 <= 0) {
                 return List.of(ray.getPoint(alignZero(t2)));
-            } else if (discriminant == 0)
+            } else if (isZero(discriminant))//if the discriminant is zero then we "have" one point and else we
+                //would return 2 points
                 return null;
-            return List.of(ray.getPoint(alignZero(t1)), ray.getPoint(alignZero(t2)));
+            return List.of(ray.getPoint(t1), ray.getPoint(t2));
         }
         return null;
     }

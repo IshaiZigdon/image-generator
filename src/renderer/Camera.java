@@ -151,7 +151,7 @@ public class Camera implements Cloneable {
      *
      * @return p0
      */
-    Point getCenter() {
+    Point getP0() {
         return p0;
     }
 

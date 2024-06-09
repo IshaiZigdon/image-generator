@@ -3,7 +3,6 @@ package renderer;
 import org.junit.jupiter.api.Test;
 
 import primitives.*;
-import renderer.*;
 
 import java.util.MissingResourceException;
 
@@ -20,7 +19,7 @@ class CameraTest {
             //.setRayTracer(new SimpleRayTracer(new Scene("Test")))
            // .setImageWriter(new ImageWriter("Test", 1, 1))
             .setLocation(Point.ZERO)
-            .setDirection( new Vector(0, -1, 0),new Vector(0, 0, -1))
+            .setDirection(new Vector(0, 0, -1),new Vector(0, -1, 0))
             .setVpDistance(10);
 
     /**
@@ -81,8 +80,7 @@ class CameraTest {
 
         assertDoesNotThrow(()->cameraBuilder.setDirection(new Vector(0,0,-2),new Vector(0,-2,0)));
         Camera camera2 = cameraBuilder.build();
-        assertThrows(IllegalArgumentException.class,()-> camera2.getVRight().crossProduct(new Vector(1,0,0)),
-                "wrong right vector");
+        assertEquals(new Vector(-1,0,0),camera2.getVRight(), "wrong right vector");
         assertEquals(1,camera2.getVRight().length(),"vector right is not normalized");
         assertEquals(1,camera2.getVUp().length(),"vector up is not normalized");
         assertEquals(1,camera2.getVTo().length(),"vector to is not normalized");

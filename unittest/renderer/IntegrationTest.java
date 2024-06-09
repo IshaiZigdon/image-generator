@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  *
  */
-public class integrationTest {
+public class IntegrationTest {
     /** Camera builder for the tests */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             //.setRayTracer(new SimpleRayTracer(new Scene("Test")))
             // .setImageWriter(new ImageWriter("Test", 1, 1))
             .setLocation(Point.ZERO)
-            .setDirection( new Vector(0, -1, 0),new Vector(0, 0, -1))
+            .setDirection( new Vector(0, 0, -1),new Vector(0, -1, 0))
             .setVpSize(3,3)
             .setVpDistance(1);
     /**
@@ -119,13 +119,14 @@ public class integrationTest {
             }
         }
         assertEquals(9, count,"plane tc1: wrong number");
+
         //TC2:
         Plane plane2 = new Plane(new Point(0,0,-10),new Point(2,5,-8),new Point(-2,2,-10.6));
         count = 0;
         for(int i = 0 ;i < 3;i++)
         {
             for(int j = 0 ;j < 3;j++){
-                result = plane1.findIntersections(planeCamera.constructRay(3,3,i,j));
+                result = plane2.findIntersections(planeCamera.constructRay(3,3,i,j));
                 if (result != null){
                     count += result.size();
                 }
@@ -165,9 +166,9 @@ public class integrationTest {
                 }
             }
         }
-        assertEquals(1, count,"plane tc1: wrong number");
+        assertEquals(1, count,"triangle tc1: wrong number");
 
-        //TC1:
+        //TC2:
         Triangle triangle2 = new Triangle(new Point(0,20,-2),new Point(1,-1,-2),new Point(-1,-1,-2));
         count = 0;
         for(int i = 0 ;i < 3;i++)
@@ -179,7 +180,6 @@ public class integrationTest {
                 }
             }
         }
-        assertEquals(2, count,"plane tc1: wrong number");
-
+        assertEquals(2, count,"triangle tc2: wrong number");
     }
 }

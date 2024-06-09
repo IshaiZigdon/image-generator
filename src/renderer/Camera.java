@@ -48,9 +48,9 @@ public class Camera implements Cloneable {
          * @param vTo vector to distance
          * @return builder with given direction
          */
-        public Builder setDirection(Vector vUp, Vector vTo) {
-            if (isZero(vUp.dotProduct(vTo))) {
-                camera.vRight = vUp.crossProduct(vTo).normalize();
+        public Builder setDirection(Vector vTo, Vector vUp) {
+            if (isZero(vTo.dotProduct(vUp))) {
+                camera.vRight = vTo.crossProduct(vUp).normalize();
                 camera.vTo = vTo.normalize();
                 camera.vUp = vUp.normalize();
                 return this;
@@ -105,13 +105,10 @@ public class Camera implements Cloneable {
             if (isZero(camera.viewPlaneDistance)) {
                 fields += "viewPlaneDistance ";
             }
-            if(!isZero(fields.length()))
+            if (!isZero(fields.length()))
                 throw new MissingResourceException(message, camera.getClass().getName(), fields);
-            if (isZero(camera.vUp .dotProduct(camera.vTo))) {
-                camera.vRight = camera.vUp.crossProduct(camera.vTo).normalize();
-                return camera;
-            }
-            throw new IllegalArgumentException("camera vectors are vertical to each other");
+            setDirection(camera.vTo, camera.vUp);
+            return camera;
         }
     }
 
@@ -214,14 +211,20 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * todo
+     * creating new camera builder
+     * @return new camera builder
      */
     public static Builder getBuilder() {
         return new Builder(new Camera());
     }
 
     /**
-     * todo
+     * constructing a ray through given pixel
+     * @param nX width of pixel
+     * @param nY height of pixel
+     * @param j  column
+     * @param i  line
+     * @return the ray
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
         double Ry = viewPlaneHeight/nY;

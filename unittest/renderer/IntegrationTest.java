@@ -9,9 +9,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 /**
+ * unit test for Sphere Plane and Triangle with constructRay
  *
+ * @author Ishai zigdon
+ * @author Zaki zafrani
  */
 public class IntegrationTest {
+    /**just for test*/
+    IntegrationTest(){}
     /** Camera builder for the tests */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             //.setRayTracer(new SimpleRayTracer(new Scene("Test")))
@@ -22,7 +27,8 @@ public class IntegrationTest {
             .setVpDistance(1);
     /**
      * Test method for
-     *
+     * {@link Sphere#findIntersections(Ray)}.
+     * with {@link Camera#constructRay(int, int, int, int)}
      */
     @Test
     public void testSphere()
@@ -101,6 +107,11 @@ public class IntegrationTest {
         assertEquals(0, count,"sphere tc5: wrong number");
     }
 
+    /**
+     * Test method for
+     * {@link Plane#findIntersections(Ray)}.
+     * with {@link Camera#constructRay(int, int, int, int)}
+     */
     @Test
     public void planeTest() {
         Camera planeCamera = cameraBuilder.build();
@@ -149,6 +160,11 @@ public class IntegrationTest {
         assertEquals(6, count,"plane tc3: wrong number");
     }
 
+    /**
+     * Test method for
+     * {@link Triangle#findIntersections(Ray)}.
+     * with {@link Camera#constructRay(int, int, int, int)}
+     */
     @Test
     public void TriangleTest() {
         Camera triangleCamera = cameraBuilder.build();

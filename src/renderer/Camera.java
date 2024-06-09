@@ -19,7 +19,8 @@ public class Camera implements Cloneable {
      * class for builder
      */
     public static class Builder {
-        final Camera camera;
+        /** camera */
+        final private Camera camera;
 
         /**
          * constructor that initialize camera with given Camera object

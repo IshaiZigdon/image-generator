@@ -76,18 +76,21 @@ public class Tube extends RadialGeometry {
             return null;
         }
         double t1,t2;
-        t1 = (-b-Math.sqrt(discriminant) ) / 2*a;
-        t2 = (-b+Math.sqrt(discriminant) ) / 2*a;
-        if (discriminant == 0||t2 ==0||t1==0) {
+        if (discriminant >= 0) {
             //t1 is the point
-            if(t1 ==0)
-                return List.of(ray.getPoint(alignZero(t2)));
-            return List.of(ray.getPoint(alignZero(t1)));
+            t1 = alignZero (-b-Math.sqrt(discriminant) / 2*a);
+            Point p1 = ray.getPoint(t1);
+            if(isZero(discriminant)){
+                if(p1.equals(ray.getPoint(t1))){
+                    return null;
+                }
+                return List.of(p1);
+            }
+            else{
+                t2 = alignZero(-b+Math.sqrt(discriminant) / 2*a);
+                return List.of(p1,ray.getPoint(alignZero(t2)));
+            }
         }
-        //t1 and t2 are the points
-        //discriminant must be >0
-        return List.of(ray.getPoint(alignZero(t1)), ray.getPoint(alignZero(t2)));
-
-
+        return null;
     }
 }

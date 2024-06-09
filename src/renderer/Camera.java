@@ -93,7 +93,7 @@ public class Camera implements Cloneable {
          *
          * @return the camera
          */
-        public Camera build(){
+        public Camera build() {
             final String message = "Missing render resource. ";
             String fields = "";
             if (isZero(camera.viewPlaneWidth)) {
@@ -108,7 +108,11 @@ public class Camera implements Cloneable {
             if (!isZero(fields.length()))
                 throw new MissingResourceException(message, camera.getClass().getName(), fields);
             setDirection(camera.vTo, camera.vUp);
-            return (Camera)camera.clone();
+            try {
+                return (Camera) camera.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

@@ -108,7 +108,11 @@ public class Camera implements Cloneable {
             if (!isZero(fields.length()))
                 throw new MissingResourceException(message, camera.getClass().getName(), fields);
             setDirection(camera.vTo, camera.vUp);
-            return camera;
+            try {
+                return (Camera) camera.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

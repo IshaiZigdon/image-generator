@@ -44,47 +44,44 @@ public class Tube extends RadialGeometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        //Axis direction ==d
-        Vector d = axis.getDirection();
-        //ray direction ==v
-        Vector v = ray.getDirection();
-        double a, b, c;
+        //Axis direction == axisDirection
+        Vector axisDirection = axis.getDirection();
+        //ray direction == rayDirection
+        Vector rayDirection = ray.getDirection();
 
-        //dv = d x v
-        Vector dv;
 
-        // w= distance between the point of ray and the point of axis
-        Vector w;
-
-        //dw = d x w
-        Vector dw;
-
-        if (d.dotProduct(v) == d.length() * v.length())
+        if (isZero(axisDirection.dotProduct(rayDirection) - axisDirection.length() * rayDirection.length()))
             return null;
-        dv = d.crossProduct(v);
 
-        //a= |d x v|^2/|d|^2
-        a = alignZero((dv.lengthSquared()) / d.lengthSquared());
+        //dv = axisDirection x rayDirection
+        Vector dv = axisDirection.crossProduct(rayDirection);
+
+        //a= |axisDirection x rayDirection|^2/|axisDirection|^2
+        double a = alignZero((dv.lengthSquared()) / axisDirection.lengthSquared());
 
         if (ray.getHead().equals(axis.getHead())) {
             return List.of(ray.getPoint(alignZero(radius / sqrt(a))));
         }
         //but for now it will be null
-        w = ray.getHead().subtract(axis.getHead());
-        if (isZero(d.dotProduct(w) - d.length() * w.length())) {
-            double temp = v.dotProduct(d) / d.dotProduct(d);
-            if (temp != 0) {//im not sure if this always 0
-                Vector tempD = d.scale(-temp);
-                Vector v_90 = v.add(tempD);
-                return List.of(ray.getPoint(alignZero(radius / v_90.length())));
-            }
-            return List.of(ray.getPoint(alignZero(radius / v.length())));
+        // w= distance between the point of ray and the point of axis
+        Vector w = ray.getHead().subtract(axis.getHead());
+
+
+        if (isZero(axisDirection.dotProduct(w) - axisDirection.length() * w.length())) {
+//            double temp = rayDirection.dotProduct(axisDirection) / axisDirection.dotProduct(axisDirection);
+//            if (temp != 0) {//im not sure if this always 0
+//                Vector tempD = axisDirection.scale(-temp);
+//                Vector v_90 = rayDirection.add(tempD);
+//                return List.of(ray.getPoint(alignZero(radius / v_90.length())));
+//            }
+            return List.of(ray.getPoint(alignZero(radius / rayDirection.length())));
         }
-        dw = d.crossProduct(w);
-        //b = 2* (d x w) * (d x v)  / |d|^2
-        b = alignZero((2 * dv.dotProduct(dw)) / d.lengthSquared());
-        //c = |d x w|^2 / |d|^2 - r^2
-        c = alignZero((dw.lengthSquared() / d.lengthSquared()) - radiusSquared);
+        //dw = axisDirection x w
+        Vector dw = axisDirection.crossProduct(w);
+        //b = 2* (axisDirection x w) * (axisDirection x rayDirection)  / |axisDirection|^2
+        double b = alignZero((2 * dv.dotProduct(dw)) / axisDirection.lengthSquared());
+        //c = |axisDirection x w|^2 / |axisDirection|^2 - r^2
+        double c = alignZero((dw.lengthSquared() / axisDirection.lengthSquared()) - radiusSquared);
 
 
         double discriminant = alignZero(b * b - 4 * a * c);
@@ -95,7 +92,7 @@ public class Tube extends RadialGeometry {
             if (t2 <= 0)
                 return null;
             if (t1 <= 0) {
-                return List.of(ray.getPoint(alignZero(t2)));
+                return List.of(ray.getPoint(t2));
             } else if (isZero(discriminant))//if the discriminant is zero then we "have" one point and else we
                 //would return 2 points
                 return null;

@@ -147,9 +147,9 @@ public class Camera implements Cloneable {
     /**
      * get function for po
      *
-     * @return po
+     * @return p0
      */
-    Point getP0() {
+    Point getCenter() {
         return p0;
     }
 
@@ -224,6 +224,18 @@ public class Camera implements Cloneable {
      * todo
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
-        return null;
+        double Ry = viewPlaneHeight/nY;
+        double Rx = viewPlaneWidth/nX;
+
+        double yI = -(i - (nY-1)/2.0)*Ry;
+        double xJ = (j - (nX-1)/2.0)*Rx;
+
+        Point pIJ = p0.add(vTo.scale(viewPlaneDistance));
+        if(!isZero(xJ))
+            pIJ = pIJ.add(vRight.scale(xJ));
+        if(!isZero(yI))
+            pIJ = pIJ.add(vUp.scale(yI));
+
+        return new Ray(p0, pIJ.subtract(p0));
     }
 }

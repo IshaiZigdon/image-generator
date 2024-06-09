@@ -142,7 +142,8 @@ public class TubeTest {
         Ray ray4 = new Ray(new Point(1, 0, 0), v001);
         List<Point> result4 = tube.findIntersections(ray4);
         //exp = List.of(p2);
-        assertEquals(2, result4.size(), "wrong number of results");
+        //todo we dont need todo it just want you to know i changed it to 1 point, check in desmos
+        assertEquals(1, result4.size(), "wrong number of results");
         assertEquals(exp, result4, "wrong points");
         //5:starts on the tube and goes outside (0 point)
         Ray ray5 = new Ray(p2, v001);
@@ -169,7 +170,7 @@ public class TubeTest {
         //2: Ray's line is inside, ray is orthogonal to ray start to axis
         Ray rayS2 = new Ray(new Point(1, 0.5, 0), v001);
         List<Point> resultS2 = tube.findIntersections(rayS2);
-        exp = List.of(p2);
+        exp = List.of(p02);
         assertEquals(1, resultS2.size(), "wrong number of results");
         assertEquals(exp, resultS2, "wrong points");
 

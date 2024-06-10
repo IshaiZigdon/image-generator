@@ -44,6 +44,7 @@ public class GeometriesTest {
      * polygon using a point for testing
      */
     private static final Polygon polygon = new Polygon(pts);
+
     /**
      * Default constructor for GeometriesTest.
      */

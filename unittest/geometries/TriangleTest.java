@@ -28,6 +28,7 @@ public class TriangleTest {
      * point 110 for testing
      */
     private static final Point p110 = new Point(1, 1, 0);
+
     /**
      * Default constructor for TriangleTest.
      */

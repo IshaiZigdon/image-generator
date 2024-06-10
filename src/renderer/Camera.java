@@ -17,10 +17,143 @@ import static primitives.Util.isZero;
  */
 public class Camera implements Cloneable {
     /**
+     * point
+     */
+    private Point p0;
+    /**
+     * vector representing the vector to the view plane from the camera position
+     */
+    private Vector vTo;
+    /**
+     * vector representing the up vector from the camera position
+     */
+    private Vector vUp;
+    /**
+     * vector representing the right vector from the camera position
+     */
+    private Vector vRight;
+    /**
+     * the width of the view plane
+     */
+    private double viewPlaneWidth = 0.0;
+    /**
+     * the height of the view plane
+     */
+    private double viewPlaneHeight = 0.0;
+    /**
+     * the distance of the view plane
+     */
+    private double viewPlaneDistance = 0.0;
+    /**
+     * making the default constructor private
+     */
+    private Camera() {
+    }
+
+    /**
+     * creating new camera builder
+     *
+     * @return new camera builder
+     */
+    public static Builder getBuilder() {
+        return new Builder(new Camera());
+    }
+
+    /**
+     * get function for p0
+     *
+     * @return p0
+     */
+    Point getP0() {
+        return p0;
+    }
+
+    /**
+     * get function for vTo
+     *
+     * @return vTo
+     */
+    Vector getVTo() {
+        return vTo;
+    }
+
+    /**
+     * get function for vUp
+     *
+     * @return vUp
+     */
+    Vector getVUp() {
+        return vUp;
+    }
+
+    /**
+     * get function for vRight
+     *
+     * @return vRight
+     */
+    Vector getVRight() {
+        return vRight;
+    }
+
+    /**
+     * get function for viewPlaneHeight
+     *
+     * @return viewPlaneHeight
+     */
+    double getViewPlaneHeight() {
+        return viewPlaneHeight;
+    }
+
+    /**
+     * get function for viewPlaneWidth
+     *
+     * @return viewPlaneWidth
+     */
+    double getViewPlaneWidth() {
+        return viewPlaneWidth;
+    }
+
+    /**
+     * get function for viewPlaneDistance
+     *
+     * @return viewPlaneDistance
+     */
+    double getViewPlaneDistance() {
+        return viewPlaneDistance;
+    }
+
+    /**
+     * constructing a ray through given pixel
+     *
+     * @param nX width of pixel
+     * @param nY height of pixel
+     * @param j  column
+     * @param i  line
+     * @return the ray
+     */
+    public Ray constructRay(int nX, int nY, int j, int i) {
+        double Ry = viewPlaneHeight / nY;
+        double Rx = viewPlaneWidth / nX;
+
+        double yI = -(i - (nY - 1) / 2.0) * Ry;
+        double xJ = (j - (nX - 1) / 2.0) * Rx;
+
+        Point pIJ = p0.add(vTo.scale(viewPlaneDistance));
+        if (!isZero(xJ))
+            pIJ = pIJ.add(vRight.scale(xJ));
+        if (!isZero(yI))
+            pIJ = pIJ.add(vUp.scale(yI));
+
+        return new Ray(p0, pIJ.subtract(p0));
+    }
+
+    /**
      * class for builder
      */
     public static class Builder {
-        /** camera */
+        /**
+         * camera
+         */
         final private Camera camera;
 
         /**
@@ -116,135 +249,5 @@ public class Camera implements Cloneable {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    /**
-     * point
-     */
-    private Point p0;
-    /**
-     * vector representing the vector to the view plane from the camera position
-     */
-    private Vector vTo;
-    /**
-     * vector representing the up vector from the camera position
-     */
-    private Vector vUp;
-    /**
-     * vector representing the right vector from the camera position
-     */
-    private Vector vRight;
-    /**
-     * the width of the view plane
-     */
-    private double viewPlaneWidth = 0.0;
-    /**
-     * the height of the view plane
-     */
-    private double viewPlaneHeight = 0.0;
-    /**
-     * the distance of the view plane
-     */
-    private double viewPlaneDistance = 0.0;
-
-    /**
-     * get function for p0
-     *
-     * @return p0
-     */
-    Point getP0() {
-        return p0;
-    }
-
-    /**
-     * get function for vTo
-     *
-     * @return vTo
-     */
-    Vector getVTo() {
-        return vTo;
-    }
-
-    /**
-     * get function for vUp
-     *
-     * @return vUp
-     */
-    Vector getVUp() {
-        return vUp;
-    }
-
-    /**
-     * get function for vRight
-     *
-     * @return vRight
-     */
-    Vector getVRight() {
-        return vRight;
-    }
-
-    /**
-     * get function for viewPlaneHeight
-     *
-     * @return viewPlaneHeight
-     */
-    double getViewPlaneHeight() {
-        return viewPlaneHeight;
-    }
-
-    /**
-     * get function for viewPlaneWidth
-     *
-     * @return viewPlaneWidth
-     */
-    double getViewPlaneWidth() {
-        return viewPlaneWidth;
-    }
-
-    /**
-     * get function for viewPlaneDistance
-     *
-     * @return viewPlaneDistance
-     */
-    double getViewPlaneDistance() {
-        return viewPlaneDistance;
-    }
-
-    /**
-     * making the default constructor private
-     */
-    private Camera() {
-    }
-
-    /**
-     * creating new camera builder
-     * @return new camera builder
-     */
-    public static Builder getBuilder() {
-        return new Builder(new Camera());
-    }
-
-    /**
-     * constructing a ray through given pixel
-     * @param nX width of pixel
-     * @param nY height of pixel
-     * @param j  column
-     * @param i  line
-     * @return the ray
-     */
-    public Ray constructRay(int nX, int nY, int j, int i) {
-        double Ry = viewPlaneHeight/nY;
-        double Rx = viewPlaneWidth/nX;
-
-        double yI = -(i - (nY-1)/2.0)*Ry;
-        double xJ = (j - (nX-1)/2.0)*Rx;
-
-        Point pIJ = p0.add(vTo.scale(viewPlaneDistance));
-        if(!isZero(xJ))
-            pIJ = pIJ.add(vRight.scale(xJ));
-        if(!isZero(yI))
-            pIJ = pIJ.add(vUp.scale(yI));
-
-        return new Ray(p0, pIJ.subtract(p0));
     }
 }

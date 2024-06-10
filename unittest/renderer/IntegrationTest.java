@@ -1,13 +1,17 @@
 package renderer;
 
+import geometries.Plane;
+import geometries.Sphere;
+import geometries.Triangle;
 import org.junit.jupiter.api.Test;
-import primitives.*;
-import geometries.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
 /**
  * unit test for Sphere Plane and Triangle with constructRay
  *
@@ -15,96 +19,97 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Zaki zafrani
  */
 public class IntegrationTest {
-    /**just for test*/
-    IntegrationTest(){}
-    /** Camera builder for the tests */
+    /**
+     * Camera builder for the tests
+     */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             //.setRayTracer(new SimpleRayTracer(new Scene("Test")))
             // .setImageWriter(new ImageWriter("Test", 1, 1))
             .setLocation(Point.ZERO)
-            .setDirection( new Vector(0, 0, -1),new Vector(0, -1, 0))
-            .setVpSize(3,3)
+            .setDirection(new Vector(0, 0, -1), new Vector(0, -1, 0))
+            .setVpSize(3, 3)
             .setVpDistance(1);
+
+    /**
+     * just for test
+     */
+    IntegrationTest() {
+    }
+
     /**
      * Test method for
      * {@link Sphere#findIntersections(Ray)}.
      * with {@link Camera#constructRay(int, int, int, int)}
      */
     @Test
-    public void testSphere()
-    {
+    public void testSphere() {
         //TC1: sphere with radius 1 and 2 points of intersection
         Camera sphereCamera1 = cameraBuilder.build();
-        Sphere sphere1 = new Sphere(new Point(0,0,-3),1);
+        Sphere sphere1 = new Sphere(new Point(0, 0, -3), 1);
         int count = 0;
         List<Point> result;
-        for(int i = 0 ;i < 3;i++)
-        {
-            for(int j = 0 ;j < 3;j++){
-                result = sphere1.findIntersections(sphereCamera1.constructRay(3,3,i,j));
-                if (result != null){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result = sphere1.findIntersections(sphereCamera1.constructRay(3, 3, i, j));
+                if (result != null) {
                     count += result.size();
                 }
             }
         }
-        assertEquals(2, count,"sphere tc1: wrong number");
+        assertEquals(2, count, "sphere tc1: wrong number");
 
         //TC2:sphere with radius of 2.5 and 18 points of intersection
-        Camera sphereCamera2 = cameraBuilder.setLocation(new Point(0,0,0.5)).build();
-        Sphere sphere2 = new Sphere(new Point(0,0,-2.5),2.5);
+        Camera sphereCamera2 = cameraBuilder.setLocation(new Point(0, 0, 0.5)).build();
+        Sphere sphere2 = new Sphere(new Point(0, 0, -2.5), 2.5);
         count = 0;
-        for(int i = 0 ;i < 3;i++)
-        {
-            for(int j = 0 ;j < 3;j++){
-                result = sphere2.findIntersections(sphereCamera2.constructRay(3,3,i,j));
-                if (result != null){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result = sphere2.findIntersections(sphereCamera2.constructRay(3, 3, i, j));
+                if (result != null) {
                     count += result.size();
                 }
             }
         }
-        assertEquals(18, count,"sphere tc2: wrong number");
+        assertEquals(18, count, "sphere tc2: wrong number");
 
         //TC3:sphere with radius of 2 and 10 points of intersection
-        Sphere sphere3 = new Sphere(new Point(0,0,-2),2);
+        Sphere sphere3 = new Sphere(new Point(0, 0, -2), 2);
         count = 0;
-        for(int i = 0 ;i < 3;i++)
-        {
-            for(int j = 0 ;j < 3;j++){
-                result = sphere3.findIntersections(sphereCamera2.constructRay(3,3,i,j));
-                if (result != null){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result = sphere3.findIntersections(sphereCamera2.constructRay(3, 3, i, j));
+                if (result != null) {
                     count += result.size();
                 }
             }
         }
-        assertEquals(10, count,"sphere tc3: wrong number");
+        assertEquals(10, count, "sphere tc3: wrong number");
 
         //TC4:sphere with radius of 4 and 9 points of intersection
-        Sphere sphere4 = new Sphere(new Point(0,0,-2),4);
+        Sphere sphere4 = new Sphere(new Point(0, 0, -2), 4);
         count = 0;
-        for(int i = 0 ;i < 3;i++)
-        {
-            for(int j = 0 ;j < 3;j++){
-                result = sphere4.findIntersections(sphereCamera2.constructRay(3,3,i,j));
-                if (result != null){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result = sphere4.findIntersections(sphereCamera2.constructRay(3, 3, i, j));
+                if (result != null) {
                     count += result.size();
                 }
             }
         }
-        assertEquals(9, count,"sphere tc4: wrong number");
+        assertEquals(9, count, "sphere tc4: wrong number");
 
         //TC5: sphere with radius of 0.5 and 0 points of intersection
-        Sphere sphere5 = new Sphere(new Point(0,0,1),0.5);
+        Sphere sphere5 = new Sphere(new Point(0, 0, 1), 0.5);
         count = 0;
-        for(int i = 0 ;i < 3;i++)
-        {
-            for(int j = 0 ;j < 3;j++){
-                result = sphere5.findIntersections(sphereCamera2.constructRay(3,3,i,j));
-                if (result != null){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result = sphere5.findIntersections(sphereCamera2.constructRay(3, 3, i, j));
+                if (result != null) {
                     count += result.size();
                 }
             }
         }
-        assertEquals(0, count,"sphere tc5: wrong number");
+        assertEquals(0, count, "sphere tc5: wrong number");
     }
 
     /**
@@ -117,47 +122,44 @@ public class IntegrationTest {
         Camera planeCamera = cameraBuilder.build();
 
         //TC1:regular plane with 9 points of intersection
-        Plane plane1 = new Plane(new Point(1,0,-10),new Point(0,1,-10),new Point(1,1,-10));
+        Plane plane1 = new Plane(new Point(1, 0, -10), new Point(0, 1, -10), new Point(1, 1, -10));
         int count = 0;
         List<Point> result;
-        for(int i = 0 ;i < 3;i++)
-        {
-            for(int j = 0 ;j < 3;j++){
-                result = plane1.findIntersections(planeCamera.constructRay(3,3,i,j));
-                if (result != null){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result = plane1.findIntersections(planeCamera.constructRay(3, 3, i, j));
+                if (result != null) {
                     count += result.size();
                 }
             }
         }
-        assertEquals(9, count,"plane tc1: wrong number");
+        assertEquals(9, count, "plane tc1: wrong number");
 
         //TC2: inclined plane with 9 points of intersection
-        Plane plane2 = new Plane(new Point(0,0,-10),new Point(2,5,-8),new Point(-2,2,-10.6));
+        Plane plane2 = new Plane(new Point(0, 0, -10), new Point(2, 5, -8), new Point(-2, 2, -10.6));
         count = 0;
-        for(int i = 0 ;i < 3;i++)
-        {
-            for(int j = 0 ;j < 3;j++){
-                result = plane2.findIntersections(planeCamera.constructRay(3,3,i,j));
-                if (result != null){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result = plane2.findIntersections(planeCamera.constructRay(3, 3, i, j));
+                if (result != null) {
                     count += result.size();
                 }
             }
         }
-        assertEquals(9, count,"plane tc2: wrong number");
+        assertEquals(9, count, "plane tc2: wrong number");
 
         //TC3:inclined plane with 6 points of intersection
-        Plane plane3 = new Plane(new Point(0,0,-8),new Point(1,2,-7),new Point(-2,5,-10));
+        Plane plane3 = new Plane(new Point(0, 0, -8), new Point(1, 2, -7), new Point(-2, 5, -10));
         count = 0;
-        for(int i = 0 ;i < 3;i++)
-        {
-            for(int j = 0 ;j < 3;j++){
-                result = plane3.findIntersections(planeCamera.constructRay(3,3,i,j));
-                if (result != null){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result = plane3.findIntersections(planeCamera.constructRay(3, 3, i, j));
+                if (result != null) {
                     count += result.size();
                 }
             }
         }
-        assertEquals(6, count,"plane tc3: wrong number");
+        assertEquals(6, count, "plane tc3: wrong number");
     }
 
     /**
@@ -170,32 +172,30 @@ public class IntegrationTest {
         Camera triangleCamera = cameraBuilder.build();
 
         //TC1: regular triangle with 1 point of intersection
-        Triangle triangle1 = new Triangle(new Point(0,1,-2),new Point(1,-1,-2),new Point(-1,-1,-2));
+        Triangle triangle1 = new Triangle(new Point(0, 1, -2), new Point(1, -1, -2), new Point(-1, -1, -2));
         int count = 0;
         List<Point> result;
-        for(int i = 0 ;i < 3;i++)
-        {
-            for(int j = 0 ;j < 3;j++){
-                result = triangle1.findIntersections(triangleCamera.constructRay(3,3,i,j));
-                if (result != null){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result = triangle1.findIntersections(triangleCamera.constructRay(3, 3, i, j));
+                if (result != null) {
                     count += result.size();
                 }
             }
         }
-        assertEquals(1, count,"triangle tc1: wrong number");
+        assertEquals(1, count, "triangle tc1: wrong number");
 
         //TC2:regular triangle with 2 points of intersection
-        Triangle triangle2 = new Triangle(new Point(0,20,-2),new Point(1,-1,-2),new Point(-1,-1,-2));
+        Triangle triangle2 = new Triangle(new Point(0, 20, -2), new Point(1, -1, -2), new Point(-1, -1, -2));
         count = 0;
-        for(int i = 0 ;i < 3;i++)
-        {
-            for(int j = 0 ;j < 3;j++){
-                result = triangle2.findIntersections(triangleCamera.constructRay(3,3,i,j));
-                if (result != null){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result = triangle2.findIntersections(triangleCamera.constructRay(3, 3, i, j));
+                if (result != null) {
                     count += result.size();
                 }
             }
         }
-        assertEquals(2, count,"triangle tc2: wrong number");
+        assertEquals(2, count, "triangle tc2: wrong number");
     }
 }

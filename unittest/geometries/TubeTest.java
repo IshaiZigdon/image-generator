@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -77,33 +79,33 @@ public class TubeTest {
         assertNull(tube.findIntersections(r01), "TC01: didnt return null");
 
         // **** Group: Ray's line crosses the Tube (but not the center)
-        Vector v5M45 = new Vector(1, -1, 1);
+        Vector v1M11 = new Vector(1, -1, 1);
         Point p010 = new Point(0, 1, 0);
-       Point p101 = new Point(1, 0, 1);
-        var exp = List.of(p010,p101);
+        Point p101 = new Point(1, 0, 1);
+        var exp = List.of(p010, p101);
         //TC02: start before the tube
-        Ray r02 = new Ray(new Point(-1, 2, -1), v5M45);
+        Ray r02 = new Ray(new Point(-1, 2, -1), v1M11);
         List<Point> result02 = tube.findIntersections(r02);
-        assertEquals(2, result02.size(),"TC02: wrong number of intersections");
-        assertEquals(exp,result02,"TC02: wrong points");
+        assertEquals(2, result02.size(), "TC02: wrong number of intersections");
+        assertEquals(exp, result02, "TC02: wrong points");
         //TC03: start on the tube and goes inside
-        Ray r03 = new Ray(p010, v5M45);
+        Ray r03 = new Ray(p010, v1M11);
         List<Point> result03 = tube.findIntersections(r03);
         exp = List.of(p101);
-        assertEquals(1, result03.size(),"TC03: wrong number of intersections");
-        assertEquals(exp,result03,"TC03: wrong points");
+        assertEquals(1, result03.size(), "TC03: wrong number of intersections");
+        assertEquals(exp, result03, "TC03: wrong points");
         //TC04: start inside the tube
-        Ray r04 = new Ray(new Point(0.5, 0.5, 0.5), v5M45);
+        Ray r04 = new Ray(new Point(0.5, 0.5, 0.5), v1M11);
         List<Point> result04 = tube.findIntersections(r04);
         //exp = List.of(p101);
-        assertEquals(1, result04.size(),"TC04: wrong number of intersections");
-        assertEquals(exp,result04,"TC04: wrong points");
+        assertEquals(1, result04.size(), "TC04: wrong number of intersections");
+        assertEquals(exp, result04, "TC04: wrong points");
         //TC05: start on the tube and goes outside
-        Ray r05 = new Ray(p101, v5M45);
-        assertNull(tube.findIntersections(r05),"TC05: didnt return null");
+        Ray r05 = new Ray(p101, v1M11);
+        assertNull(tube.findIntersections(r05), "TC05: didnt return null");
         //TC06: start after the tube
-        Ray r06 = new Ray(new Point(2, -1, 2), v5M45);
-        assertNull(tube.findIntersections(r06),"TC06: didnt return null");
+        Ray r06 = new Ray(new Point(2, -1, 2), v1M11);
+        assertNull(tube.findIntersections(r06), "TC06: didnt return null");
 
         // =============== Boundary Values Tests ==================
 

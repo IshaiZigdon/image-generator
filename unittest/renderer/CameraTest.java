@@ -1,8 +1,9 @@
 package renderer;
 
 import org.junit.jupiter.api.Test;
-
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import java.util.MissingResourceException;
 
@@ -11,18 +12,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Testing Camera Class
+ *
  * @author Dan
  */
 class CameraTest {
-    /**just for javaDoc */
-    CameraTest(){}
-    /** Camera builder for the tests */
+    /**
+     * Camera builder for the tests
+     */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             //.setRayTracer(new SimpleRayTracer(new Scene("Test")))
-           // .setImageWriter(new ImageWriter("Test", 1, 1))
+            // .setImageWriter(new ImageWriter("Test", 1, 1))
             .setLocation(Point.ZERO)
-            .setDirection(new Vector(0, 0, -1),new Vector(0, -1, 0))
+            .setDirection(new Vector(0, 0, -1), new Vector(0, -1, 0))
             .setVpDistance(10);
+
+    /**
+     * just for javaDoc
+     */
+    CameraTest() {
+    }
 
     /**
      * Test method for
@@ -30,7 +38,7 @@ class CameraTest {
      */
     @Test
     void testConstructRay() {
-        final String badRay  = "Bad ray";
+        final String badRay = "Bad ray";
 
         // ============ Equivalence Partitions Tests ==============
         // EP01: 4X4 Inside (1,1)
@@ -70,41 +78,40 @@ class CameraTest {
      * {@link Camera.Builder#build()}
      */
     @Test
-    void testBuild()
-    {
+    void testBuild() {
         // ============ Equivalence Partitions Tests ==============
         //TC01: simple test
-        assertDoesNotThrow(()->cameraBuilder.setVpSize(10,10).setVpDistance(10));
-        Camera camera1 = cameraBuilder.setVpSize(10,10) .setVpDistance(10).build();
-        assertEquals(10,camera1.getViewPlaneHeight(),"wrong view plane height");
-        assertEquals(10,camera1.getViewPlaneDistance(),"wrong view plane distance");
-        assertEquals(10,camera1.getViewPlaneWidth(),"wrong view plane width");
+        assertDoesNotThrow(() -> cameraBuilder.setVpSize(10, 10).setVpDistance(10));
+        Camera camera1 = cameraBuilder.setVpSize(10, 10).setVpDistance(10).build();
+        assertEquals(10, camera1.getViewPlaneHeight(), "wrong view plane height");
+        assertEquals(10, camera1.getViewPlaneDistance(), "wrong view plane distance");
+        assertEquals(10, camera1.getViewPlaneWidth(), "wrong view plane width");
 
-        assertDoesNotThrow(()->cameraBuilder.setDirection(new Vector(0,0,-2),new Vector(0,-2,0)));
+        assertDoesNotThrow(() -> cameraBuilder.setDirection(new Vector(0, 0, -2), new Vector(0, -2, 0)));
         Camera camera2 = cameraBuilder.build();
-        assertEquals(new Vector(-1,0,0),camera2.getVRight(), "wrong right vector");
-        assertEquals(1,camera2.getVRight().length(),"vector right is not normalized");
-        assertEquals(1,camera2.getVUp().length(),"vector up is not normalized");
-        assertEquals(1,camera2.getVTo().length(),"vector to is not normalized");
+        assertEquals(new Vector(-1, 0, 0), camera2.getVRight(), "wrong right vector");
+        assertEquals(1, camera2.getVRight().length(), "vector right is not normalized");
+        assertEquals(1, camera2.getVUp().length(), "vector up is not normalized");
+        assertEquals(1, camera2.getVTo().length(), "vector to is not normalized");
 
         // =============== Boundary Values Tests ==================
         //**** Group: missing resources
         //TC10: missing 1 resource
         assertThrows(MissingResourceException.class,
-                () ->Camera.getBuilder().setVpSize(10,10).build(),
-        "didnt throw when distance is 0");
+                () -> Camera.getBuilder().setVpSize(10, 10).build(),
+                "didnt throw when distance is 0");
         //TC12: missing 2 resource
         assertThrows(MissingResourceException.class,
-                () ->Camera.getBuilder().setVpDistance(10).build(),
+                () -> Camera.getBuilder().setVpDistance(10).build(),
                 "didnt throw when width and height are 0");
         //TC13: missing 3 resource
         assertThrows(MissingResourceException.class,
-                () ->Camera.getBuilder().build(),
+                () -> Camera.getBuilder().build(),
                 "didnt throw when width and height and distance are 0");
 
         //TC14
         assertThrows(IllegalArgumentException.class,
-                () -> Camera.getBuilder().setDirection(new Vector(1,2,3),new Vector(0,0,-1)).build(),
+                () -> Camera.getBuilder().setDirection(new Vector(1, 2, 3), new Vector(0, 0, -1)).build(),
                 "vUp and vTo not verticals");
     }
 }

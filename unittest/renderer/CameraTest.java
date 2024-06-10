@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Dan
  */
 class CameraTest {
+    /**just for javaDoc */
+    CameraTest(){}
     /** Camera builder for the tests */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             //.setRayTracer(new SimpleRayTracer(new Scene("Test")))

@@ -9,9 +9,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 /**
+ * unit test for Sphere Plane and Triangle with constructRay
  *
+ * @author Ishai zigdon
+ * @author Zaki zafrani
  */
 public class IntegrationTest {
+    /**just for test*/
+    IntegrationTest(){}
     /** Camera builder for the tests */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             //.setRayTracer(new SimpleRayTracer(new Scene("Test")))
@@ -22,12 +27,13 @@ public class IntegrationTest {
             .setVpDistance(1);
     /**
      * Test method for
-     *
+     * {@link Sphere#findIntersections(Ray)}.
+     * with {@link Camera#constructRay(int, int, int, int)}
      */
     @Test
     public void testSphere()
     {
-        //TC1:
+        //TC1: sphere with radius 1 and 2 points of intersection
         Camera sphereCamera1 = cameraBuilder.build();
         Sphere sphere1 = new Sphere(new Point(0,0,-3),1);
         int count = 0;
@@ -43,7 +49,7 @@ public class IntegrationTest {
         }
         assertEquals(2, count,"sphere tc1: wrong number");
 
-        //TC2:
+        //TC2:sphere with radius of 2.5 and 18 points of intersection
         Camera sphereCamera2 = cameraBuilder.setLocation(new Point(0,0,0.5)).build();
         Sphere sphere2 = new Sphere(new Point(0,0,-2.5),2.5);
         count = 0;
@@ -58,7 +64,7 @@ public class IntegrationTest {
         }
         assertEquals(18, count,"sphere tc2: wrong number");
 
-        //TC3:
+        //TC3:sphere with radius of 2 and 10 points of intersection
         Sphere sphere3 = new Sphere(new Point(0,0,-2),2);
         count = 0;
         for(int i = 0 ;i < 3;i++)
@@ -72,7 +78,7 @@ public class IntegrationTest {
         }
         assertEquals(10, count,"sphere tc3: wrong number");
 
-        //TC4:
+        //TC4:sphere with radius of 4 and 9 points of intersection
         Sphere sphere4 = new Sphere(new Point(0,0,-2),4);
         count = 0;
         for(int i = 0 ;i < 3;i++)
@@ -86,7 +92,7 @@ public class IntegrationTest {
         }
         assertEquals(9, count,"sphere tc4: wrong number");
 
-        //TC5:
+        //TC5: sphere with radius of 0.5 and 0 points of intersection
         Sphere sphere5 = new Sphere(new Point(0,0,1),0.5);
         count = 0;
         for(int i = 0 ;i < 3;i++)
@@ -101,11 +107,16 @@ public class IntegrationTest {
         assertEquals(0, count,"sphere tc5: wrong number");
     }
 
+    /**
+     * Test method for
+     * {@link Plane#findIntersections(Ray)}.
+     * with {@link Camera#constructRay(int, int, int, int)}
+     */
     @Test
     public void planeTest() {
         Camera planeCamera = cameraBuilder.build();
 
-        //TC1:
+        //TC1:regular plane with 9 points of intersection
         Plane plane1 = new Plane(new Point(1,0,-10),new Point(0,1,-10),new Point(1,1,-10));
         int count = 0;
         List<Point> result;
@@ -120,7 +131,7 @@ public class IntegrationTest {
         }
         assertEquals(9, count,"plane tc1: wrong number");
 
-        //TC2:
+        //TC2: inclined plane with 9 points of intersection
         Plane plane2 = new Plane(new Point(0,0,-10),new Point(2,5,-8),new Point(-2,2,-10.6));
         count = 0;
         for(int i = 0 ;i < 3;i++)
@@ -134,7 +145,7 @@ public class IntegrationTest {
         }
         assertEquals(9, count,"plane tc2: wrong number");
 
-        //TC3:todo check
+        //TC3:inclined plane with 6 points of intersection
         Plane plane3 = new Plane(new Point(0,0,-8),new Point(1,2,-7),new Point(-2,5,-10));
         count = 0;
         for(int i = 0 ;i < 3;i++)
@@ -149,11 +160,16 @@ public class IntegrationTest {
         assertEquals(6, count,"plane tc3: wrong number");
     }
 
+    /**
+     * Test method for
+     * {@link Triangle#findIntersections(Ray)}.
+     * with {@link Camera#constructRay(int, int, int, int)}
+     */
     @Test
     public void TriangleTest() {
         Camera triangleCamera = cameraBuilder.build();
 
-        //TC1:
+        //TC1: regular triangle with 1 point of intersection
         Triangle triangle1 = new Triangle(new Point(0,1,-2),new Point(1,-1,-2),new Point(-1,-1,-2));
         int count = 0;
         List<Point> result;
@@ -168,7 +184,7 @@ public class IntegrationTest {
         }
         assertEquals(1, count,"triangle tc1: wrong number");
 
-        //TC2:
+        //TC2:regular triangle with 2 points of intersection
         Triangle triangle2 = new Triangle(new Point(0,20,-2),new Point(1,-1,-2),new Point(-1,-1,-2));
         count = 0;
         for(int i = 0 ;i < 3;i++)

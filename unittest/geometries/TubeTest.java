@@ -70,14 +70,43 @@ public class TubeTest {
         Tube tube = new Tube(new Ray(new Point(-1, 0, 0), v100), 1);
 
         // ============ Equivalence Partitions Tests ==============
+
         Vector v101 = new Vector(1, 0, 1);
         //TC01: no intersection points
         Ray r01 = new Ray(new Point(-5, 5, -5), v101);
-        assertNull(tube.findIntersections(r01), "doesn't return null");
-        // **** Group: Ray's line crosses the Tube (but not the center)
+        assertNull(tube.findIntersections(r01), "TC01: didnt return null");
 
+        // **** Group: Ray's line crosses the Tube (but not the center)
+        Vector v5M45 = new Vector(1, -1, 1);
+        Point p010 = new Point(0, 1, 0);
+       Point p101 = new Point(1, 0, 1);
+        var exp = List.of(p010,p101);
+        //TC02: start before the tube
+        Ray r02 = new Ray(new Point(-1, 2, -1), v5M45);
+        List<Point> result02 = tube.findIntersections(r02);
+        assertEquals(2, result02.size(),"TC02: wrong number of intersections");
+        assertEquals(exp,result02,"TC02: wrong points");
+        //TC03: start on the tube and goes inside
+        Ray r03 = new Ray(p010, v5M45);
+        List<Point> result03 = tube.findIntersections(r03);
+        exp = List.of(p101);
+        assertEquals(1, result03.size(),"TC03: wrong number of intersections");
+        assertEquals(exp,result03,"TC03: wrong points");
+        //TC04: start inside the tube
+        Ray r04 = new Ray(new Point(0.5, 0.5, 0.5), v5M45);
+        List<Point> result04 = tube.findIntersections(r04);
+        //exp = List.of(p101);
+        assertEquals(1, result04.size(),"TC04: wrong number of intersections");
+        assertEquals(exp,result04,"TC04: wrong points");
+        //TC05: start on the tube and goes outside
+        Ray r05 = new Ray(p101, v5M45);
+        assertNull(tube.findIntersections(r05),"TC05: didnt return null");
+        //TC06: start after the tube
+        Ray r06 = new Ray(new Point(2, -1, 2), v5M45);
+        assertNull(tube.findIntersections(r06),"TC06: didnt return null");
 
         // =============== Boundary Values Tests ==================
+
         //TC10: ray line is on the tube
         Ray r10 = new Ray(new Point(1, 0, 1), v100);
         assertNull(tube.findIntersections(r10), "doesn't return null");
@@ -88,91 +117,89 @@ public class TubeTest {
         Ray r12 = new Ray(new Point(0.5, 0, 0), v100);
         assertNull(tube.findIntersections(r12), "doesn't return null");
 
-        Vector v001 = new Vector(0, 0, 1);
         // **** Group: Ray's line vertical to axis line(but not going through the center axis)
+        Vector v001 = new Vector(0, 0, 1);
         Point p01 = new Point(1, 0.5, -0.8660254037844386);
         Point p02 = new Point(1, 0.5, 0.8660254037844384);
-        //1:starts before the tube(2 points)
-        Ray ray01 = new Ray(new Point(1, 0.5, -2), v001);
-        List<Point> result01 = tube.findIntersections(ray01);
-        List<Point> exp = List.of(p01, p02);
-        assertEquals(2, result01.size(), "wrong number of results");
-        assertEquals(exp, result01, "wrong points");
-        //2:starts on the tube and goes inside (1 point)
-        Ray ray02 = new Ray(p01, v001);
-        List<Point> result02 = tube.findIntersections(ray02);
+        //TC13: starts before the tube(2 points)
+        Ray ray13 = new Ray(new Point(1, 0.5, -2), v001);
+        List<Point> result13 = tube.findIntersections(ray13);
+        exp = List.of(p01, p02);
+        assertEquals(2, result13.size(), "wrong number of results");
+        assertEquals(exp, result13, "wrong points");
+        //TC14: starts on the tube and goes inside (1 point)
+        Ray ray14 = new Ray(p01, v001);
+        List<Point> result14 = tube.findIntersections(ray14);
         exp = List.of(p02);
-        assertEquals(1, result02.size(), "wrong number of results");
-        assertEquals(exp, result02, "wrong points");
-        //3:starts inside the tube(1 point)
-        Ray ray03 = new Ray(new Point(1, 0.5, -0.5), v001);
-        List<Point> result03 = tube.findIntersections(ray03);
+        assertEquals(1, result14.size(), "wrong number of results");
+        assertEquals(exp, result14, "wrong points");
+        //TC15: starts inside the tube(1 point)
+        Ray ray15 = new Ray(new Point(1, 0.5, -0.5), v001);
+        List<Point> result15 = tube.findIntersections(ray15);
         //exp = List.of(p2);
-        assertEquals(1, result03.size(), "wrong number of results");
-        assertEquals(exp, result03, "wrong points");
-        //4:starts on the tube and goes outside (0 point)
-        Ray ray04 = new Ray(p02, v001);
-        assertNull(tube.findIntersections(ray04), "doesn't return null");
-        //5:start after the tube(0 points)
-        Ray ray05 = new Ray(new Point(1, 0.5, 2), v001);
-        assertNull(tube.findIntersections(ray05), "doesn't return null");
+        assertEquals(1, result15.size(), "wrong number of results");
+        assertEquals(exp, result15, "wrong points");
+        //TC16: starts on the tube and goes outside (0 point)
+        Ray ray16 = new Ray(p02, v001);
+        assertNull(tube.findIntersections(ray16), "doesn't return null");
+        //TC17: start after the tube(0 points)
+        Ray ray17 = new Ray(new Point(1, 0.5, 2), v001);
+        assertNull(tube.findIntersections(ray17), "doesn't return null");
 
         // **** Group: Ray's line goes through the axis and vertical to axis line
         Point p1 = new Point(1, 0, -1);
         Point p2 = new Point(1, 0, 1);
-        //1:starts before the tube(2 points)
-        Ray ray1 = new Ray(new Point(1, 0, -2), v001);
-        List<Point> result1 = tube.findIntersections(ray1);
+        //TC18: starts before the tube(2 points)
+        Ray ray18 = new Ray(new Point(1, 0, -2), v001);
+        List<Point> result18 = tube.findIntersections(ray18);
         exp = List.of(p1, p2);
-        assertEquals(2, result1.size(), "wrong number of results");
-        assertEquals(exp, result1, "wrong points");
-        //2:starts on the tube(1 point)
-        Ray ray2 = new Ray(p1, v001);
-        List<Point> result2 = tube.findIntersections(ray2);
+        assertEquals(2, result18.size(), "wrong number of results");
+        assertEquals(exp, result18, "wrong points");
+        //TC19: starts on the tube(1 point)
+        Ray ray19 = new Ray(p1, v001);
+        List<Point> result19 = tube.findIntersections(ray19);
         exp = List.of(p2);
-        assertEquals(1, result2.size(), "wrong number of results");
-        assertEquals(exp, result2, "wrong points");
-        //3:starts inside the tube(1 point)
-        Ray ray3 = new Ray(new Point(1, 0, -0.5), v001);
-        List<Point> result3 = tube.findIntersections(ray3);
+        assertEquals(1, result19.size(), "wrong number of results");
+        assertEquals(exp, result19, "wrong points");
+        //TC20: starts inside the tube(1 point)
+        Ray ray20 = new Ray(new Point(1, 0, -0.5), v001);
+        List<Point> result20 = tube.findIntersections(ray20);
         //exp = List.of(p2);
-        assertEquals(1, result3.size(), "wrong number of results");
-        assertEquals(exp, result3, "wrong points");
-        //4:starts on the axis(1 point)
-        Ray ray4 = new Ray(new Point(1, 0, 0), v001);
-        List<Point> result4 = tube.findIntersections(ray4);
+        assertEquals(1, result20.size(), "wrong number of results");
+        assertEquals(exp, result20, "wrong points");
+        //TC21: starts on the axis(1 point)
+        Ray ray21 = new Ray(new Point(1, 0, 0), v001);
+        List<Point> result21 = tube.findIntersections(ray21);
         //exp = List.of(p2);
-        //todo we dont need todo it just want you to know i changed it to 1 point, check in desmos
-        assertEquals(1, result4.size(), "wrong number of results");
-        assertEquals(exp, result4, "wrong points");
-        //5:starts on the tube and goes outside (0 point)
-        Ray ray5 = new Ray(p2, v001);
-        assertNull(tube.findIntersections(ray5), "doesn't return null");
-        //6:start after the tube(0 points)
-        Ray ray6 = new Ray(new Point(1, 0, 2), v001);
-        assertNull(tube.findIntersections(ray6), "doesn't return null");
+        assertEquals(1, result21.size(), "wrong number of results");
+        assertEquals(exp, result21, "wrong points");
+        //TC22: starts on the tube and goes outside (0 point)
+        Ray ray22 = new Ray(p2, v001);
+        assertNull(tube.findIntersections(ray22), "doesn't return null");
+        //TC23: start after the tube(0 points)
+        Ray ray23 = new Ray(new Point(1, 0, 2), v001);
+        assertNull(tube.findIntersections(ray23), "doesn't return null");
 
         // **** Group: Ray's line is tangent to the Tube (all tests 0 points)
-        //1: starts before the tube
-        Ray ray11 = new Ray(new Point(1, -1, -1), v001);
-        assertNull(tube.findIntersections(ray11), "doesn't return null");
-        //2: starts on the tube
-        Ray ray12 = new Ray(new Point(1, -1, 0), v001);
-        assertNull(tube.findIntersections(ray12), "doesn't return null");
-        //3: starts after the tube
-        Ray ray13 = new Ray(new Point(1, -1, 1), v001);
-        assertNull(tube.findIntersections(ray13), "doesn't return null");
+        //TC24: starts before the tube
+        Ray ray24 = new Ray(new Point(1, -1, -1), v001);
+        assertNull(tube.findIntersections(ray24), "doesn't return null");
+        //TC25: starts on the tube
+        Ray ray25 = new Ray(new Point(1, -1, 0), v001);
+        assertNull(tube.findIntersections(ray25), "doesn't return null");
+        //TC26: starts after the tube
+        Ray ray26 = new Ray(new Point(1, -1, 1), v001);
+        assertNull(tube.findIntersections(ray26), "doesn't return null");
 
         // **** special cases
-        //1: Ray's line is outside, ray is orthogonal to ray start to axis
-        Ray rayS1 = new Ray(new Point(1, 2, 0), v001);
-        assertNull(tube.findIntersections(rayS1), "doesn't return null");
-        //2: Ray's line is inside, ray is orthogonal to ray start to axis
-        Ray rayS2 = new Ray(new Point(1, 0.5, 0), v001);
-        List<Point> resultS2 = tube.findIntersections(rayS2);
+        //TC27: Ray's line is outside, ray is orthogonal to ray start to axis
+        Ray ray27 = new Ray(new Point(1, 2, 0), v001);
+        assertNull(tube.findIntersections(ray27), "doesn't return null");
+        //TC28: Ray's line is inside, ray is orthogonal to ray start to axis
+        Ray ray28 = new Ray(new Point(1, 0.5, 0), v001);
+        List<Point> result28 = tube.findIntersections(ray28);
         exp = List.of(p02);
-        assertEquals(1, resultS2.size(), "wrong number of results");
-        assertEquals(exp, resultS2, "wrong points");
-
+        assertEquals(1, result28.size(), "wrong number of results");
+        assertEquals(exp, result28, "wrong points");
     }
 }

@@ -10,6 +10,7 @@ import static primitives.Util.isZero;
 
 /**
  * this class represent the camera
+ * and view plane
  *
  * @author Ishai zigdon
  * @author Zaki zafrani
@@ -90,7 +91,7 @@ public class Camera implements Cloneable {
         }
 
         /**
-         * function to build camera with valid values
+         * function to check and build camera with valid values
          *
          * @return the camera
          */
@@ -122,15 +123,15 @@ public class Camera implements Cloneable {
      */
     private Point p0;
     /**
-     * vector representing the y-axis
+     * vector representing the vector to the view plane from the camera position
      */
     private Vector vTo;
     /**
-     * vector representing the z-axis
+     * vector representing the up vector from the camera position
      */
     private Vector vUp;
     /**
-     * vector representing the x-axis
+     * vector representing the right vector from the camera position
      */
     private Vector vRight;
     /**
@@ -147,7 +148,7 @@ public class Camera implements Cloneable {
     private double viewPlaneDistance = 0.0;
 
     /**
-     * get function for po
+     * get function for p0
      *
      * @return p0
      */
@@ -210,7 +211,7 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * default constructor
+     * making the default constructor private
      */
     private Camera() {
     }

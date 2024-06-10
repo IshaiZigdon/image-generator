@@ -44,6 +44,7 @@ public class Camera implements Cloneable {
      * the distance of the view plane
      */
     private double viewPlaneDistance = 0.0;
+
     /**
      * making the default constructor private
      */
@@ -132,11 +133,11 @@ public class Camera implements Cloneable {
      * @return the ray
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
-        double Ry = viewPlaneHeight / nY;
-        double Rx = viewPlaneWidth / nX;
+        double rY = viewPlaneHeight / nY;
+        double rX = viewPlaneWidth / nX;
 
-        double yI = -(i - (nY - 1) / 2.0) * Ry;
-        double xJ = (j - (nX - 1) / 2.0) * Rx;
+        double yI = -(i - (nY - 1) / 2.0) * rY;
+        double xJ = (j - (nX - 1) / 2.0) * rX;
 
         Point pIJ = p0.add(vTo.scale(viewPlaneDistance));
         if (!isZero(xJ))
@@ -184,13 +185,12 @@ public class Camera implements Cloneable {
          * @return builder with given direction
          */
         public Builder setDirection(Vector vTo, Vector vUp) {
-            if (isZero(vTo.dotProduct(vUp))) {
-                camera.vRight = vTo.crossProduct(vUp).normalize();
-                camera.vTo = vTo.normalize();
-                camera.vUp = vUp.normalize();
-                return this;
-            }
-            throw new IllegalArgumentException("camera vectors must be vertical to each other");
+            if (!isZero(vTo.dotProduct(vUp)))
+                throw new IllegalArgumentException("camera vectors must be vertical to each other");
+            camera.vRight = vTo.crossProduct(vUp).normalize();
+            camera.vTo = vTo.normalize();
+            camera.vUp = vUp.normalize();
+            return this;
         }
 
         /**
@@ -201,12 +201,11 @@ public class Camera implements Cloneable {
          * @return builder with plane with the given size
          */
         public Builder setVpSize(double width, double height) {
-            if (width * height > 0 && width > 0) {
-                camera.viewPlaneWidth = width;
-                camera.viewPlaneHeight = height;
-                return this;
-            }
-            throw new IllegalArgumentException("view plane width and height values must be greater than 0");
+            if (width * height <= 0 || width <= 0)
+                throw new IllegalArgumentException("view plane width and height values must be greater than 0");
+            camera.viewPlaneWidth = width;
+            camera.viewPlaneHeight = height;
+            return this;
         }
 
         /**
@@ -216,11 +215,10 @@ public class Camera implements Cloneable {
          * @return builder with given distance
          */
         public Builder setVpDistance(double distance) {
-            if (distance > 0) {
-                camera.viewPlaneDistance = distance;
-                return this;
-            }
-            throw new IllegalArgumentException("view plane distance value must be greater than 0");
+            if (distance <= 0)
+                throw new IllegalArgumentException("view plane distance value must be greater than 0");
+            camera.viewPlaneDistance = distance;
+            return this;
         }
 
         /**
@@ -231,18 +229,21 @@ public class Camera implements Cloneable {
         public Camera build() {
             final String message = "Missing render resource. ";
             String fields = "";
-            if (isZero(camera.viewPlaneWidth)) {
+            if (isZero(camera.viewPlaneWidth))
                 fields += "viewPlaneWidth ";
-            }
-            if (isZero(camera.viewPlaneHeight)) {
+            if (isZero(camera.viewPlaneHeight))
                 fields += "viewPlaneHeight ";
-            }
-            if (isZero(camera.viewPlaneDistance)) {
+            if (isZero(camera.viewPlaneDistance))
                 fields += "viewPlaneDistance ";
-            }
+            if (camera.vTo == null)
+                fields += "vTo ";
+            if (camera.vUp == null)
+                fields += "vUp ";
             if (!isZero(fields.length()))
                 throw new MissingResourceException(message, camera.getClass().getName(), fields);
-            setDirection(camera.vTo, camera.vUp);
+            if (!isZero(camera.vTo.dotProduct(camera.vUp)))
+                throw new IllegalArgumentException("camera vectors must be vertical to each other");
+            camera.vRight = camera.vTo.crossProduct(camera.vUp).normalize();
             try {
                 return (Camera) camera.clone();
             } catch (CloneNotSupportedException e) {

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import geometries.*;
 import lighting.AmbientLight;
 import primitives.*;
-import renderer.*;
 import scene.Scene;
 
 /** Test rendering a basic image
@@ -18,7 +17,7 @@ public class RenderTests {
    /** Camera builder of the tests */
    private final Camera.Builder camera = Camera.getBuilder()
       .setRayTracer(new SimpleRayTracer(scene))
-      .setLocation(Point.ZERO).setDirection(new Point(0, 0, -1), Vector.Y)
+      .setLocation(Point.ZERO).setDirection(new Vector(0, 0, -1), new Vector(0,1,0))
       .setVpDistance(100)
       .setVpSize(500, 500);
 
@@ -41,8 +40,7 @@ public class RenderTests {
          .setImageWriter(new ImageWriter("base render test", 1000, 1000))
          .build()
          .renderImage()
-         .printGrid(100, new Color(YELLOW))
-         .writeToImage();
+         .printGrid(100, new Color(YELLOW));
    }
 
    /** Test for XML based scene - for bonus */
@@ -57,8 +55,7 @@ public class RenderTests {
          .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
          .build()
          .renderImage()
-         .printGrid(100, new Color(YELLOW))
-         .writeToImage();
+         .printGrid(100, new Color(YELLOW));
    }
 }
 

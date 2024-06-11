@@ -156,14 +156,13 @@ public class Camera implements Cloneable {
     /**
      *
      */
-    public void renderImage()
+    public Camera renderImage()
     {
-
-        for (int i = 0; i < viewPlaneHeight; i++)
-            for (int j = 0; j < viewPlaneWidth; j++)
+        for (int i = 0; i < imageWriter.getNy(); i++)
+            for (int j = 0; j < imageWriter.getNx(); j++)
                 castRay(imageWriter.getNx(),imageWriter.getNy(), j,i);
-        throw new UnsupportedOperationException("Not supported yet.");
-
+        return this;
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
@@ -171,14 +170,14 @@ public class Camera implements Cloneable {
      * @param interval
      * @param color
      */
-    public void printGrid(int interval, Color color)
+    public Camera printGrid(int interval, Color color)
     {
-        for (int i = 0; i < viewPlaneHeight; i++)
-            for (int j = 0; j < viewPlaneWidth; j++)
-                if (i%interval == 0 || j%interval == 0)
+        for (int i = 0; i < imageWriter.getNy(); i++)
+            for (int j = 0; j < imageWriter.getNx(); j++)
+                if (isZero(i%interval) || isZero( j%interval))
                     imageWriter.writePixel(j,i,color);
-
         imageWriter.writeToImage();
+        return this;
     }
 
     private void castRay(int nX, int nY,int j,int i)

@@ -1,5 +1,6 @@
 package renderer;
 
+import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -44,6 +45,10 @@ public class Camera implements Cloneable {
      * the distance of the view plane
      */
     private double viewPlaneDistance = 0.0;
+    /***/
+    private ImageWriter imageWriter;
+    /***/
+    private RayTracerBase rayTracer;
 
     /**
      * making the default constructor private
@@ -149,6 +154,43 @@ public class Camera implements Cloneable {
     }
 
     /**
+     *
+     */
+    public void renderImage()
+    {
+
+        for (int i = 0; i < viewPlaneHeight; i++)
+            for (int j = 0; j < viewPlaneWidth; j++)
+                castRay(imageWriter.getNx(),imageWriter.getNy(), j,i);
+        throw new UnsupportedOperationException("Not supported yet.");
+
+    }
+
+    /**
+     *
+     * @param interval
+     * @param color
+     */
+    public void printGrid(int interval, Color color)
+    {
+        for (int i = 0; i < viewPlaneHeight; i++)
+            for (int j = 0; j < viewPlaneWidth; j++)
+                if (i%interval == 0 || j%interval == 0)
+                    imageWriter.writePixel(j,i,color);
+
+        imageWriter.writeToImage();
+    }
+
+    private void castRay(int nX, int nY,int j,int i)
+    {
+        Ray ray = constructRay(nX,nY,j,i);
+        Color color = rayTracer.traceRay(ray);
+        imageWriter.writePixel(j,i,color);
+    }
+
+
+
+    /**
      * class for builder
      */
     public static class Builder {
@@ -222,6 +264,20 @@ public class Camera implements Cloneable {
         }
 
         /**
+         *
+         * @param imageWriter
+         * @return
+         */
+        public Builder setImageWriter(ImageWriter imageWriter) {
+            camera.imageWriter = imageWriter;
+            return this;
+        }
+        public Builder setRayTracer(RayTracerBase rayTracer) {
+            camera.rayTracer = rayTracer;
+            return this;
+        }
+
+        /**
          * function to check and build camera with valid values
          *
          * @return the camera
@@ -239,6 +295,10 @@ public class Camera implements Cloneable {
                 fields += "vTo ";
             if (camera.vUp == null)
                 fields += "vUp ";
+            if(camera.imageWriter == null)
+                fields += "imageWriter ";
+            if (camera.rayTracer == null)
+                fields += "rayTracer ";
             if (!isZero(fields.length()))
                 throw new MissingResourceException(message, camera.getClass().getName(), fields);
             if (!isZero(camera.vTo.dotProduct(camera.vUp)))

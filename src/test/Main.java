@@ -15,6 +15,11 @@ import static primitives.Util.isZero;
 public final class Main {
 
     /**
+     * Empty default ctor
+     */
+    private Main() {}
+
+    /**
      * Main program to tests initial functionality of the 1st stage
      *
      * @param args irrelevant here

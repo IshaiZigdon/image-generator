@@ -44,20 +44,19 @@ public class Tube extends RadialGeometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        //Axis direction == axisDirection
-        Vector axisDirection = axis.getDirection();
-        //ray direction == rayDirection
-        Vector rayDirection = ray.getDirection();
+        //Axis direction == d
+        Vector d = axis.getDirection();
+        //ray direction == v
+        Vector v = ray.getDirection();
 
-
-        if (isZero(axisDirection.dotProduct(rayDirection) - axisDirection.length() * rayDirection.length()))
+        if (isZero(d.dotProduct(v) - d.length() * v.length()))
             return null;
 
-        //dv = axisDirection x rayDirection
-        Vector dv = axisDirection.crossProduct(rayDirection);
+        //dv = d x v
+        Vector dv = d.crossProduct(v);
 
-        //a= |axisDirection x rayDirection|^2/|axisDirection|^2
-        double a = (dv.lengthSquared()) / axisDirection.lengthSquared();
+        //a= |d x v|^2/|d|^2
+        double a = (dv.lengthSquared()) / d.lengthSquared();
 
         if (ray.getHead().equals(axis.getHead())) {
             return List.of(ray.getPoint(alignZero(radius / sqrt(a))));
@@ -67,36 +66,34 @@ public class Tube extends RadialGeometry {
         Vector w = ray.getHead().subtract(axis.getHead());
 
 
-        if (isZero(axisDirection.dotProduct(w) - axisDirection.length() * w.length())) {
-//            double temp = rayDirection.dotProduct(axisDirection) / axisDirection.dotProduct(axisDirection);
-//            if (temp != 0) {//im not sure if this always 0
-//                Vector tempD = axisDirection.scale(-temp);
-//                Vector v_90 = rayDirection.add(tempD);
-//                return List.of(ray.getPoint(alignZero(radius / v_90.length())));
-//            }
-            return List.of(ray.getPoint(alignZero(radius / rayDirection.length())));
+        if (isZero(d.dotProduct(w) - d.length() * w.length())) {
+            return List.of(ray.getPoint(alignZero(radius / v.length())));
         }
-        //dw = axisDirection x w
-        Vector dw = axisDirection.crossProduct(w);
-        //b = 2* (axisDirection x w) * (axisDirection x rayDirection)  / |axisDirection|^2
-        double b = (2 * dw.dotProduct(dv)) / axisDirection.lengthSquared();
-        //c = |axisDirection x w|^2 / |axisDirection|^2 - r^2
-        double c = (dw.lengthSquared() / axisDirection.lengthSquared()) - radiusSquared;
+
+        //dw = d x w
+        Vector dw = d.crossProduct(w);
+        //b = 2* (d x w) * (d x v)  / |d|^2
+        double b = (2 * dw.dotProduct(dv)) / d.lengthSquared();
+        //c = |d x w|^2 / |d|^2 - r^2
+        double c = (dw.lengthSquared() / d.lengthSquared()) - radiusSquared;
 
 
         double discriminant = b * b - 4 * a * c;
         if (discriminant >= 0) {
             double t1, t2;
-            t1 = (-b - sqrt(discriminant)) / 2 * a;//suppose to be 1
-            t2 = (-b + sqrt(discriminant)) / 2 * a;//suppose to be 2
+            t1 = (-b - sqrt(discriminant)) / (2 * a);
+            t2 = (-b + sqrt(discriminant)) / (2 * a);
+            t1=alignZero(t1);
+            t2=alignZero(t2);
             if (t2 <= 0)
                 return null;
             if (t1 <= 0) {
-                return List.of(ray.getPoint(alignZero(t2)));
-            } else if (isZero(discriminant))//if the discriminant is zero then we "have" one point and else we
+                return List.of(ray.getPoint(t2));
+            }
+            if (isZero(discriminant))//if the discriminant is zero then we "have" one point and else we
                 //would return 2 points
                 return null;
-            return List.of(ray.getPoint(alignZero(t1)), ray.getPoint(alignZero(t2)));
+            return List.of(ray.getPoint(t1), ray.getPoint(t2));
         }
         return null;
     }

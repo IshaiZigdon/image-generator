@@ -51,6 +51,7 @@ public class RayTest {
         Point p10 = r2.getPoint(0);
         assertEquals(r3.getHead(), p10, "TC10: wrong point");
     }
+
     /**
      * Test method for {@link Ray#getPoint(double)}
      */
@@ -58,10 +59,10 @@ public class RayTest {
     void testFindClosestPoint() {
         Ray ray = new Ray(new Point(1, 0, 3), new Vector(1, 0, 0));
         Point closest = ray.getPoint(1);
-        Point p3 =ray.getPoint(3), p2 =ray.getPoint(2), p4 =ray.getPoint(4), p5 =ray.getPoint(5);
+        Point p3 = ray.getPoint(3), p2 = ray.getPoint(2), p4 = ray.getPoint(4), p5 = ray.getPoint(5);
         // ============ Equivalence Partitions Tests ==============
         //TC01:
-        List<Point> points = List.of(p3,p2,closest,p4,p5);
+        List<Point> points = List.of(p3, p2, closest, p4, p5);
         assertEquals(closest, ray.findClosestPoint(points), "TC01: wrong point");
 
         // =============== Boundary Values Tests ==================
@@ -69,13 +70,12 @@ public class RayTest {
         assertNull(ray.findClosestPoint(List.of()), "TC10: didnt return null");
 
         //TC11:
-        points = List.of(closest,p3,p2,p4,p5);
+        points = List.of(closest, p3, p2, p4, p5);
         assertEquals(closest, ray.findClosestPoint(points), "TC11: wrong point");
 
         //TC12:
-        points = List.of(p3,p2,p4,p5,closest);
+        points = List.of(p3, p2, p4, p5, closest);
         assertEquals(closest, ray.findClosestPoint(points), "TC12: wrong point");
-
 
 
     }

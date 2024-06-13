@@ -44,7 +44,7 @@ public class Tube extends RadialGeometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-                //Axis direction == d   //ray direction == v
+        //Axis direction == d   //ray direction == v
         Vector d = axis.getDirection(), v = ray.getDirection();
 
         if (isZero(d.dotProduct(v) - d.length() * v.length()))
@@ -78,8 +78,8 @@ public class Tube extends RadialGeometry {
             t2 = alignZero((-b + sqrtDiscriminant) / (2 * a));
             if (t2 <= 0)
                 return null;
-            return t1<=0?
-                    List.of(ray.getPoint(t2)):
+            return t1 <= 0 ?
+                    List.of(ray.getPoint(t2)) :
                     List.of(ray.getPoint(t1), ray.getPoint(t2));
         }
         return null;

@@ -45,9 +45,13 @@ public class Camera implements Cloneable {
      * the distance of the view plane
      */
     private double viewPlaneDistance = 0.0;
-    /***/
+    /**
+     * the image writer with the resolution
+     */
     private ImageWriter imageWriter;
-    /***/
+    /**
+     * the ray tracer with the scene
+     */
     private RayTracerBase rayTracer;
 
     /**
@@ -154,40 +158,46 @@ public class Camera implements Cloneable {
     }
 
     /**
+     * render the image and color each pixel
      *
+     * @return the updated camera
      */
-    public Camera renderImage()
-    {
+    public Camera renderImage() {
         for (int i = 0; i < imageWriter.getNy(); i++)
             for (int j = 0; j < imageWriter.getNx(); j++)
-                castRay(imageWriter.getNx(),imageWriter.getNy(), j,i);
+                castRay(imageWriter.getNx(), imageWriter.getNy(), j, i);
         return this;
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
+     * print a grid with given width and height with given color
      *
-     * @param interval
-     * @param color
+     * @param interval the width and height
+     * @param color    the color
+     * @return the updated camera
      */
-    public Camera printGrid(int interval, Color color)
-    {
+    public Camera printGrid(int interval, Color color) {
         for (int i = 0; i < imageWriter.getNy(); i++)
             for (int j = 0; j < imageWriter.getNx(); j++)
-                if (isZero(i%interval) || isZero( j%interval))
-                    imageWriter.writePixel(j,i,color);
+                if (isZero(i % interval) || isZero(j % interval))
+                    imageWriter.writePixel(j, i, color);
         imageWriter.writeToImage();
         return this;
     }
 
-    private void castRay(int nX, int nY,int j,int i)
-    {
-        Ray ray = constructRay(nX,nY,j,i);
+    /**
+     * cast a ray through a given pixel and colors it
+     *
+     * @param nX the width of the pixel
+     * @param nY the height of the pixel
+     * @param j  the x parameter
+     * @param i  the y parameter
+     */
+    private void castRay(int nX, int nY, int j, int i) {
+        Ray ray = constructRay(nX, nY, j, i);
         Color color = rayTracer.traceRay(ray);
-        imageWriter.writePixel(j,i,color);
+        imageWriter.writePixel(j, i, color);
     }
-
-
 
     /**
      * class for builder
@@ -263,14 +273,22 @@ public class Camera implements Cloneable {
         }
 
         /**
+         * function for set imageWriter
          *
-         * @param imageWriter
-         * @return
+         * @param imageWriter the imageWriter
+         * @return builder with given imageWriter
          */
         public Builder setImageWriter(ImageWriter imageWriter) {
             camera.imageWriter = imageWriter;
             return this;
         }
+
+        /**
+         * function for set rayTracer
+         *
+         * @param rayTracer the rayTracer
+         * @return builder with given rayTracer
+         */
         public Builder setRayTracer(RayTracerBase rayTracer) {
             camera.rayTracer = rayTracer;
             return this;
@@ -294,7 +312,7 @@ public class Camera implements Cloneable {
                 fields += "vTo ";
             if (camera.vUp == null)
                 fields += "vUp ";
-            if(camera.imageWriter == null)
+            if (camera.imageWriter == null)
                 fields += "imageWriter ";
             if (camera.rayTracer == null)
                 fields += "rayTracer ";

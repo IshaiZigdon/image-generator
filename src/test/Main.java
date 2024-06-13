@@ -17,7 +17,8 @@ public final class Main {
     /**
      * Empty default ctor
      */
-    private Main() {}
+    private Main() {
+    }
 
     /**
      * Main program to tests initial functionality of the 1st stage

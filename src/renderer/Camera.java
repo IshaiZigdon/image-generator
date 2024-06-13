@@ -317,7 +317,7 @@ public class Camera implements Cloneable {
             if (camera.rayTracer == null)
                 fields += "rayTracer ";
             if (!isZero(fields.length()))
-                throw new MissingResourceException(message, camera.getClass().getName(), fields);
+                throw new MissingResourceException(message + fields.trim(), camera.getClass().getName(), "");
             if (!isZero(camera.vTo.dotProduct(camera.vUp)))
                 throw new IllegalArgumentException("camera vectors must be vertical to each other");
             camera.vRight = camera.vTo.crossProduct(camera.vUp).normalize();

@@ -1,10 +1,10 @@
 package renderer;
 
+import geometries.Sphere;
+import geometries.Triangle;
+import lighting.AmbientLight;
 import org.junit.jupiter.api.Test;
-import primitives.Color;
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 import scene.Scene;
 
 import java.util.MissingResourceException;
@@ -117,27 +117,4 @@ class CameraTest {
                 "vUp and vTo not verticals");
     }
 
-    /**
-     * todo Test method for
-     * {@link Camera#constructRay(int, int, int, int)}
-     */
-    @Test
-    void constructRay() {
-    }
-
-    /**
-     * todo Test method for
-     * {@link Camera#renderImage()}
-     */
-    @Test
-    void renderImage() {
-    }
-
-    /**
-     * todo Test method for
-     * {@link Camera#printGrid(int, Color)}
-     */
-    @Test
-    void printGrid() {
-    }
 }

@@ -114,7 +114,7 @@ public class PolygonTests {
         assertNull(polygon.findIntersections(new Ray(new Point(1.5, 1, -1), v001)), "TC10: Polygon: findIntersection TC10 didnt work");
         //TC11: Ray intersects the polygon on the vertex
         assertNull(polygon.findIntersections(new Ray(new Point(2, 0, -1), v001)), "PTC11: Polygon: findIntersection TC11 didnt work");
-        //TC12: Ray on the continue of the edge
+        //TC12: Ray on the continued edge
         assertNull(polygon.findIntersections(new Ray(new Point(1, 1.5, -1), v001)), "TC12: Ray's line is outside of the polygon");
     }
 }

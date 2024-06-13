@@ -2,6 +2,9 @@ package primitives;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * testing color class
+ */
 class ColorTest {
 
     @Test

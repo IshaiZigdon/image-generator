@@ -19,6 +19,12 @@ import static java.awt.Color.YELLOW;
  */
 public class RenderTests {
     /**
+     * Javadoc just for quiet life
+     */
+    RenderTests() {
+    }
+
+    /**
      * Scene of the tests
      */
     private final Scene scene = new Scene("Test scene");

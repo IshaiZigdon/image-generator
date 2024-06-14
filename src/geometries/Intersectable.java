@@ -12,7 +12,43 @@ import java.util.List;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-public interface Intersectable {
+public abstract class Intersectable {
+    /**
+     * aid static class for todo
+     */
+    public static class GeoPoint {
+        public Geometry geometry;
+        public Point point;
+
+        /**
+         * ctor
+         * @param geometry the given geometry
+         * @param point the given point
+         */
+        public GeoPoint(Geometry geometry, Point point) {
+            this.geometry = geometry;
+            this.point = point;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            return obj instanceof GeoPoint && geometry.equals(((GeoPoint) obj).geometry)
+                    && point.equals(((GeoPoint) obj).point);
+        }
+
+        @Override
+        public String toString(){
+            return geometry.toString() + " " + point.toString();
+        }
+    }
+
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+        return null;
+    }
+    public List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersectionsHelper(ray);
+    }
     /**
      * calculates where are the intersecting points of the
      * shape with the given ray
@@ -20,5 +56,8 @@ public interface Intersectable {
      * @param ray the ray
      * @return list of intersecting points
      */
-    List<Point> findIntersections(Ray ray);
+    public List<Point> findIntersections(Ray ray) {
+        var geoList = findGeoIntersections(ray);
+        return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
+    }
 }

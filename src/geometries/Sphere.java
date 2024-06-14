@@ -9,6 +9,7 @@ import java.util.List;
 import static java.lang.Math.sqrt;
 import static primitives.Util.alignZero;
 
+
 /**
  * Sphere class represent a 3D sphere and inherits from RadialGeometry
  *
@@ -38,7 +39,7 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersections(Ray ray) {
         Point p0 = ray.getHead();
         Vector v = ray.getDirection();
         Vector u;
@@ -46,7 +47,7 @@ public class Sphere extends RadialGeometry {
             //try because if they are the same point we need to do a different calculation
             u = center.subtract(p0);
         } catch (IllegalArgumentException msg) {
-            return List.of(ray.getPoint(radius));
+            return List.of(new GeoPoint(this,ray.getPoint(radius)));
         }
 
         //the length of the vector
@@ -64,7 +65,8 @@ public class Sphere extends RadialGeometry {
 
         double t1 = alignZero(tm - th);
         return t1 <= 0
-                ? List.of(ray.getPoint(t2))
-                : List.of(ray.getPoint(t1), ray.getPoint(t2));
+                ? List.of(new GeoPoint(this,ray.getPoint(t2)))
+                : List.of(new GeoPoint(this,ray.getPoint(t1)),
+                new GeoPoint(this,ray.getPoint(t2)));
     }
 }

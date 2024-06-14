@@ -1,5 +1,6 @@
 package geometries;
 
+import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
@@ -10,7 +11,30 @@ import primitives.Vector;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-public interface Geometry extends Intersectable {
+public abstract class Geometry extends Intersectable {
+    /**
+     * emission light
+     */
+    protected Color emission = Color.BLACK;
+
+    /**
+     * set function for emission
+     * @param emission the given emission
+     * @return the updated Geometry
+     */
+    public Geometry setEmission(Color emission) {
+        this.emission = emission;
+        return this;
+    }
+
+    /**
+     * get function for emission
+     * @return emission
+     */
+    public Color getEmission() {
+        return emission;
+    }
+
     /**
      * this function calculates the
      * vertical (normal) vector for the various shapes at a point
@@ -19,6 +43,6 @@ public interface Geometry extends Intersectable {
      * @param p a point on the shape
      * @return a vertical vector for the shape
      */
-    public Vector getNormal(Point p);
+    public abstract Vector getNormal(Point p);
 
 }

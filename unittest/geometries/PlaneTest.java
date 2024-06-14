@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
+import geometries.Intersectable.GeoPoint;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -105,7 +105,7 @@ public class PlaneTest {
      * Test method for {@link Plane#findIntersections(Ray)}.
      */
     @Test
-    public void testFindIntersections() {
+    public void testFindGeoIntersectionsHelper() {
         Plane plane = new Plane(p110, p100, p010);
 
         /// ============ Equivalence Partitions Tests ==============
@@ -113,37 +113,37 @@ public class PlaneTest {
         final Vector v101 = new Vector(1, 0, 1);
         //TC01: Ray intersects the plane
         final Point pM1hh0 = new Point(-1.5, 0.5, -1);
-        final var result01 = plane.findIntersections(new Ray(pM1hh0, v101));
-        var exp = List.of(new Point(-0.5, 0.5, 0));
+        final var result01 = plane.findGeoIntersectionsHelper(new Ray(pM1hh0, v101));
+        var exp = List.of(new GeoPoint(plane ,new Point(-0.5, 0.5, 0)));
         assertEquals(exp, result01, "TC01: Plane: findIntersections TC01 failed");
         //TC02: Ray doesn't intersect the plane
         final Point pH0h = new Point(0.5, 0, 0.5);
-        assertNull(plane.findIntersections(new Ray(pH0h, v101)), "TC02: Ray's line out of plane");
+        assertNull(plane.findGeoIntersectionsHelper(new Ray(pH0h, v101)), "TC02: Ray's line out of plane");
 
         // =============== Boundary Values Tests ==================
 
         // **** Group: Ray's line parallel to the plane
         final Vector v100 = new Vector(1, 0, 0);
         //TC10: Ray is on the plane
-        assertNull(plane.findIntersections(new Ray(p100, v100)), "TC10: Ray's line is on the plane");
+        assertNull(plane.findGeoIntersectionsHelper(new Ray(p100, v100)), "TC10: Ray's line is on the plane");
         //TC11: Ray not on the plane
         //pH0h = new Point(0.5, 0, 0.5);
-        assertNull(plane.findIntersections(new Ray(pH0h, v100)), "TC11: Ray's line out of plane");
+        assertNull(plane.findGeoIntersectionsHelper(new Ray(pH0h, v100)), "TC11: Ray's line out of plane");
         // **** Group: Ray's line vertical to the plane
         final Vector v001 = new Vector(0, 0, 1);
         //TC12: Ray begins before the plane
         final Point pM10M1 = new Point(-1, 0, -1);
-        final var result12 = plane.findIntersections(new Ray(pM10M1, v001));
-        assertEquals(List.of(new Point(-1, 0, 0)), result12, "TC12: Plane: findIntersections TC12 failed");
+        final var result12 = plane.findGeoIntersectionsHelper(new Ray(pM10M1, v001));
+        assertEquals(List.of(new GeoPoint(plane ,new Point(-1, 0, 0))), result12, "TC12: Plane: findIntersections TC12 failed");
         //TC13: Ray begins on the plane
-        assertNull(plane.findIntersections(new Ray(new Point(2, 1, 0), v001)), "TC13: Ray's line out of plane");
+        assertNull(plane.findGeoIntersectionsHelper(new Ray(new Point(2, 1, 0), v001)), "TC13: Ray's line out of plane");
         //TC14: Ray begins after the plane
         //pHalf = new Point(0.5, 0, 0.5);
-        assertNull(plane.findIntersections(new Ray(pH0h, v001)), "TC14: Ray's line out of plane");
+        assertNull(plane.findGeoIntersectionsHelper(new Ray(pH0h, v001)), "TC14: Ray's line out of plane");
         // **** Group: special cases
         //TC15: Ray head point is the same as plane q point
-        assertNull(plane.findIntersections(new Ray(p110, v101)), "TC15: Ray's line out of plane");
+        assertNull(plane.findGeoIntersectionsHelper(new Ray(p110, v101)), "TC15: Ray's line out of plane");
         //TC16: Ray head point is on the plane
-        assertNull(plane.findIntersections(new Ray(p100, v101)), "TC16: Ray's line out of plane");
+        assertNull(plane.findGeoIntersectionsHelper(new Ray(p100, v101)), "TC16: Ray's line out of plane");
     }
 }

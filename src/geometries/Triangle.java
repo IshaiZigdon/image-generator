@@ -29,7 +29,7 @@ public class Triangle extends Polygon {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         List<Point> lst = plane.findIntersections(ray);
         if (lst == null)
             return null;
@@ -53,6 +53,6 @@ public class Triangle extends Polygon {
         double x3 = alignZero(v.dotProduct(n3));
         if (x1 * x3 <= 0) return null;
 
-        return lst;
+        return List.of(new GeoPoint(this,lst.getFirst()));
     }
 }

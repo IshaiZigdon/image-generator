@@ -61,8 +61,10 @@ public class Ray {
     }
 
     /**
-     * @param points
-     * @return
+     * returns the closest point in the list
+     *
+     * @param points list of the intersect points of the current shape
+     * @return the closest point in the list if exist
      */
     public Point findClosestPoint(List<Point> points) {
         if (isZero(points.size()))

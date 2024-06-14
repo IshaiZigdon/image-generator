@@ -19,6 +19,12 @@ import static java.awt.Color.YELLOW;
  */
 public class RenderTests {
     /**
+     * Javadoc just for quiet life
+     */
+    RenderTests() {
+    }
+
+    /**
      * Scene of the tests
      */
     private final Scene scene = new Scene("Test scene");
@@ -48,8 +54,7 @@ public class RenderTests {
                 .setBackground(new Color(75, 127, 90));
 
         // right
-        camera
-                .setImageWriter(new ImageWriter("base render test", 1000, 1000))
+        camera.setImageWriter(new ImageWriter("base render test", 1000, 1000))
                 .build()
                 .renderImage()
                 .printGrid(100, new Color(YELLOW));

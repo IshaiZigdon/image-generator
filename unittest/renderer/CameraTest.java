@@ -1,10 +1,10 @@
 package renderer;
 
+import geometries.Sphere;
+import geometries.Triangle;
+import lighting.AmbientLight;
 import org.junit.jupiter.api.Test;
-import primitives.Color;
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 import scene.Scene;
 
 import java.util.MissingResourceException;
@@ -111,9 +111,10 @@ class CameraTest {
                 () -> Camera.getBuilder().build(),
                 "didnt throw when width and height and distance are 0");
 
-        //TC14
+        //TC14:vUp and vTo verticals
         assertThrows(IllegalArgumentException.class,
                 () -> Camera.getBuilder().setDirection(new Vector(1, 2, 3), new Vector(0, 0, -1)).build(),
                 "vUp and vTo not verticals");
     }
+
 }

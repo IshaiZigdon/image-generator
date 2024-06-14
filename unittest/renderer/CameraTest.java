@@ -116,28 +116,4 @@ class CameraTest {
                 () -> Camera.getBuilder().setDirection(new Vector(1, 2, 3), new Vector(0, 0, -1)).build(),
                 "vUp and vTo not verticals");
     }
-
-    /**
-     * todo Test method for
-     * {@link Camera#constructRay(int, int, int, int)}
-     */
-    @Test
-    void constructRay() {
-    }
-
-    /**
-     * todo Test method for
-     * {@link Camera#renderImage()}
-     */
-    @Test
-    void renderImage() {
-    }
-
-    /**
-     * todo Test method for
-     * {@link Camera#printGrid(int, Color)}
-     */
-    @Test
-    void printGrid() {
-    }
 }

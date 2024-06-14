@@ -14,7 +14,7 @@ public class Scene {
     /**
      * the name of the scene
      */
-    public String name;
+    public final String name;
     /**
      * the background color
      */

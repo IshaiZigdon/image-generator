@@ -14,10 +14,10 @@ public abstract class RayTracerBase {
     /**
      * the scene for ray tracing
      */
-    protected Scene scene;
+    protected final Scene scene;
 
     /**
-     * ctor withe given scene
+     * ctor with a given scene
      *
      * @param scene the given scene
      */
@@ -26,7 +26,7 @@ public abstract class RayTracerBase {
     }
 
     /**
-     * ray tracing the scene and finding the color of the image
+     * ray tracing the ray through the scene and finding the color of the ray
      *
      * @param r the ray
      * @return the color

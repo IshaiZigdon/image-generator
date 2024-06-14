@@ -324,7 +324,7 @@ public class Camera implements Cloneable {
             try {
                 return (Camera) camera.clone();
             } catch (CloneNotSupportedException e) {
-                throw new RuntimeException(e);
+                throw new AssertionError(e); // never reached code
             }
         }
     }

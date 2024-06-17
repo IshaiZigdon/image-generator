@@ -18,14 +18,6 @@ public class AmbientLight {
      * the intensity
      */
     final private Color intensity;
-    /**
-     * color of the light
-     */
-    private Color ia;
-    /**
-     * the attenuation coefficient
-     */
-    private Double3 ka;
 
     //------------------------------functions---------------------------------
 
@@ -36,8 +28,6 @@ public class AmbientLight {
      * @param ka 3 attenuation coefficient values
      */
     public AmbientLight(Color ia, Double3 ka) {
-        this.ia = ia;
-        this.ka = ka;
         intensity = ia.scale(ka);
     }
 
@@ -48,8 +38,6 @@ public class AmbientLight {
      * @param ka 1 attenuation coefficient value
      */
     public AmbientLight(Color ia, double ka) {
-        this.ia = ia;
-        this.ka = new Double3(ka);
         intensity = ia.scale(ka);
     }
 

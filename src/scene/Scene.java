@@ -33,10 +33,10 @@ public class Scene {
     /**
      * ctor with given name
      *
-     * @param n the name
+     * @param str the name
      */
-    public Scene(String n) {
-        name = n;
+    public Scene(String str) {
+        name = str;
     }
 
     /**

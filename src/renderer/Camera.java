@@ -7,7 +7,7 @@ import primitives.Vector;
 
 import java.util.MissingResourceException;
 
-import static primitives.Util.isZero;
+import static primitives.Util.*;
 
 /**
  * this class represent the camera
@@ -163,9 +163,11 @@ public class Camera implements Cloneable {
      * @return the updated camera
      */
     public Camera renderImage() {
-        for (int i = 0; i < imageWriter.getNy(); i++)
-            for (int j = 0; j < imageWriter.getNx(); j++)
-                castRay(imageWriter.getNx(), imageWriter.getNy(), j, i);
+        int nY = imageWriter.getNy();
+        int nX = imageWriter.getNx();
+        for (int i = 0; i < nY; i++)
+            for (int j = 0; j < nX; j++)
+                castRay(nX, nY, j, i);
         return this;
     }
 
@@ -177,9 +179,11 @@ public class Camera implements Cloneable {
      * @return the updated camera
      */
     public Camera printGrid(int interval, Color color) {
-        for (int i = 0; i < imageWriter.getNy(); i++)
-            for (int j = 0; j < imageWriter.getNx(); j++)
-                if (isZero(i % interval) || isZero(j % interval))
+        int nY = imageWriter.getNy();
+        int nX = imageWriter.getNx();
+        for (int i = 0; i < nY; i++)
+            for (int j = 0; j < nX; j++)
+                if (i % interval == 0 || j % interval == 0)
                     imageWriter.writePixel(j, i, color);
         imageWriter.writeToImage();
         return this;
@@ -252,7 +256,7 @@ public class Camera implements Cloneable {
          * @return builder with plane with the given size
          */
         public Builder setVpSize(double width, double height) {
-            if (width * height <= 0 || width <= 0)
+            if (alignZero(width * height) <= 0 || alignZero(width) <= 0)
                 throw new IllegalArgumentException("view plane width and height values must be greater than 0");
             camera.viewPlaneWidth = width;
             camera.viewPlaneHeight = height;
@@ -302,11 +306,11 @@ public class Camera implements Cloneable {
         public Camera build() {
             final String message = "Missing render resource. ";
             String fields = "";
-            if (isZero(camera.viewPlaneWidth))
+            if (alignZero(camera.viewPlaneWidth) <= 0)
                 fields += "viewPlaneWidth ";
-            if (isZero(camera.viewPlaneHeight))
+            if (alignZero(camera.viewPlaneHeight) <= 0)
                 fields += "viewPlaneHeight ";
-            if (isZero(camera.viewPlaneDistance))
+            if (alignZero(camera.viewPlaneDistance) <= 0)
                 fields += "viewPlaneDistance ";
             if (camera.vTo == null)
                 fields += "vTo ";
@@ -316,7 +320,7 @@ public class Camera implements Cloneable {
                 fields += "imageWriter ";
             if (camera.rayTracer == null)
                 fields += "rayTracer ";
-            if (!isZero(fields.length()))
+            if (!fields.isEmpty())
                 throw new MissingResourceException(message + fields, camera.getClass().getName(), "");
             if (!isZero(camera.vTo.dotProduct(camera.vUp)))
                 throw new IllegalArgumentException("camera vectors must be vertical to each other");

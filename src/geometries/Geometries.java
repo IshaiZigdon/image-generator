@@ -48,7 +48,7 @@ public class Geometries extends Intersectable {
      * @return list of intersecting points
      */
     @Override
-    public List<GeoPoint> findGeoIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         List<GeoPoint> result = null;
         for (Intersectable i : intersectables) {
             List<GeoPoint> geoPoints = i.findGeoIntersectionsHelper(ray);

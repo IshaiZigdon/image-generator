@@ -54,26 +54,27 @@ public class GeometriesTest {
      * test method for {@link Geometries#findIntersections(Ray)}
      */
     @Test
-    void testFindIntersections() {
+    void testFindGeoIntersectionsHelper() {
         Geometries geometries = new Geometries(polygon, triangle, plane, sphere);
 
         // ============ Equivalence Partitions Tests ==============
         //TC01: simple test
         //intersects with plane and sphere
         Ray ray01 = new Ray(new Point(0.2, 0.2, -2), new Vector(0, 0, 1));
-        assertEquals(3, geometries.findIntersections(ray01).size(), "TC01: wrong amount");
+        assertEquals(3, geometries.findGeoIntersectionsHelper(ray01).size(), "TC01: wrong amount");
+
         // =============== Boundary Values Tests ==================
         //TC10: all the shapes are intersecting
         Ray ray10 = new Ray(new Point(0.7, 0.7, -1), new Vector(0, 0, 1));
-        assertEquals(5, geometries.findIntersections(ray10).size(), "TC10: wrong amount");
+        assertEquals(5, geometries.findGeoIntersectionsHelper(ray10).size(), "TC10: wrong amount");
         //TC11 : no shape is intersecting with the ray
         Ray ray11 = new Ray(new Point(10, 10, 10), new Vector(1, 0, 0));
-        assertNull(geometries.findIntersections(ray11), "TC11: not working");
+        assertNull(geometries.findGeoIntersectionsHelper(ray11), "TC11: not working");
         //TC12: empty list
         Geometries geometries12 = new Geometries();
-        assertNull(geometries12.findIntersections(ray10), "TC12: not working");
+        assertNull(geometries12.findGeoIntersectionsHelper(ray10), "TC12: not working");
         //TC13: one shape only
         Ray ray13 = new Ray(new Point(10, 10, -3), new Vector(0, 0, 1));
-        assertEquals(1, geometries.findIntersections(ray13).size(), "TC13: wrong amount");
+        assertEquals(1, geometries.findGeoIntersectionsHelper(ray13).size(), "TC13: wrong amount");
     }
 }

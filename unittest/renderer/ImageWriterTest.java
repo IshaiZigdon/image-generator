@@ -22,14 +22,12 @@ class ImageWriterTest {
      */
     @Test
     void writeToImage() {
-        //base case only
-        int t = 50;
-        int height = 10 * t, /*500*/ width = 16 * t;//800
-        ImageWriter imageWriter = new ImageWriter("skadush", width, height);
+        //TC1: simple test
+        ImageWriter imageWriter = new ImageWriter("skadush", 800, 500);
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (isZero(i % t) || isZero(j % t))
+        for (int i = 0; i < 500; i++) {
+            for (int j = 0; j < 800; j++) {
+                if (isZero(i % 50) || isZero(j % 50))
                     imageWriter.writePixel(j, i, new Color(0, 0, 128));
                 else
                     imageWriter.writePixel(j, i, new Color(255, 215, 0));

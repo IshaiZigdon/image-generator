@@ -9,6 +9,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
+import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 
@@ -49,10 +50,10 @@ public class IntegrationTest {
      */
     public void forLoop(Intersectable shape, Camera camera, int exp, String str) {
         int count = 0;
-        List<Point> result;
+        List<GeoPoint> result;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                result = shape.findIntersections(camera.constructRay(3, 3, i, j));
+                result = shape.findGeoIntersections(camera.constructRay(3, 3, i, j));
                 if (result != null) {
                     count += result.size();
                 }

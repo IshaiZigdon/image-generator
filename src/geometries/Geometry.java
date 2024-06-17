@@ -18,21 +18,23 @@ public abstract class Geometry extends Intersectable {
     protected Color emission = Color.BLACK;
 
     /**
+     * get function for emission
+     *
+     * @return emission
+     */
+    public Color getEmission() {
+        return emission;
+    }
+
+    /**
      * set function for emission
+     *
      * @param emission the given emission
      * @return the updated Geometry
      */
     public Geometry setEmission(Color emission) {
         this.emission = emission;
         return this;
-    }
-
-    /**
-     * get function for emission
-     * @return emission
-     */
-    public Color getEmission() {
-        return emission;
     }
 
     /**

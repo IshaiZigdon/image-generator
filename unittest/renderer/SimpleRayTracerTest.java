@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import primitives.*;
 import scene.Scene;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

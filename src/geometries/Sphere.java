@@ -47,7 +47,7 @@ public class Sphere extends RadialGeometry {
             //try because if they are the same point we need to do a different calculation
             u = center.subtract(p0);
         } catch (IllegalArgumentException msg) {
-            return List.of(new GeoPoint(this,ray.getPoint(radius)));
+            return List.of(new GeoPoint(this, ray.getPoint(radius)));
         }
 
         //the length of the vector
@@ -65,8 +65,8 @@ public class Sphere extends RadialGeometry {
 
         double t1 = alignZero(tm - th);
         return t1 <= 0
-                ? List.of(new GeoPoint(this,ray.getPoint(t2)))
-                : List.of(new GeoPoint(this,ray.getPoint(t1)),
-                new GeoPoint(this,ray.getPoint(t2)));
+                ? List.of(new GeoPoint(this, ray.getPoint(t2)))
+                : List.of(new GeoPoint(this, ray.getPoint(t1)),
+                new GeoPoint(this, ray.getPoint(t2)));
     }
 }

@@ -1,8 +1,10 @@
 package geometries;
 
-import org.junit.jupiter.api.Test;
-import primitives.*;
 import geometries.Intersectable.GeoPoint;
+import org.junit.jupiter.api.Test;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import java.util.List;
 
@@ -81,7 +83,7 @@ public class TubeTest {
         Vector v1M11 = new Vector(1, -1, 1);
         Point p010 = new Point(0, 1, 0);
         Point p101 = new Point(1, 0, 1);
-        var exp = List.of(new GeoPoint(tube,p010), new GeoPoint(tube,p101));
+        var exp = List.of(new GeoPoint(tube, p010), new GeoPoint(tube, p101));
         //TC02: start before the tube
         Ray r02 = new Ray(new Point(-1, 2, -1), v1M11);
         List<GeoPoint> result02 = tube.findGeoIntersectionsHelper(r02);
@@ -90,7 +92,7 @@ public class TubeTest {
         //TC03: start on the tube and goes inside
         Ray r03 = new Ray(p010, v1M11);
         List<GeoPoint> result03 = tube.findGeoIntersectionsHelper(r03);
-        exp = List.of(new GeoPoint(tube,p101));
+        exp = List.of(new GeoPoint(tube, p101));
         assertEquals(1, result03.size(), "TC03: wrong number of intersections");
         assertEquals(exp, result03, "TC03: wrong points");
         //TC04: start inside the tube
@@ -119,7 +121,7 @@ public class TubeTest {
         assertNull(tube.findGeoIntersectionsHelper(r12), "doesn't return null");
         //TC13 todo fix numbers
         // :ray line is outside the tube in the direction of the axis
-        assertNull(tube.findGeoIntersectionsHelper(new Ray(new Point(10,10,10),v100)), "doesn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(new Ray(new Point(10, 10, 10), v100)), "doesn't return null");
 
 
         // **** Group: Ray's line vertical to axis line(but not going through the center axis)
@@ -129,13 +131,13 @@ public class TubeTest {
         //TC13: starts before the tube(2 points)
         Ray ray13 = new Ray(new Point(1, 0.5, -2), v001);
         List<GeoPoint> result13 = tube.findGeoIntersectionsHelper(ray13);
-        exp = List.of(new GeoPoint(tube,p01), new GeoPoint(tube, p02));
+        exp = List.of(new GeoPoint(tube, p01), new GeoPoint(tube, p02));
         assertEquals(2, result13.size(), "wrong number of results");
         assertEquals(exp, result13, "wrong points");
         //TC14: starts on the tube and goes inside (1 point)
         Ray ray14 = new Ray(p01, v001);
         List<GeoPoint> result14 = tube.findGeoIntersectionsHelper(ray14);
-        exp = List.of(new GeoPoint(tube,p02));
+        exp = List.of(new GeoPoint(tube, p02));
         assertEquals(1, result14.size(), "wrong number of results");
         assertEquals(exp, result14, "wrong points");
         //TC15: starts inside the tube(1 point)
@@ -157,13 +159,13 @@ public class TubeTest {
         //TC18: starts before the tube(2 points)
         Ray ray18 = new Ray(new Point(1, 0, -2), v001);
         List<GeoPoint> result18 = tube.findGeoIntersectionsHelper(ray18);
-        exp = List.of(new GeoPoint(tube,p1), new GeoPoint(tube, p2));
+        exp = List.of(new GeoPoint(tube, p1), new GeoPoint(tube, p2));
         assertEquals(2, result18.size(), "wrong number of results");
         assertEquals(exp, result18, "wrong points");
         //TC19: starts on the tube(1 point)
         Ray ray19 = new Ray(p1, v001);
         List<GeoPoint> result19 = tube.findGeoIntersectionsHelper(ray19);
-        exp = List.of(new GeoPoint(tube,p2));
+        exp = List.of(new GeoPoint(tube, p2));
         assertEquals(1, result19.size(), "wrong number of results");
         assertEquals(exp, result19, "wrong points");
         //TC20: starts inside the tube(1 point)
@@ -227,7 +229,7 @@ public class TubeTest {
         //TC28: Ray's line is inside, ray is orthogonal to ray start to axis
         Ray ray28 = new Ray(new Point(1, 0.5, 0), v001);
         List<GeoPoint> result28 = tube.findGeoIntersectionsHelper(ray28);
-        exp = List.of(new GeoPoint(tube,p02));
+        exp = List.of(new GeoPoint(tube, p02));
         assertEquals(1, result28.size(), "wrong number of results");
         assertEquals(exp, result28, "wrong points");
     }

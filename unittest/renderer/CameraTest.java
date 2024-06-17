@@ -1,10 +1,9 @@
 package renderer;
 
-import geometries.Sphere;
-import geometries.Triangle;
-import lighting.AmbientLight;
 import org.junit.jupiter.api.Test;
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 import scene.Scene;
 
 import java.util.MissingResourceException;

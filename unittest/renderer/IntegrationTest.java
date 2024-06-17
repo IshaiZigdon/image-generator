@@ -1,6 +1,7 @@
 package renderer;
 
 import geometries.Intersectable;
+import geometries.Intersectable.GeoPoint;
 import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
@@ -9,7 +10,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
-import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 

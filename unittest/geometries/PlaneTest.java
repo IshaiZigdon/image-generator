@@ -1,10 +1,11 @@
 package geometries;
 
+import geometries.Intersectable.GeoPoint;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-import geometries.Intersectable.GeoPoint;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -114,7 +115,7 @@ public class PlaneTest {
         //TC01: Ray intersects the plane
         final Point pM1hh0 = new Point(-1.5, 0.5, -1);
         final var result01 = plane.findGeoIntersectionsHelper(new Ray(pM1hh0, v101));
-        var exp = List.of(new GeoPoint(plane ,new Point(-0.5, 0.5, 0)));
+        var exp = List.of(new GeoPoint(plane, new Point(-0.5, 0.5, 0)));
         assertEquals(exp, result01, "TC01: Plane: findIntersections TC01 failed");
         //TC02: Ray doesn't intersect the plane
         final Point pH0h = new Point(0.5, 0, 0.5);
@@ -134,7 +135,7 @@ public class PlaneTest {
         //TC12: Ray begins before the plane
         final Point pM10M1 = new Point(-1, 0, -1);
         final var result12 = plane.findGeoIntersectionsHelper(new Ray(pM10M1, v001));
-        assertEquals(List.of(new GeoPoint(plane ,new Point(-1, 0, 0))), result12, "TC12: Plane: findIntersections TC12 failed");
+        assertEquals(List.of(new GeoPoint(plane, new Point(-1, 0, 0))), result12, "TC12: Plane: findIntersections TC12 failed");
         //TC13: Ray begins on the plane
         assertNull(plane.findGeoIntersectionsHelper(new Ray(new Point(2, 1, 0), v001)), "TC13: Ray's line out of plane");
         //TC14: Ray begins after the plane

@@ -116,6 +116,6 @@ public class Polygon extends Geometry {
             }
             if (x1 * x2 <= 0) return null;
         }
-        return List.of(new GeoPoint(this,lst.getFirst()));
+        return List.of(new GeoPoint(this, lst.getFirst()));
     }
 }

@@ -56,7 +56,7 @@ public class Tube extends RadialGeometry {
         double a = (dv.lengthSquared()) / d.lengthSquared();
 
         if (ray.getHead().equals(axis.getHead()))
-            return List.of(new GeoPoint(this,ray.getPoint(alignZero(radius / sqrt(a)))));
+            return List.of(new GeoPoint(this, ray.getPoint(alignZero(radius / sqrt(a)))));
 
         // w= distance between the point of ray and the point of axis
         Vector w = ray.getHead().subtract(axis.getHead());
@@ -79,9 +79,9 @@ public class Tube extends RadialGeometry {
             if (t2 <= 0)
                 return null;
             return t1 <= 0 ?
-                    List.of(new GeoPoint(this,ray.getPoint(t2)))
-                    : List.of(new GeoPoint(this,ray.getPoint(t1)),
-                    new GeoPoint(this,ray.getPoint(t2)));
+                    List.of(new GeoPoint(this, ray.getPoint(t2)))
+                    : List.of(new GeoPoint(this, ray.getPoint(t1)),
+                    new GeoPoint(this, ray.getPoint(t2)));
         }
         return null;
     }

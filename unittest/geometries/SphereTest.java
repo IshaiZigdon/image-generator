@@ -1,5 +1,6 @@
 package geometries;
 
+import geometries.Intersectable.GeoPoint;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
@@ -9,7 +10,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import geometries.Intersectable.GeoPoint;
 
 
 /**
@@ -72,7 +72,7 @@ public class SphereTest {
         // TC03: Ray starts inside the sphere (1 point)
         final var result03 = sphere.findGeoIntersectionsHelper(new Ray(p02, v310));
         assertEquals(1, result03.size(), "TC03: Wrong number of points");
-        exp = List.of(new GeoPoint(sphere,gp2));
+        exp = List.of(new GeoPoint(sphere, gp2));
         assertEquals(exp, result03, "TC03: Ray crosses sphere");
         // TC04: Ray starts after the sphere (0 points)
         assertNull(sphere.findGeoIntersectionsHelper(new Ray(p03, v310)), "TC04: Ray's line out of sphere");
@@ -93,12 +93,12 @@ public class SphereTest {
         // TC12: Ray starts before the sphere (2 points)
         final var result13 = sphere.findGeoIntersectionsHelper(new Ray(p01, v300)).stream().sorted(Comparator.comparingDouble(p -> p.point.distance(p01))).toList();
         assertEquals(2, result13.size(), "TC12: Wrong number of points");
-        exp = List.of(new GeoPoint(sphere,Point.ZERO),new GeoPoint(sphere, p200));
+        exp = List.of(new GeoPoint(sphere, Point.ZERO), new GeoPoint(sphere, p200));
         assertEquals(exp, result13, "TC12: Ray crosses sphere");
         // TC13: Ray starts at sphere and goes inside (1 point)
         final var result14 = sphere.findGeoIntersectionsHelper(new Ray(Point.ZERO, v300));
         assertEquals(1, result14.size(), "TC13: Wrong number of points");
-        exp = List.of(new GeoPoint(sphere,p200));
+        exp = List.of(new GeoPoint(sphere, p200));
         assertEquals(exp, result14, "TC13: Ray crosses sphere");
         // TC14: Ray starts inside (1 point)
         final Point pHalf = new Point(0.5, 0, 0);
@@ -134,7 +134,7 @@ public class SphereTest {
         final Point p04 = new Point(0.8, 0.6, 0);
         final var result22 = sphere.findGeoIntersectionsHelper(new Ray(p04, v310));
         assertEquals(1, result22.size(), "TC22: Wrong number of points");
-        exp = List.of(new GeoPoint(sphere,gp2));
+        exp = List.of(new GeoPoint(sphere, gp2));
         assertEquals(exp, result22, "TC22: Ray crosses sphere");
     }
 }

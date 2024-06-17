@@ -53,6 +53,6 @@ public class Triangle extends Polygon {
         double x3 = alignZero(v.dotProduct(n3));
         if (x1 * x3 <= 0) return null;
 
-        return List.of(new GeoPoint(this,lst.getFirst()));
+        return List.of(new GeoPoint(this, lst.getFirst()));
     }
 }

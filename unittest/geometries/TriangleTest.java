@@ -1,8 +1,10 @@
 package geometries;
 
-import org.junit.jupiter.api.Test;
-import primitives.*;
 import geometries.Intersectable.GeoPoint;
+import org.junit.jupiter.api.Test;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import java.util.List;
 
@@ -67,7 +69,7 @@ public class TriangleTest {
 
         //TC01: Ray intersects the triangle
         final var result01 = triangle.findGeoIntersectionsHelper(new Ray(new Point(0.7, 0.7, -1), v001));
-        var exp = List.of(new GeoPoint(triangle,new Point(0.7, 0.7, 0)));
+        var exp = List.of(new GeoPoint(triangle, new Point(0.7, 0.7, 0)));
         assertEquals(exp, result01, "Triangle: findGeoIntersectionsHelper TC01 didnt work");
         // **** Group: Ray doesn't intersect the triangle (but does the plane)
         //TC02: in front of edge

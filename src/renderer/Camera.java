@@ -7,7 +7,8 @@ import primitives.Vector;
 
 import java.util.MissingResourceException;
 
-import static primitives.Util.*;
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 /**
  * this class represent the camera

@@ -31,6 +31,7 @@ public class RenderTests {
             .setLocation(Point.ZERO).setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
             .setVpDistance(100)
             .setVpSize(500, 500);
+
     /**
      * just for javaDoc
      */
@@ -70,7 +71,7 @@ public class RenderTests {
     @Test
     public void renderMultiColorTest() {
         scene.geometries.add( // center
-                new Sphere(new Point(0, 0, -100), 50).setEmission(new Color(25, 25, 25)),
+                new Sphere(new Point(0, 0, -100), 50).setEmission(new Color(15, 15, 15)),
                 // up left
                 new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100))
                         .setEmission(new Color(GREEN)),

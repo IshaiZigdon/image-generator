@@ -92,12 +92,16 @@ public class Ray {
      * @return the closest GeoPoint in the list if exist
      */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints) {
-        if (isZero(geoPoints.size()))
+        if (geoPoints == null)
             return null;
-        GeoPoint closestGeoPoint = geoPoints.getFirst();
+
+        GeoPoint closestGeoPoint = null;
+        double minDistance = Double.POSITIVE_INFINITY;
         for (GeoPoint geoPoint : geoPoints) {
-            if (head.distance(geoPoint.point) < head.distance(closestGeoPoint.point)) {
+            double distance = geoPoint.point.distance(head);
+            if (distance < minDistance) {
                 closestGeoPoint = geoPoint;
+                minDistance = distance;
             }
         }
         return closestGeoPoint;

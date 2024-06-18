@@ -20,7 +20,7 @@ public class SpotLight extends PointLight {
      * @param position  the position
      * @param direction the direction
      */
-    protected SpotLight(Color intensity, Point position, Vector direction) {
+    public SpotLight(Color intensity, Point position, Vector direction) {
         super(intensity, position);
         this.direction = direction.normalize();
     }

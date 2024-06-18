@@ -59,7 +59,8 @@ public class RenderTests {
                 .setImageWriter(new ImageWriter("base render test", 1000, 1000))
                 .build()
                 .renderImage()
-                .printGrid(100, new Color(YELLOW));
+                .printGrid(100, new Color(YELLOW))
+                .writeToImage();
     }
 
     // For stage 6 - please disregard in stage 5
@@ -87,7 +88,8 @@ public class RenderTests {
                 .setImageWriter(new ImageWriter("color render test", 1000, 1000))
                 .build()
                 .renderImage()
-                .printGrid(100, new Color(WHITE));
+                .printGrid(100, new Color(WHITE))
+                .writeToImage();
     }
 
     /**
@@ -104,6 +106,7 @@ public class RenderTests {
                 .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
                 .build()
                 .renderImage()
-                .printGrid(100, new Color(YELLOW));
+                .printGrid(100, new Color(YELLOW))
+                .writeToImage();
     }
 }

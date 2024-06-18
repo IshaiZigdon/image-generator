@@ -34,7 +34,7 @@ public class Scene {
     /**
      *
      */
-    private List<LightSource> lights = new LinkedList<>();
+    public List<LightSource> lights = new LinkedList<>();
 
     //------------------------functions---------------------------------
 
@@ -86,8 +86,8 @@ public class Scene {
      * @param lights the given lights in the scene
      * @return the updated scene
      */
-    public Scene setGeometries(List<LightSource> lights) {
-        this.lights = lights;
+    public Scene setGeometries(LightSource lights) {
+        this.lights.add(lights);
         return this;
     }
 }

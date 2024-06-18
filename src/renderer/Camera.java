@@ -186,7 +186,6 @@ public class Camera implements Cloneable {
             for (int j = 0; j < nX; j++)
                 if (i % interval == 0 || j % interval == 0)
                     imageWriter.writePixel(j, i, color);
-        imageWriter.writeToImage();
         return this;
     }
 
@@ -202,6 +201,13 @@ public class Camera implements Cloneable {
         Ray ray = constructRay(nX, nY, j, i);
         Color color = rayTracer.traceRay(ray);
         imageWriter.writePixel(j, i, color);
+    }
+
+    /**
+     *
+     */
+    public void writeToImage() {
+        imageWriter.writeToImage();
     }
 
     /**

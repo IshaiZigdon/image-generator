@@ -9,15 +9,11 @@ import primitives.Double3;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-public class AmbientLight {
+public class AmbientLight extends Light {
     /**
      * black light
      */
     public static AmbientLight NONE = new AmbientLight(Color.BLACK, 0);
-    /**
-     * the intensity
-     */
-    final private Color intensity;
 
     //------------------------------functions---------------------------------
 
@@ -28,7 +24,7 @@ public class AmbientLight {
      * @param ka 3 attenuation coefficient values
      */
     public AmbientLight(Color ia, Double3 ka) {
-        intensity = ia.scale(ka);
+         super(ia.scale(ka));
     }
 
     /**
@@ -38,15 +34,6 @@ public class AmbientLight {
      * @param ka 1 attenuation coefficient value
      */
     public AmbientLight(Color ia, double ka) {
-        intensity = ia.scale(ka);
-    }
-
-    /**
-     * get function for intensity
-     *
-     * @return intensity
-     */
-    public Color getIntensity() {
-        return intensity;
+        super(ia.scale(ka));
     }
 }

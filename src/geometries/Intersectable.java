@@ -62,9 +62,9 @@ public abstract class Intersectable {
         public Point point;
 
         /**
-         * ctor
+         * ctor with given shape and point
          *
-         * @param geometry the given geometry
+         * @param geometry the given geometry shape
          * @param point    the given point
          */
         public GeoPoint(Geometry geometry, Point point) {

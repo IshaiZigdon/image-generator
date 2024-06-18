@@ -76,8 +76,6 @@ public class RayTest {
         //TC12:
         points = List.of(p3, p2, p4, p5, closest);
         assertEquals(closest, ray.findClosestPoint(points), "TC12: wrong point");
-
-
     }
 
     /**

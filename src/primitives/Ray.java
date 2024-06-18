@@ -69,20 +69,9 @@ public class Ray {
      * @return the closest point in the list if exist
      */
     public Point findClosestPoint(List<Point> points) {
-        if (isZero(points.size()))
-            return null;
-
-        Point closestPoint = null;
-        double minDistance = Double.POSITIVE_INFINITY;
-        for (Point point : points) {
-            double distance = point.distance(head);
-            if (distance < minDistance) {
-                closestPoint = point;
-                minDistance = distance;
-            }
-        }
-
-        return closestPoint;
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream()
+                .map(p -> new GeoPoint(null, p)).toList()).point;
     }
 
     /**

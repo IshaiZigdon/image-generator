@@ -24,7 +24,7 @@ public class AmbientLight extends Light {
      * @param ka 3 attenuation coefficient values
      */
     public AmbientLight(Color ia, Double3 ka) {
-         super(ia.scale(ka));
+        super(ia.scale(ka));
     }
 
     /**

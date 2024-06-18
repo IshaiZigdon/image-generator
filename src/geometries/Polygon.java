@@ -95,7 +95,7 @@ public class Polygon extends Geometry {
     }
 
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         // Find intersections with the plane
         List<Point> lst = plane.findIntersections(ray);
         if (lst == null)

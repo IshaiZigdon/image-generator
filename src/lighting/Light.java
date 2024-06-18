@@ -3,8 +3,6 @@ package lighting;
 import primitives.Color;
 
 /**
- *
- *
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
@@ -13,6 +11,7 @@ public abstract class Light {
 
     /**
      * ctor with given intensity
+     *
      * @param intensity the intensity
      */
     protected Light(Color intensity) {

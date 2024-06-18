@@ -4,6 +4,8 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+import static primitives.Util.alignZero;
+
 /**
  * @author Ishai zigdon
  * @author Zaki zafrani
@@ -79,9 +81,9 @@ public class PointLight extends Light implements LightSource {
      */
     @Override
     public Color getIntensity(Point p) {
-        double distanceSquared = position.distanceSquared(p);
-        double distance = position.distance(p);
-        double nominator = kC + kL * distance + kQ * distanceSquared;
+        double distanceSquared = alignZero(position.distanceSquared(p));
+        double distance =  alignZero(position.distance(p));
+        double nominator = alignZero(kC + kL * distance + kQ * distanceSquared);
         return getIntensity().scale(1 / nominator);
     }
 

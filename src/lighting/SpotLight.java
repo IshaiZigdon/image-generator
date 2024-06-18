@@ -4,7 +4,8 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
-import static java.lang.Math.max;
+import static java.lang.Double.max;
+
 
 /**
  * @author Ishai zigdon

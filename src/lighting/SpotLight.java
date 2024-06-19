@@ -2,7 +2,6 @@ package lighting;
 
 import primitives.Color;
 import primitives.Point;
-import primitives.Util;
 import primitives.Vector;
 
 import static java.lang.Double.max;
@@ -10,11 +9,15 @@ import static primitives.Util.alignZero;
 
 
 /**
+ * class for spotlight
+ *
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
 public class SpotLight extends PointLight {
+    /** the direction of the spotLight*/
     private final Vector direction;
+    /** the width of the beam*/
     private int narrowBeam = 1;
 
     /**
@@ -35,7 +38,6 @@ public class SpotLight extends PointLight {
      * @param kC the given kC
      * @return the updated PointLight
      */
-    @Override
     public SpotLight setKc(double kC) {
         return (SpotLight) super.setKc(kC);
     }
@@ -60,15 +62,17 @@ public class SpotLight extends PointLight {
         return (SpotLight) super.setKq(kQ);
     }
 
+    /**
+     * set function for narrowBeam
+     *
+     * @param narrowBeam the given narrowBeam
+     * @return the updated spotLight
+     */
     public SpotLight setNarrowBeam(int narrowBeam) {
         this.narrowBeam = narrowBeam;
         return this;
     }
 
-    /**
-     * @param p
-     * @return
-     */
     @Override
     public Color getIntensity(Point p) {
         double angle = alignZero(direction.dotProduct(getL(p)));

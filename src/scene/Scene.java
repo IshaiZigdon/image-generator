@@ -32,7 +32,7 @@ public class Scene {
      */
     public Geometries geometries = new Geometries();
     /**
-     *
+     * list of all the lights on the scene
      */
     public List<LightSource> lights = new LinkedList<>();
 

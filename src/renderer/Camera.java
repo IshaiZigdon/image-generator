@@ -204,7 +204,7 @@ public class Camera implements Cloneable {
     }
 
     /**
-     *
+     * write to image for camera
      */
     public void writeToImage() {
         imageWriter.writeToImage();

@@ -7,11 +7,15 @@ import primitives.Vector;
 import static primitives.Util.alignZero;
 
 /**
+ * class for point light
+ *
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
 public class PointLight extends Light implements LightSource {
+    /** the position of the light */
     protected final Point position;
+    /** the attenuation coefficients */
     private double kC = 1, kL = 0, kQ = 0;
 
     /**
@@ -58,12 +62,6 @@ public class PointLight extends Light implements LightSource {
         return this;
     }
 
-    /**
-     * calculates the intensity color in the point
-     *
-     * @param p the point on the shape
-     * @return the color of the point
-     */
     @Override
     public Color getIntensity(Point p) {
         double distanceSquared = alignZero(position.distanceSquared(p));
@@ -72,12 +70,6 @@ public class PointLight extends Light implements LightSource {
         return getIntensity().scale(1 / nominator);
     }
 
-    /**
-     * creating a vector of the direction of the shape
-     *
-     * @param p the point on the shape
-     * @return the direction vector
-     */
     @Override
     public Vector getL(Point p) {
         return p.subtract(position).normalize();

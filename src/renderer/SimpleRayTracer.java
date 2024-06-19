@@ -28,8 +28,10 @@ public class SimpleRayTracer extends RayTracerBase {
 
     /**
      * calculates the color of the given point in the image
+     * with all affecting lights
      *
      * @param geoPoint the given point
+     * @param ray the ray from the camera
      * @return the color of geoPoint
      */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
@@ -43,7 +45,7 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     /**
-     * calculating the color from the given lighton the given GeoPoint
+     * calculating the color from the given light on the given GeoPoint
      *
      * @param geoPoint the shape and the point
      * @param light    the given light
@@ -69,7 +71,6 @@ public class SimpleRayTracer extends RayTracerBase {
         Color specular = iL.scale(kS).scale(maxVal);
         return diffuse.add(specular);
     }
-
 
     @Override
     public Color traceRay(Ray ray) {

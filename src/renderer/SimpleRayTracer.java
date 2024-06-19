@@ -53,17 +53,18 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the result color
      */
     private Color phongLight(GeoPoint geoPoint, LightSource light, Vector v) {
+        //---------------- creating objects ----------------------
         Material material = geoPoint.geometry.getMaterial();
         Double3 kD = material.kD;
         Double3 kS = material.kS;
         int nShininess = material.nShininess;
-
+        //------- creating and checking vectors ---------------
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
         Vector l = light.getL(geoPoint.point);
         double ln = alignZero(l.dotProduct(n));
         double vn = alignZero(v.dotProduct(n));
         if (ln * vn <= 0) return Color.BLACK;
-
+        //-------- implementing the phong method -------------
         Color iL = light.getIntensity(geoPoint.point);
         Color diffuse = iL.scale(kD).scale(Math.abs(ln));
         Vector r = l.subtract(n.scale(2 * ln));

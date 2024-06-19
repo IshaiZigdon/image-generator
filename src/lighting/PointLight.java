@@ -13,9 +13,13 @@ import static primitives.Util.alignZero;
  * @author Zaki zafrani
  */
 public class PointLight extends Light implements LightSource {
-    /** the position of the light */
+    /**
+     * the position of the light
+     */
     protected final Point position;
-    /** the attenuation coefficients */
+    /**
+     * the attenuation coefficients
+     */
     private double kC = 1, kL = 0, kQ = 0;
 
     /**
@@ -64,10 +68,10 @@ public class PointLight extends Light implements LightSource {
 
     @Override
     public Color getIntensity(Point p) {
-        double distanceSquared = alignZero(position.distanceSquared(p));
-        double distance = alignZero(position.distance(p));
-        double nominator = alignZero(kC + kL * distance + kQ * distanceSquared);
-        return getIntensity().scale(1 / nominator);
+        double distanceSquared = position.distanceSquared(p);
+        double distance = position.distance(p);
+        double denominator = alignZero(kC + kL * distance + kQ * distanceSquared);
+        return getIntensity().scale(1 / denominator);
     }
 
     @Override

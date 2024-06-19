@@ -2,6 +2,7 @@ package lighting;
 
 import primitives.Color;
 import primitives.Point;
+import primitives.Util;
 import primitives.Vector;
 
 import static java.lang.Double.max;
@@ -13,6 +14,7 @@ import static java.lang.Double.max;
  */
 public class SpotLight extends PointLight {
     private final Vector direction;
+    private int narrowBeam = 1;
 
     /**
      * ctor with given intensity and position and direction
@@ -33,7 +35,7 @@ public class SpotLight extends PointLight {
      * @return the updated PointLight
      */
     @Override
-    public PointLight setKc(double kC) {
+    public SpotLight setKc(double kC) {
         return (SpotLight) super.setKc(kC);
     }
 
@@ -44,7 +46,7 @@ public class SpotLight extends PointLight {
      * @return the updated PointLight
      */
     public SpotLight setKl(double kL) {
-        return (SpotLight) super.setKc(kL);
+        return (SpotLight) super.setKl(kL);
     }
 
     /**
@@ -54,19 +56,12 @@ public class SpotLight extends PointLight {
      * @return the updated PointLight
      */
     public SpotLight setKq(double kQ) {
-        return (SpotLight) super.setKc(kQ);
+        return (SpotLight) super.setKq(kQ);
     }
 
-    /**
-     * set function for kC, kL,kQ
-     *
-     * @param kC the given kC
-     * @param kL the given kL
-     * @param kQ the given kQ
-     * @return the updated PointLight
-     */
-    public SpotLight setCoefficients(double kC, double kL, double kQ) {
-        return (SpotLight) super.setCoefficients(kC, kL, kQ);
+    public SpotLight setNarrowBeam(int narrowBeam) {
+        this.narrowBeam = narrowBeam;
+        return this;
     }
 
     /**
@@ -75,6 +70,8 @@ public class SpotLight extends PointLight {
      */
     @Override
     public Color getIntensity(Point p) {
-        return super.getIntensity(p).scale(max(0, direction.dotProduct(getL(p))));
+        double angle = Util.alignZero(direction.dotProduct(getL(p)));
+        double factor = Math.pow(max(0, angle), narrowBeam);
+        return super.getIntensity(p).scale(factor);
     }
 }

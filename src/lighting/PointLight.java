@@ -59,21 +59,6 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * set function for kC, kL,kQ
-     *
-     * @param kC the given kC
-     * @param kL the given kL
-     * @param kQ the given kQ
-     * @return the updated PointLight
-     */
-    public PointLight setCoefficients(double kC, double kL, double kQ) {
-        this.kC = kC;
-        this.kL = kL;
-        this.kQ = kQ;
-        return this;
-    }
-
-    /**
      * calculates the intensity color in the point
      *
      * @param p the point on the shape
@@ -82,7 +67,7 @@ public class PointLight extends Light implements LightSource {
     @Override
     public Color getIntensity(Point p) {
         double distanceSquared = alignZero(position.distanceSquared(p));
-        double distance =  alignZero(position.distance(p));
+        double distance = alignZero(position.distance(p));
         double nominator = alignZero(kC + kL * distance + kQ * distanceSquared);
         return getIntensity().scale(1 / nominator);
     }

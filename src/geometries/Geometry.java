@@ -43,7 +43,6 @@ public abstract class Geometry extends Intersectable {
     }
 
     /**
-     *
      * @return
      */
     public Material getMaterial() {
@@ -51,7 +50,6 @@ public abstract class Geometry extends Intersectable {
     }
 
     /**
-     *
      * @param material
      * @return
      */

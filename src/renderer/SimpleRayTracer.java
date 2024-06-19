@@ -34,8 +34,8 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
         Color intensityAndEmission = scene.ambientLight.getIntensity().add(geoPoint.geometry.getEmission());
-        Vector v = ray.getDirection();
         Color sumColor = Color.BLACK;
+        Vector v = ray.getDirection();
         for (LightSource light : scene.lights) {
             sumColor = sumColor.add(phongLight(geoPoint, light, v));
         }
@@ -46,8 +46,8 @@ public class SimpleRayTracer extends RayTracerBase {
      * calculating the color from the given lighton the given GeoPoint
      *
      * @param geoPoint the shape and the point
-     * @param light the given light
-     * @param v the direction of the camera
+     * @param light    the given light
+     * @param v        the direction of the camera
      * @return the result color
      */
     private Color phongLight(GeoPoint geoPoint, LightSource light, Vector v) {
@@ -60,32 +60,16 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector l = light.getL(geoPoint.point);
         double ln = alignZero(l.dotProduct(n));
         double vn = alignZero(v.dotProduct(n));
-        if (ln*vn <= 0) return Color.BLACK;
+        if (ln * vn <= 0) return Color.BLACK;
 
         Color iL = light.getIntensity(geoPoint.point);
         Color diffuse = iL.scale(kD).scale(Math.abs(ln));
         Vector r = l.subtract(n.scale(2 * ln));
-        double maxVal = myPow(max(0, v.scale(-1).dotProduct(r)), nShininess);
+        double maxVal = Math.pow(max(0, -v.dotProduct(r)), nShininess);
         Color specular = iL.scale(kS).scale(maxVal);
         return diffuse.add(specular);
     }
 
-    /**
-     * calculating given num in the power of given exponent
-     *
-     * @param base the given number
-     * @param exponent the given exponent (greater than 0)
-     * @return the result
-     */
-    private double myPow(double base, int exponent) {
-        if (exponent == 0) {
-            return 1;
-        }
-        for (int i = 0; i < exponent; i++) {
-            base *= base;
-        }
-        return base;
-    }
 
     @Override
     public Color traceRay(Ray ray) {

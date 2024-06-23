@@ -31,7 +31,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * with all affecting lights
      *
      * @param geoPoint the given point
-     * @param ray the ray from the camera
+     * @param ray      the ray from the camera
      * @return the color of geoPoint
      */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
@@ -66,11 +66,32 @@ public class SimpleRayTracer extends RayTracerBase {
         if (ln * vn <= 0) return Color.BLACK;
         //-------- implementing the phong method -------------
         Color iL = light.getIntensity(geoPoint.point);
-        Color diffuse = iL.scale(kD).scale(Math.abs(ln));
         Vector r = l.subtract(n.scale(2 * ln));
-        double maxVal = Math.pow(max(0, -v.dotProduct(r)), nShininess);
-        Color specular = iL.scale(kS).scale(maxVal);
-        return diffuse.add(specular);
+        double maxVal = max(0, -v.dotProduct(r));
+        maxVal = maxVal == 0 && nShininess != 0 ? 0 : Math.pow(maxVal, nShininess);
+        return calcDiffuse(iL, kD, ln).add(calcSpecular(iL, kS, maxVal));
+    }
+
+    /**
+     * helper function for phongLight()
+     *
+     * @param iL the color in the specific point
+     * @param kD the constant of the material that absorbs light
+     * @param ln the direction from the position of the light to the current point
+     * @return the calculation of the diffused light
+     */
+    private Color calcDiffuse(Color iL, Double3 kD, double ln) {
+        return iL.scale(kD).scale(Math.abs(ln));
+    }
+
+    /**
+     * @param iL     the color in the specific point
+     * @param kS     the constant that tells how smooth is the material
+     * @param maxVal how much light is returned as a reflection
+     * @return the calculation of the specular light
+     */
+    private Color calcSpecular(Color iL, Double3 kS, double maxVal) {
+        return iL.scale(kS).scale(maxVal);
     }
 
     @Override

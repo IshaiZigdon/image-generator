@@ -17,6 +17,10 @@ import static primitives.Util.alignZero;
  */
 public class SimpleRayTracer extends RayTracerBase {
     /**
+     * Delta value for accuracy
+     */
+    private static final double DELTA = 0.1;
+    /**
      * ctor with given scene
      *
      * @param s the given scene
@@ -56,7 +60,7 @@ public class SimpleRayTracer extends RayTracerBase {
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
             double ln = alignZero(l.dotProduct(n));
-            if (ln * nv > 0) {
+            if ((ln * nv > 0) && unshaded(gp,l,n,lightSource, ln)) {
                 Color iL = lightSource.getIntensity(gp.point);
                 color = color.add(
                         iL.scale(calcDiffusive(material, ln)
@@ -93,9 +97,34 @@ public class SimpleRayTracer extends RayTracerBase {
         return alignZero(minusVR) <= 0 ? Double3.ZERO : mat.kS.scale(Math.pow(minusVR, mat.nShininess));
     }
 
+    /**
+     * check function for if the point should be shaded or not
+     * @param gp the shape with the intersection point
+     * @param l direction from light to point
+     * @param n normal of the shape
+     * @return if there is other shapes between camera and gp
+     */
+    private boolean unshaded(GeoPoint gp, Vector l, Vector n,LightSource lightSource,double ln)
+    {
+        Vector lightDirection = l.scale(-1); //from point to light source
+        Vector deltaVec = n.scale(ln<0 ? DELTA: -DELTA);
+        Point point = gp.point.add(deltaVec);
+        Ray ray = new Ray(point, lightDirection);
+        var intersections = scene.geometries.findGeoIntersections(ray);
+        if (intersections==null) return true;
+        double distance =lightSource.getDistance(point);
+        for (GeoPoint intersection : intersections) {
+            if(lightSource.getDistance(intersection.point)<distance)
+                return false;
+        }
+        return true;
+    }
+
+
     @Override
     public Color traceRay(Ray ray) {
         List<GeoPoint> geoPoints = scene.geometries.findGeoIntersections(ray);
-        return geoPoints == null ? scene.background : calcColor(ray.findClosestGeoPoint(geoPoints), ray);
+        return geoPoints == null ? scene.background :
+                calcColor(ray.findClosestGeoPoint(geoPoints), ray);
     }
 }

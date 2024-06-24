@@ -47,6 +47,10 @@ public class Camera implements Cloneable {
      */
     private double viewPlaneDistance = 0.0;
     /**
+     * the middle of the view plane
+     */
+    private Point viewPlaneMiddle ;
+    /**
      * the image writer with the resolution
      */
     private ImageWriter imageWriter;
@@ -54,6 +58,7 @@ public class Camera implements Cloneable {
      * the ray tracer with the scene
      */
     private RayTracerBase rayTracer;
+
 
     /**
      * making the default constructor private
@@ -149,7 +154,7 @@ public class Camera implements Cloneable {
         double yI = -(i - (nY - 1) / 2.0) * rY;
         double xJ = (j - (nX - 1) / 2.0) * rX;
 
-        Point pIJ = p0.add(vTo.scale(viewPlaneDistance));
+        Point pIJ = viewPlaneMiddle;
         if (!isZero(xJ))
             pIJ = pIJ.add(vRight.scale(xJ));
         if (!isZero(yI))
@@ -313,25 +318,32 @@ public class Camera implements Cloneable {
         public Camera build() {
             final String message = "Missing render resource. ";
             String fields = "";
+
             if (alignZero(camera.viewPlaneWidth) <= 0)
                 fields += "viewPlaneWidth ";
             if (alignZero(camera.viewPlaneHeight) <= 0)
                 fields += "viewPlaneHeight ";
             if (alignZero(camera.viewPlaneDistance) <= 0)
                 fields += "viewPlaneDistance ";
+
             if (camera.vTo == null)
                 fields += "vTo ";
             if (camera.vUp == null)
                 fields += "vUp ";
+
             if (camera.imageWriter == null)
                 fields += "imageWriter ";
             if (camera.rayTracer == null)
                 fields += "rayTracer ";
+
             if (!fields.isEmpty())
                 throw new MissingResourceException(message + fields, camera.getClass().getName(), "");
+
             if (!isZero(camera.vTo.dotProduct(camera.vUp)))
                 throw new IllegalArgumentException("camera vectors must be vertical to each other");
+            camera.viewPlaneMiddle =camera.p0.add(camera.vTo.scale(camera.viewPlaneDistance));
             camera.vRight = camera.vTo.crossProduct(camera.vUp).normalize();
+
             try {
                 return (Camera) camera.clone();
             } catch (CloneNotSupportedException e) {

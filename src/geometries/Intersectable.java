@@ -21,9 +21,7 @@ public abstract class Intersectable {
      * @param ray the ray
      * @return list of intersecting GeoPoints
      */
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        return null;
-    }
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 
     /**
      * calculates where are the intersecting GeoPoints of the
@@ -32,7 +30,7 @@ public abstract class Intersectable {
      * @param ray the ray
      * @return list of intersecting GeoPoints
      */
-    public List<GeoPoint> findGeoIntersections(Ray ray) {
+    public final List<GeoPoint> findGeoIntersections(Ray ray) {
         return findGeoIntersectionsHelper(ray);
     }
 
@@ -43,7 +41,7 @@ public abstract class Intersectable {
      * @param ray the ray
      * @return list of intersecting points
      */
-    public List<Point> findIntersections(Ray ray) {
+    public final List<Point> findIntersections(Ray ray) {
         var geoList = findGeoIntersections(ray);
         return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
     }
@@ -75,13 +73,12 @@ public abstract class Intersectable {
         @Override
         public boolean equals(Object obj) {
             if (this == obj) return true;
-            return obj instanceof GeoPoint && geometry.equals(((GeoPoint) obj).geometry)
-                    && point.equals(((GeoPoint) obj).point);
+            return obj instanceof GeoPoint gp && geometry == gp.geometry && point.equals(gp.point);
         }
 
         @Override
         public String toString() {
-            return geometry.toString() + " " + point.toString();
+            return geometry + " " + point;
         }
     }
 }

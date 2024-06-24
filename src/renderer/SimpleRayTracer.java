@@ -7,7 +7,6 @@ import scene.Scene;
 
 import java.util.List;
 
-import static java.lang.Double.max;
 import static primitives.Util.alignZero;
 
 /**
@@ -71,7 +70,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * calculates the diffusive light on a given material
      *
      * @param mat the material
-     * @param ln l dot product n
+     * @param ln  l dot product n
      * @return the calculation of the diffused light
      */
     private Double3 calcDiffusive(Material mat, double ln) {
@@ -90,10 +89,8 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 calcSpecular(Material mat, Vector n, Vector l, double ln, Vector v) {
         Vector r = l.subtract(n.scale(2 * ln));
-        double maxVal = max(0, -v.dotProduct(r));
-        maxVal = (maxVal == 0 && mat.nShininess != 0) ? 0
-                : Math.pow(maxVal, mat.nShininess);
-        return mat.kS.scale(maxVal);
+        double minusVR = -v.dotProduct(r);
+        return alignZero(minusVR) <= 0 ? Double3.ZERO : mat.kS.scale(Math.pow(minusVR, mat.nShininess));
     }
 
     @Override

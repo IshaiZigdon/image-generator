@@ -18,9 +18,17 @@ public class PointLight extends Light implements LightSource {
      */
     protected final Point position;
     /**
-     * the attenuation coefficients
+     * the constant attenuation factor
      */
-    private double kC = 1, kL = 0, kQ = 0;
+    private double kC = 1;
+    /**
+     * the constant linear attenuation factor
+     */
+    private double kL = 0;
+    /**
+     * the constant squared attenuation factor
+     */
+    private double kQ = 0;
 
     /**
      * ctor with given intensity and position
@@ -40,6 +48,8 @@ public class PointLight extends Light implements LightSource {
      * @return the updated PointLight
      */
     public PointLight setKc(double kC) {
+        if (alignZero(kC) <= 0)
+            throw new IllegalArgumentException("kC must be greater than zero");
         this.kC = kC;
         return this;
     }
@@ -69,10 +79,8 @@ public class PointLight extends Light implements LightSource {
     @Override
     public Color getIntensity(Point p) {
         double distanceSquared = position.distanceSquared(p);
-        double distance = position.distance(p);
-        double denominator = alignZero(kC + kL * distance + kQ * distanceSquared);
-        if (denominator == 0) return intensity;
-        return getIntensity().scale(1 / denominator);
+        double distance = Math.sqrt(distanceSquared);
+        return intensity.scale(1 / (kC + kL * distance + kQ * distanceSquared));
     }
 
     @Override

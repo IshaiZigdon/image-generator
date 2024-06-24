@@ -87,10 +87,10 @@ public class Ray {
         GeoPoint closestGeoPoint = null;
         double minDistance = Double.POSITIVE_INFINITY;
         for (GeoPoint geoPoint : geoPoints) {
-            double distance = geoPoint.point.distance(head);
-            if (distance < minDistance) {
+            double distanceSquared = geoPoint.point.distanceSquared(head);
+            if (distanceSquared < minDistance) {
                 closestGeoPoint = geoPoint;
-                minDistance = distance;
+                minDistance = distanceSquared;
             }
         }
         return closestGeoPoint;

@@ -4,7 +4,6 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
-import static java.lang.Double.max;
 import static primitives.Util.alignZero;
 
 
@@ -80,7 +79,6 @@ public class SpotLight extends PointLight {
     @Override
     public Color getIntensity(Point p) {
         double angle = alignZero(direction.dotProduct(getL(p)));
-        double factor = alignZero(Math.pow(max(0, angle), narrowBeam));
-        return super.getIntensity(p).scale(factor);
+        return angle <= 0 ? Color.BLACK : super.getIntensity(p).scale(Math.pow(angle, narrowBeam));
     }
 }

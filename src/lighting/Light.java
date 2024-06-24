@@ -12,7 +12,7 @@ public abstract class Light {
     /**
      * the intensity of the light
      */
-    protected Color intensity;
+    protected final Color intensity;
 
     /**
      * ctor with given intensity

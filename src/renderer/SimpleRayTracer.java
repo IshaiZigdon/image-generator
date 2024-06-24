@@ -35,65 +35,65 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the color of geoPoint
      */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
-        Color intensityAndEmission = scene.ambientLight.getIntensity().add(geoPoint.geometry.getEmission());
-        Color sumColor = Color.BLACK;
-        Vector v = ray.getDirection();
-        for (LightSource light : scene.lights) {
-            sumColor = sumColor.add(phongLight(geoPoint, light, v));
-        }
-        return intensityAndEmission.add(sumColor);
+        return scene.ambientLight.getIntensity()
+                .add(calcLocalEffects(geoPoint, ray));
     }
 
     /**
      * calculating the color from the given light on the given GeoPoint
      *
-     * @param geoPoint the shape and the point
-     * @param light    the given light
-     * @param v        the direction of the camera
+     * @param gp  the shape and the point
+     * @param ray the ray from the camera
      * @return the result color
      */
-    private Color phongLight(GeoPoint geoPoint, LightSource light, Vector v) {
-        //---------------- creating objects ----------------------
-        Material material = geoPoint.geometry.getMaterial();
-        Double3 kD = material.kD;
-        Double3 kS = material.kS;
-        int nShininess = material.nShininess;
-        //------- creating and checking vectors ---------------
-        Vector n = geoPoint.geometry.getNormal(geoPoint.point);
-        Vector l = light.getL(geoPoint.point);
-        double ln = alignZero(l.dotProduct(n));
-        double vn = alignZero(v.dotProduct(n));
-        if (ln * vn <= 0) return Color.BLACK;
-        //-------- implementing the phong method -------------
-        Color iL = light.getIntensity(geoPoint.point);
-        Vector r = l.subtract(n.scale(2 * ln));
-        return calcDiffuse(iL, kD, ln).add(calcSpecular(iL, kS, v,r,nShininess));
+    private Color calcLocalEffects(GeoPoint gp, Ray ray) {
+        Vector n = gp.geometry.getNormal(gp.point);
+        Vector v = ray.getDirection();
+        double nv = alignZero(n.dotProduct(v));
+        if (nv == 0) return Color.BLACK;
+
+        Material material = gp.geometry.getMaterial();
+        Color color = gp.geometry.getEmission();
+        for (LightSource lightSource : scene.lights) {
+            Vector l = lightSource.getL(gp.point);
+            double ln = alignZero(l.dotProduct(n));
+            if (ln * nv > 0) {
+                Color iL = lightSource.getIntensity(gp.point);
+                color = color.add(
+                        iL.scale(calcDiffusive(material, ln)
+                                .add(calcSpecular(material, n, l, ln, v))));
+            }
+        }
+        return color;
     }
 
     /**
-     * calculates the diffusive light after intersection
-     * @param iL the color in the specific point
-     * @param kD the constant of the material that absorbs light
-     * @param ln the direction from the position of the light to the current point
+     * calculates the diffusive light on a given material
+     *
+     * @param mat the material
+     * @param ln
      * @return the calculation of the diffused light
      */
-    private Color calcDiffuse(Color iL, Double3 kD, double ln) {
-        return iL.scale(kD).scale(Math.abs(ln));
+    private Double3 calcDiffusive(Material mat, double ln) {
+        return mat.kD.scale(Math.abs(ln));
     }
 
     /**
-     * calculates the specular light after intersection
-     * @param iL the light in a specific point
-     * @param kS how smooth is the material
-     * @param v direction of the ray from the camera
-     * @param r reflection of the light with attenuation coefficient
-     * @param nShininess how much shine there is
+     * calculates the specular light on a given material
+     *
+     * @param mat the material
+     * @param n   the normal of the shape
+     * @param l   the vector from the light to the point
+     * @param ln
+     * @param v   direction of the ray from the camera
      * @return the calculation of it all
      */
-    private Color calcSpecular(Color iL, Double3 kS, Vector v,Vector r,int nShininess) {
+    private Double3 calcSpecular(Material mat, Vector n, Vector l, double ln, Vector v) {
+        Vector r = l.subtract(n.scale(2 * ln));
         double maxVal = max(0, -v.dotProduct(r));
-        maxVal = maxVal == 0 && nShininess != 0 ? 0 : Math.pow(maxVal, nShininess);
-        return iL.scale(kS).scale(maxVal);
+        maxVal = (maxVal == 0 && mat.nShininess != 0) ? 0
+                : Math.pow(maxVal, mat.nShininess);
+        return mat.kS.scale(maxVal);
     }
 
     @Override

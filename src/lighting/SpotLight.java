@@ -15,9 +15,13 @@ import static primitives.Util.alignZero;
  * @author Zaki zafrani
  */
 public class SpotLight extends PointLight {
-    /** the direction of the spotLight*/
+    /**
+     * the direction of the spotLight
+     */
     private final Vector direction;
-    /** the width of the beam*/
+    /**
+     * the width of the beam
+     */
     private int narrowBeam = 1;
 
     /**

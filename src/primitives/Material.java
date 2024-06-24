@@ -7,11 +7,17 @@ package primitives;
  * @author Zaki zafrani
  */
 public class Material {
-    /** the diffuse attenuation coefficient*/
+    /**
+     * the diffuse attenuation coefficient
+     */
     public Double3 kD = Double3.ZERO;
-    /** the specular attenuation coefficient*/
+    /**
+     * the specular attenuation coefficient
+     */
     public Double3 kS = Double3.ZERO;
-    /** the shininess */
+    /**
+     * the shininess
+     */
     public int nShininess = 0;
 
     /**

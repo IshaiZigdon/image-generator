@@ -71,6 +71,7 @@ public class PointLight extends Light implements LightSource {
         double distanceSquared = position.distanceSquared(p);
         double distance = position.distance(p);
         double denominator = alignZero(kC + kL * distance + kQ * distanceSquared);
+        if (denominator == 0) return intensity;
         return getIntensity().scale(1 / denominator);
     }
 

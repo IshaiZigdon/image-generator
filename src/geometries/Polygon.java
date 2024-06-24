@@ -110,7 +110,7 @@ public class Polygon extends Geometry {
             Vector v2 = vertices.get((i + 1) % size).subtract(p0);
             Vector normal = v1.crossProduct(v2).normalize();
             x2 = alignZero(v.dotProduct(normal));
-            if (i == 0) {
+            if (i==0) {
                 x1 = x2;
                 if (isZero(x1)) return null;
             }

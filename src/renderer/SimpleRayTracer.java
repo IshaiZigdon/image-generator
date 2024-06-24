@@ -114,7 +114,7 @@ public class SimpleRayTracer extends RayTracerBase {
         if (intersections==null) return true;
         double distance =lightSource.getDistance(point);
         for (GeoPoint intersection : intersections) {
-            if(lightSource.getDistance(intersection.point)<distance)
+            if(point.distance(intersection.point)<distance)
                 return false;
         }
         return true;

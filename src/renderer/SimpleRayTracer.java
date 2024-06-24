@@ -71,7 +71,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * calculates the diffusive light on a given material
      *
      * @param mat the material
-     * @param ln
+     * @param ln l dot product n
      * @return the calculation of the diffused light
      */
     private Double3 calcDiffusive(Material mat, double ln) {
@@ -84,7 +84,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param mat the material
      * @param n   the normal of the shape
      * @param l   the vector from the light to the point
-     * @param ln
+     * @param ln  l dot product n
      * @param v   direction of the ray from the camera
      * @return the calculation of it all
      */

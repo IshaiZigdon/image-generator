@@ -67,14 +67,11 @@ public class SimpleRayTracer extends RayTracerBase {
         //-------- implementing the phong method -------------
         Color iL = light.getIntensity(geoPoint.point);
         Vector r = l.subtract(n.scale(2 * ln));
-        double maxVal = max(0, -v.dotProduct(r));
-        maxVal = maxVal == 0 && nShininess != 0 ? 0 : Math.pow(maxVal, nShininess);
-        return calcDiffuse(iL, kD, ln).add(calcSpecular(iL, kS, maxVal));
+        return calcDiffuse(iL, kD, ln).add(calcSpecular(iL, kS, v,r,nShininess));
     }
 
     /**
-     * helper function for phongLight()
-     *
+     * calculates the diffusive light after intersection
      * @param iL the color in the specific point
      * @param kD the constant of the material that absorbs light
      * @param ln the direction from the position of the light to the current point
@@ -85,12 +82,17 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     /**
-     * @param iL     the color in the specific point
-     * @param kS     the constant that tells how smooth is the material
-     * @param maxVal how much light is returned as a reflection
-     * @return the calculation of the specular light
+     * calculates the specular light after intersection
+     * @param iL the light in a specific point
+     * @param kS how smooth is the material
+     * @param v direction of the ray from the camera
+     * @param r reflection of the light with attenuation coefficient
+     * @param nShininess how much shine there is
+     * @return the calculation of it all
      */
-    private Color calcSpecular(Color iL, Double3 kS, double maxVal) {
+    private Color calcSpecular(Color iL, Double3 kS, Vector v,Vector r,int nShininess) {
+        double maxVal = max(0, -v.dotProduct(r));
+        maxVal = maxVal == 0 && nShininess != 0 ? 0 : Math.pow(maxVal, nShininess);
         return iL.scale(kS).scale(maxVal);
     }
 

@@ -19,7 +19,7 @@ import static primitives.Util.isZero;
  */
 public class Camera implements Cloneable {
     /**
-     * point
+     * position of the camera
      */
     private Point p0;
     /**

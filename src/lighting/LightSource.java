@@ -12,7 +12,7 @@ import primitives.Vector;
  */
 public interface LightSource {
     /**
-     * calculates the intensity of the light in a given point
+     * calculates the intensity of the light on a given point
      *
      * @param p the given point
      * @return the result

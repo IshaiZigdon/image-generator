@@ -46,7 +46,6 @@ public class Plane extends Geometry {
      * @param q      the point
      * @param normal the vector
      */
-    @SuppressWarnings("unused")
     public Plane(Point q, Vector normal) {
         this.q = q;
         this.normal = normal.normalize();

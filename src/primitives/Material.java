@@ -22,7 +22,7 @@ public class Material {
     /**
      * the transparency attenuation coefficient
      */
-    public Double3 kT = Double3.ZERO;
+    public Double3 kT = Double3.ONE;
     /**
      * the reflection attenuation coefficient
      */

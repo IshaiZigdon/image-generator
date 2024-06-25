@@ -45,8 +45,8 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the color of geoPoint
      */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
-        return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL,  MIN_CALC_COLOR_K);
-                //.add(scene.ambientLight.getIntensity());
+        return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL,  MIN_CALC_COLOR_K)
+                .add(scene.ambientLight.getIntensity());
     }
 
     /**
@@ -164,33 +164,11 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the refracted ray
      */
     private Ray constructRefractedRay(GeoPoint geoPoint, Ray ray) {
-        Vector incidentDir = ray.getDirection();
-        Vector normal = geoPoint.geometry.getNormal(geoPoint.point);
-
-        // Determine the refractive indices for Snell's law
-        double n1 = ray.getMaterial().getRefractiveIndex(); // Refractive index of the medium from which the ray is coming
-        double n2 = geoPoint.geometry.getMaterial().getRefractiveIndex(); // Refractive index of the medium into which the ray is entering
-
-        // Snell's Law
-        double nRatio = n1 / n2;
-        double cosThetaI = -incidentDir.dotProduct(normal);
-        double sin2ThetaI = 1.0 - cosThetaI * cosThetaI;
-        double sin2ThetaT = nRatio * nRatio * sin2ThetaI;
-
-        // Check for total internal reflection
-        if (sin2ThetaT > 1.0) {
-            // Total internal reflection occurs; return null or handle reflection
-            return null;
-        }
-
-        // Calculate the direction of the refracted ray using Snell's law
-        double cosThetaT = Math.sqrt(1.0 - sin2ThetaT);
-        Vector refractedDir = incidentDir.scale(nRatio).add(normal.scale(nRatio * cosThetaI - cosThetaT));
-
-        // Construct the refracted ray with a small offset to avoid self-intersection
-        Point offsetPoint = geoPoint.point.add(normal.scale(normal.dotProduct(incidentDir) > 0 ? DELTA : -DELTA));
-        return new Ray(offsetPoint, refractedDir);
-    }
+        Vector v = ray.getDirection();
+        Vector n = geoPoint.geometry.getNormal(geoPoint.point);
+        Vector deltaVec = n.scale(n.dotProduct(v) > 0 ? DELTA : -DELTA);
+        Point offsetPoint = geoPoint.point.add(deltaVec);
+        return new Ray(offsetPoint, v);
     }
 
 
@@ -234,10 +212,9 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     /**
-     * Finds the closest intersection point of the given ray with the scene geometries.
-     *
+     * finding the closest shape that intersect with the ray
      * @param ray the ray
-     * @return the closest intersection point
+     * @return the shape found or null if there isn't any
      */
     private GeoPoint findClosestIntersection(Ray ray) {
         var gp = scene.geometries.findGeoIntersections(ray);

@@ -208,14 +208,16 @@ public class SimpleRayTracer extends RayTracerBase {
         if (intersections == null) return Double3.ONE;
 
         Double3 ktr = Double3.ONE;
+        double distance = light.getDistance(point);
 
         for (GeoPoint intersection : intersections) {
-            double dist = intersection.point.distance(point);
-            if (dist >= light.getDistance(point)) continue;
-
-            ktr = ktr.product(intersection.geometry.getMaterial().kR).product(intersection.geometry.getMaterial().kT);
-            if (ktr.lowerThan(MIN_CALC_COLOR_K)) {
-                return Double3.ZERO;
+            //Double3 kR = intersection.geometry.getMaterial().kR;
+            //Double3 kT = intersection.geometry.getMaterial().kT;
+            if (intersection.point.distance(point) <= distance) {
+                ktr = ktr.product(intersection.geometry.getMaterial().kR).product(intersection.geometry.getMaterial().kT);
+                if (ktr.lowerThan(MIN_CALC_COLOR_K)) {
+                    return Double3.ZERO;
+                }
             }
         }
         return ktr;

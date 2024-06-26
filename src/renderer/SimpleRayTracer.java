@@ -25,7 +25,7 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Minimum factor to stop recursion for global effects
      */
-    private static final Double3 MIN_CALC_COLOR_K = new Double3(0.001);
+    private static final double MIN_CALC_COLOR_K = 0.001;
 
     /**
      * ctor with given scene
@@ -45,7 +45,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the color of geoPoint
      */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
-        return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, MIN_CALC_COLOR_K)
+        return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, new Double3(MIN_CALC_COLOR_K))
                 .add(scene.ambientLight.getIntensity());
     }
 
@@ -211,10 +211,8 @@ public class SimpleRayTracer extends RayTracerBase {
         double distance = light.getDistance(point);
 
         for (GeoPoint intersection : intersections) {
-            //Double3 kR = intersection.geometry.getMaterial().kR;
-            //Double3 kT = intersection.geometry.getMaterial().kT;
             if (intersection.point.distance(point) <= distance) {
-                ktr = ktr.product(intersection.geometry.getMaterial().kR).product(intersection.geometry.getMaterial().kT);
+                ktr = ktr.product(intersection.geometry.getMaterial().kT);
                 if (ktr.lowerThan(MIN_CALC_COLOR_K)) {
                     return Double3.ZERO;
                 }

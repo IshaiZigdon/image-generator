@@ -134,9 +134,10 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the color with global effects
      */
     private Color calcGlobalEffects(GeoPoint geoPoint, Ray ray, int level, Double3 k) {
+        Vector n = geoPoint.geometry.getNormal(geoPoint.point);
         Material material = geoPoint.geometry.getMaterial();
-        return calcGlobalEffect(constructRefractedRay(geoPoint, ray), material.kR, level, k)
-                .add(calcGlobalEffect(constructReflectedRay(geoPoint, ray), material.kT, level, k));
+        return calcGlobalEffect(constructRefractedRay(geoPoint, ray), material.kT, level, k)
+                .add(calcGlobalEffect(constructReflectedRay(geoPoint, ray), material.kR, level, k));
     }
 
     /**
@@ -152,8 +153,7 @@ public class SimpleRayTracer extends RayTracerBase {
         Double3 kkx = k.product(kx);
         if (kkx.lowerThan(MIN_CALC_COLOR_K)) return Color.BLACK;
         GeoPoint gp = findClosestIntersection(ray);
-        return gp == null ? scene.background
-                : calcColor(gp, ray, level - 1, kkx).scale(kx);
+        return gp == null ? scene.background : calcColor(gp, ray, level - 1, kkx).scale(kx);
     }
 
     /**
@@ -166,31 +166,9 @@ public class SimpleRayTracer extends RayTracerBase {
     private Ray constructRefractedRay(GeoPoint geoPoint, Ray ray) {
         Vector v = ray.getDirection();
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
-        double nv = alignZero(n.dotProduct(v));
-        if (nv == 0) {
-            return null; // Ray is parallel to the surface
-        }
-
-        // Determine the refractive indices
-        double n1 = 1.0; // Refractive index of the medium the ray is coming from (air)
-        double n2 = geoPoint.geometry.getMaterial().kR.lowerThan(1) ? 5 : 2.0; // Assume 1.5 for glass and 1.0 for air
-
-        // Calculate the refractive index ratio
-        double nRatio = nv > 0 ? n1 / n2 : n2 / n1;
-        double cosTheta1 = Math.abs(nv);
-        double sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
-
-//        // Total internal reflection check
-//        if (sinTheta2Squared > 1) {
-//            return null; // Total internal reflection
-//        }
-
-        double cosTheta2 = Math.sqrt(Math.abs(1 - sinTheta2Squared));
-        Vector direction = v.scale(nRatio).add(n.scale(nRatio * cosTheta1 - cosTheta2));
-
-        Vector deltaVec = n.scale(nv > 0 ? DELTA : -DELTA);
+        Vector deltaVec = n.scale(n.dotProduct(v) > 0 ? DELTA : -DELTA);
         Point offsetPoint = geoPoint.point.add(deltaVec);
-        return new Ray(offsetPoint, direction);
+        return new Ray(offsetPoint, v);
     }
 
 
@@ -205,7 +183,7 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector v = ray.getDirection();
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
         Vector r = v.subtract(n.scale(2 * v.dotProduct(n)));
-        Vector deltaVec = n.scale(n.dotProduct(v) < 0 ? DELTA : -DELTA).normalize();
+        Vector deltaVec = n.scale(n.dotProduct(v) > 0 ? DELTA : -DELTA);
         Point offsetPoint = geoPoint.point.add(deltaVec);
         return new Ray(offsetPoint, r);
     }

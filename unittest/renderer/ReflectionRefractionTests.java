@@ -7,12 +7,9 @@ import static java.awt.Color.*;
 
 import org.junit.jupiter.api.Test;
 
-import geometries.Sphere;
-import geometries.Triangle;
-import lighting.AmbientLight;
-import lighting.SpotLight;
+import geometries.*;
+import lighting.*;
 import primitives.*;
-import renderer.*;
 import scene.Scene;
 
 /** Tests for reflection and transparency functionality, test for partial
@@ -26,6 +23,75 @@ public class ReflectionRefractionTests {
    private final Camera.Builder cameraBuilder = Camera.getBuilder()
       .setDirection(new Vector(0,0,-1), new Vector(0,1,0))
       .setRayTracer(new SimpleRayTracer(scene));
+
+   /**
+    * test of reflection, refraction and shadow on 4 different shapes
+    */
+   @Test
+   public void Panda(){
+      scene.geometries.add(
+               //Large reflective floor
+              new Plane(new Point(0, -25, 0), new Vector(0, 1, 0))
+                      .setEmission(new Color(GREEN))
+                      .setMaterial(new Material().setKd(0.5).setKs(0.3).setShininess(100)),
+              //head
+              new Sphere(new Point(0,50,-100),30)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5).setKt(0.7)),
+              //eyes
+              new Sphere(new Point(-10,50,100),5)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+
+              new Sphere(new Point(10,50,100),5)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              //pupils
+              new Sphere(new Point(-10,50,120),2)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+
+              new Sphere(new Point(10,50,120),2)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+
+              //nose
+              new Triangle(new Point(-5,45,100),new Point(5,45,100),new Point(0,40,100))
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              //ears
+              new Sphere(new Point(-30,65,-100),10)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+
+              new Sphere(new Point(30,65,-100),10)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+
+              //body
+              new Sphere(new Point(0,0,-50),35)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+
+              new Sphere(new Point(0,0,-100),50)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)));
+
+
+      scene.setBackground(new Color(BLUE));
+      scene.lights.add(
+              new SpotLight(new Color(500, 600, 200), new Point(0, 500, -100), new Vector(0, -1, 0))
+                      .setKl(0.0004).setKq(0.0000006)
+      );
+
+      cameraBuilder.setLocation(new Point(0, 0, 1000))
+              .setVpDistance(1000)
+              .setVpSize(150, 150)
+              .setImageWriter(new ImageWriter("panda", 500, 500))
+              .build()
+              .renderImage()
+              .writeToImage();
+   }
 
    /** Produce a picture of a sphere lighted by a spot light */
    @Test

@@ -15,10 +15,6 @@ import static primitives.Util.alignZero;
  */
 public class SimpleRayTracer extends RayTracerBase {
     /**
-     * Delta value for accuracy
-     */
-    private static final double DELTA = 0.1;
-    /**
      * Maximum recursion level for calculating global effects (reflection and refraction)
      */
     private static final int MAX_CALC_COLOR_LEVEL = 10;
@@ -85,7 +81,8 @@ public class SimpleRayTracer extends RayTracerBase {
             double ln = alignZero(l.dotProduct(n));
             if (ln * nv > 0) {
                 Double3 ktr = transparency(gp, lightSource, l, n);
-                if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)||!ktr.product(k).equals(MIN_CALC_COLOR_K)) {
+                Double3 ktrK = ktr.product(k);
+                if (!ktrK.lowerThan(MIN_CALC_COLOR_K)||!ktrK.equals(new Double3(MIN_CALC_COLOR_K))) {
                     Color iL = lightSource.getIntensity(gp.point).scale(ktr);
                     color = color.add(
                             iL.scale(calcDiffusive(material, ln)
@@ -166,9 +163,7 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector v = ray.getDirection();
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
         double nv = alignZero(n.dotProduct(v));
-        Vector deltaVec = n.scale(nv > 0 ? DELTA : -DELTA);
-        Point offsetPoint = geoPoint.point.add(deltaVec);
-        return new Ray(offsetPoint, v);
+        return new Ray(geoPoint.point,v,n,-nv);
     }
 
 
@@ -184,9 +179,7 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
         double nv = alignZero(n.dotProduct(v));
         Vector r = v.subtract(n.scale(2 * nv));
-        Vector deltaVec = n.scale(nv < 0 ? DELTA : -DELTA).normalize();
-        Point offsetPoint = geoPoint.point.add(deltaVec);
-        return new Ray(offsetPoint, r);
+        return new Ray(geoPoint.point,r,n,nv);
     }
 
     /**
@@ -201,9 +194,7 @@ public class SimpleRayTracer extends RayTracerBase {
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1);
         double ln = alignZero(l.dotProduct(n));
-        Vector deltaVec = n.scale(ln < 0 ? DELTA : -DELTA);
-        Point point = gp.point.add(deltaVec);
-        Ray ray = new Ray(point, lightDirection);
+        Ray ray = new Ray(gp.point,lightDirection,n,ln);
 
         var intersections = scene.geometries.findGeoIntersections(ray);
         if (intersections == null) return Double3.ONE;
@@ -214,9 +205,6 @@ public class SimpleRayTracer extends RayTracerBase {
         for (var intersection : intersections) {
             if (intersection.point.distance(gp.point) < distance) {
                 ktr = ktr.product(intersection.geometry.getMaterial().kT);
-//                if (ktr.lowerThan(MIN_CALC_COLOR_K)) {
-//                    return Double3.ZERO;
-//                }
             }
         }
         return ktr;

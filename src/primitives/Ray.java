@@ -21,7 +21,10 @@ public class Ray {
      * the direction of the ray
      */
     private final Vector direction;
-
+    /**
+     * Delta value for accuracy
+     */
+    private static final double DELTA = 0.1;
     /**
      * constructor to initialize ray with head and direction
      *
@@ -32,6 +35,19 @@ public class Ray {
         this.head = head;
         ///if its already normalized, it will not change
         this.direction = direction.normalize();
+    }
+
+    /**
+     * ctor that moves the given point DELTA on the direction of given normal
+     * @param point the given point
+     * @param direction the given direction
+     * @param normal the given normal
+     * @param dotP to check if the normal and direction on the same direction
+     */
+    public Ray(Point point, Vector direction, Vector normal, double dotP) {
+        Vector deltaVec = normal.scale(dotP < 0 ? DELTA : -DELTA);
+        this.head = point.add(deltaVec);
+        this.direction = direction;
     }
 
     /**

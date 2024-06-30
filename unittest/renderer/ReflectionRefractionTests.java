@@ -46,26 +46,26 @@ public class ReflectionRefractionTests {
                 //head
                 new Sphere(new Point(0, 50, -100), 30)
                         .setEmission(new Color(WHITE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5).setKt(0.7)),
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
                 //eyes
-                new Sphere(new Point(-10, 50, 100), 5)
+                new Sphere(new Point(-10, 60, -60), 8)
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                new Sphere(new Point(10, 50, 100), 5)
+                new Sphere(new Point(10, 60, -60), 8)
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
                 //pupils
-                new Sphere(new Point(-10, 50, 120), 2)
+                new Sphere(new Point(-10, 60, -50), 4)
                         .setEmission(new Color(WHITE))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                new Sphere(new Point(10, 50, 120), 2)
+                new Sphere(new Point(10, 60, -50), 4)
                         .setEmission(new Color(WHITE))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
                 //nose
-                new Triangle(new Point(-5, 45, 100), new Point(5, 45, 100), new Point(0, 40, 100))
+                new Triangle(new Point(-5, 52, -50), new Point(5, 52, -50), new Point(0, 47, -50))
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
                 //ears
@@ -78,43 +78,89 @@ public class ReflectionRefractionTests {
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
                 //body
-                new Sphere(new Point(0, 0, -50), 35)
+                new Sphere(new Point(0, 0, -70), 35)
                         .setEmission(new Color(WHITE))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
                 new Sphere(new Point(0, 0, -100), 50)
                         .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)));
-        for (int i = -150; i < 500; i += 12) {
-            for (int j = -200; j < 150; j += 10) {
-                double randomHeight = -50 + Math.random() * 15;
-                double randomShiftX = Math.random() * 8 - 4;
-                double randomShiftZ = Math.random() * 5 - 2.5;
-
-                // Create the points with the random shifts
-                Point p1 = new Point(i + randomShiftX, -25, j + randomShiftZ);
-                Point p2 = new Point(i - 5 + randomShiftX, randomHeight, j + 5 + randomShiftZ);
-                Point p3 = new Point(i + 5 + randomShiftX, randomHeight, j - 5 + randomShiftZ);
-
-                Geometry triangle = new Triangle(p1, p2, p3)
-                        .setMaterial(new Material().setKd(0.3).setKs(0.2).setShininess(1))
-                        .setEmission(new Color(34, 139, 34));
-                scene.geometries.add(triangle);
-            }
-        }
-
-
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+                // Mirror polygon
+                new Polygon(
+                        new Point(50, 80, -250),  // Top-left
+                        new Point(70, 80, 300),   // Top-right
+                        new Point(70, -35, 300),  // Bottom-right
+                        new Point(50, -35, -250)  // Bottom-left
+                )
+                        .setEmission(new Color(30,30,30))
+                        .setMaterial(new Material().setKr(0.4).setKd(0.05).setShininess(20)));
 
         scene.setBackground(new Color(64, 128, 128));
         scene.lights.add(
-                new SpotLight(new Color(1000, 700, 700), new Point(-150, 200, -100), new Vector(1, -1, 0))
+                new SpotLight(new Color(1000, 800, 800), new Point(-150, 200, -100), new Vector(1, -1, 0))
+                        .setKl(0.0004).setKq(0.0000006)
+        );
+
+        cameraBuilder.setLocation(new Point(-100, 0, 1000))
+                .setVpDistance(2200)
+                .setVpSize(500, 500)
+                .setDirection(new Vector(0.15,0,-1),new Vector(0,1,0))
+                .setImageWriter(new ImageWriter("panda", 2048, 2048))
+                .build()
+                .renderImage()
+                .writeToImage();
+    }
+    @Test
+    public void PandaHead() {
+        scene.geometries.add(
+                //Large reflective floor
+                new Plane(new Point(0, -90, 0), new Vector(0, 1, 0))
+                        .setEmission(new Color(255, 218, 185))
+                        .setMaterial(new Material().setKd(0.6).setKs(0.4).setShininess(100)),
+                //head
+                new Sphere(new Point(0, 0, -100), 30)
+                        .setEmission(new Color(WHITE))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+                //eyes
+                new Sphere(new Point(-10, 10, -60), 8)
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+
+                new Sphere(new Point(10, 10, -60), 8)
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+                //pupils
+                new Sphere(new Point(-10, 10, -50), 4)
+                        .setEmission(new Color(WHITE))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+
+                new Sphere(new Point(10, 10, -50), 4)
+                        .setEmission(new Color(WHITE))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+
+                //nose
+                new Triangle(new Point(-5, 2, -50), new Point(5, 2, -50), new Point(0, -3, -50))
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+                //ears
+                new Sphere(new Point(-30, 15, -100), 10)
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+
+                new Sphere(new Point(30, 15, -100), 10)
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)));
+
+        scene.setBackground(new Color(64, 128, 128));
+        scene.lights.add(
+                new SpotLight(new Color(1000, 800, 800), new Point(-150, 200, -100), new Vector(1, -1, 0))
                         .setKl(0.0004).setKq(0.0000006)
         );
 
         cameraBuilder.setLocation(new Point(0, 0, 1000))
-                .setVpDistance(1000)
-                .setVpSize(150, 150)
-                .setImageWriter(new ImageWriter("panda", 500, 500))
+                .setVpDistance(2700)
+                .setVpSize(500, 500)
+                .setImageWriter(new ImageWriter("pandaHead", 2048, 2048))
                 .build()
                 .renderImage()
                 .writeToImage();

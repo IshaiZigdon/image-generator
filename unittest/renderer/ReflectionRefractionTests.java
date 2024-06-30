@@ -115,7 +115,7 @@ public class ReflectionRefractionTests {
         scene.geometries.add(
                 //Large reflective floor
                 new Plane(new Point(0, -90, 0), new Vector(0, 1, 0))
-                        .setEmission(new Color(255, 218, 185))
+                        .setEmission(new Color(255, 127, 80))
                         .setMaterial(new Material().setKd(0.6).setKs(0.4).setShininess(100)),
                 //head
                 new Sphere(new Point(0, 0, -100), 30)
@@ -151,9 +151,9 @@ public class ReflectionRefractionTests {
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)));
 
-        scene.setBackground(new Color(64, 128, 128));
+        scene.setBackground(new Color(137, 207, 240));
         scene.lights.add(
-                new SpotLight(new Color(1000, 800, 800), new Point(-150, 200, -100), new Vector(1, -1, 0))
+                new SpotLight(new Color(600, 400, 400), new Point(-150, 200, -100), new Vector(1, -1, 0))
                         .setKl(0.0004).setKq(0.0000006)
         );
 

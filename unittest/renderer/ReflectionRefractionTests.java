@@ -126,7 +126,7 @@ public class ReflectionRefractionTests {
                 //head
                 new Sphere(new Point(0, 50, -100), 30)
                         .setEmission(new Color(WHITE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
                 //eyes
                 new Sphere(new Point(-10, 60, -60), 8)
                         .setEmission(new Color(BLACK))
@@ -160,11 +160,11 @@ public class ReflectionRefractionTests {
                 //body
                 new Sphere(new Point(0, 0, -70), 35)
                         .setEmission(new Color(WHITE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
                 new Sphere(new Point(0, 0, -100), 50)
                         .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
                 //pole
                 new Tube(new Ray(new Point(70, 0, 300), new Vector(0, 1, 0)), 3)
@@ -184,7 +184,7 @@ public class ReflectionRefractionTests {
                         new Point(50, -35, -250)  // Bottom-left
                 )
                         .setEmission(new Color(30, 30, 30))
-                        .setMaterial(new Material().setKr(0.4).setKd(0.05).setShininess(20)));
+                        .setMaterial(new Material().setKr(0.5).setKd(0.05).setShininess(20)));
 
         scene.setBackground(new Color(64, 128, 128));
         scene.lights.add(

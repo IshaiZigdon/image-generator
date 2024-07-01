@@ -35,9 +35,9 @@ public class Material {
      * @return the updated Material
      */
     public Material setKd(Double3 kD) {
-        if (!(kD.add(this.kS.add(this.kT)).lowerThan(Double3.ONE) || kD.add(this.kS.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kD out of range");
-        if (!(kD.add(this.kR.add(this.kT)).lowerThan(Double3.ONE) || kD.add(this.kR.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kD out of range");
         this.kD = kD;
         return this;
@@ -46,14 +46,14 @@ public class Material {
     /**
      * set function for kD with double value
      *
-     * @param kD the given kD
+     * @param kD2 the given kD
      * @return the updated Material
      */
     public Material setKd(double kD2) {
         Double3 kD = new Double3(kD2);
-        if (!(kD.add(this.kS.add(this.kT)).lowerThan(Double3.ONE) || kD.add(this.kS.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kD out of range");
-        if (!(kD.add(this.kR.add(this.kT)).lowerThan(Double3.ONE) || kD.add(this.kR.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kD out of range");
         this.kD = kD;
         return this;
@@ -66,7 +66,7 @@ public class Material {
      * @return the updated Material
      */
     public Material setKs(Double3 kS) {
-        if (!(kD.add(kS.add(this.kT)).lowerThan(Double3.ONE) || kD.add(this.kS.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kS out of range");
         this.kS = kS;
         return this;
@@ -75,12 +75,12 @@ public class Material {
     /**
      * set function for kD with double value
      *
-     * @param kS the given kS
+     * @param kS2 the given kS
      * @return the updated Material
      */
     public Material setKs(double kS2) {
         Double3 kS = new Double3(kS2);
-        if (!(kD.add(kS.add(this.kT)).lowerThan(Double3.ONE) || kD.add(this.kS.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kS out of range");
         this.kS = kS;
         return this;
@@ -93,9 +93,9 @@ public class Material {
      * @return the updated material
      */
     public Material setKt(Double3 kT) {
-        if (!(kD.add(this.kS.add(kT)).lowerThan(Double3.ONE) || kD.add(this.kS.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kT out of range");
-        if (!(kD.add(this.kR.add(kT)).lowerThan(Double3.ONE) || kD.add(this.kR.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kT out of range");
         this.kT = kT;
         return this;
@@ -104,14 +104,14 @@ public class Material {
     /**
      * set function for kD with double value
      *
-     * @param kT the given kT
+     * @param kT2 the given kT
      * @return the updated material
      */
     public Material setKt(double kT2) {
         Double3 kT = new Double3(kT2);
-        if (!(kD.add(this.kS.add(kT)).lowerThan(Double3.ONE) || kD.add(this.kS.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kT out of range");
-        if (!(kD.add(this.kR.add(kT)).lowerThan(Double3.ONE) || kD.add(this.kR.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kT out of range");
         this.kT = kT;
         return this;
@@ -124,7 +124,7 @@ public class Material {
      * @return the updated material
      */
     public Material setKr(Double3 kR) {
-        if (!(kD.add(kR.add(kT)).lowerThan(Double3.ONE) || kD.add(this.kR.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kR out of range");
         this.kR = kR;
         return this;
@@ -133,12 +133,12 @@ public class Material {
     /**
      * set function for kD with double value
      *
-     * @param kR the given kR
+     * @param kR2 the given kR
      * @return the updated material
      */
     public Material setKr(double kR2) {
         Double3 kR = new Double3(kR2);
-        if (!(kD.add(kR.add(kT)).lowerThan(Double3.ONE) || kD.add(this.kR.add(this.kT)).equals(Double3.ONE)))
+        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kR out of range");
         this.kR = kR;
         return this;

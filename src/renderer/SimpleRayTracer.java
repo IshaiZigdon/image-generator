@@ -82,7 +82,7 @@ public class SimpleRayTracer extends RayTracerBase {
             if (ln * nv > 0) {
                 Double3 ktr = transparency(gp, lightSource, l, n);
                 Double3 ktrK = ktr.product(k);
-                if (!ktrK.lowerThan(MIN_CALC_COLOR_K) || !ktrK.equals(new Double3(MIN_CALC_COLOR_K))) {
+                if (ktr.greaterThan(ktrK)) {
                     Color iL = lightSource.getIntensity(gp.point).scale(ktr);
                     color = color.add(
                             iL.scale(calcDiffusive(material, ln)

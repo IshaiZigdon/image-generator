@@ -1,15 +1,19 @@
 package renderer;
 
-import static java.awt.Color.*;
-
-import org.junit.jupiter.api.Test;
-
-import geometries.*;
+import geometries.Intersectable;
+import geometries.Sphere;
+import geometries.Triangle;
 import lighting.AmbientLight;
 import lighting.SpotLight;
-import primitives.*;
-import renderer.*;
+import org.junit.jupiter.api.Test;
+import primitives.Color;
+import primitives.Material;
+import primitives.Point;
+import primitives.Vector;
 import scene.Scene;
+
+import static java.awt.Color.BLUE;
+import static java.awt.Color.WHITE;
 
 /**
  * Testing basic shadows

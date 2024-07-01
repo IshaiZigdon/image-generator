@@ -14,6 +14,10 @@ import static primitives.Util.isZero;
  */
 public class Ray {
     /**
+     * Delta value for accuracy
+     */
+    private static final double DELTA = 0.1;
+    /**
      * head point of the ray
      */
     private final Point head;
@@ -21,10 +25,6 @@ public class Ray {
      * the direction of the ray
      */
     private final Vector direction;
-    /**
-     * Delta value for accuracy
-     */
-    private static final double DELTA = 0.1;
 
     /**
      * constructor to initialize ray with head and direction

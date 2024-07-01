@@ -49,6 +49,7 @@ public class Tube extends RadialGeometry {
 
         if (isZero(d.dotProduct(v) - d.length() * v.length()))
             return null;
+
         //dv = d x v
         Vector dv = d.crossProduct(v);
 
@@ -60,6 +61,7 @@ public class Tube extends RadialGeometry {
 
         // w= distance between the point of ray and the point of axis
         Vector w = ray.getHead().subtract(axis.getHead());
+
 
         if (isZero(d.dotProduct(w) - d.length() * w.length()))
             return List.of(new GeoPoint(this, ray.getPoint(alignZero(radius / v.length()))));

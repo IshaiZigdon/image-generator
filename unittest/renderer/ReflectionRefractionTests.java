@@ -13,6 +13,7 @@ import primitives.*;
 import scene.Scene;
 
 
+
 /**
  * Tests for reflection and transparency functionality, test for partial
  * shadows
@@ -113,151 +114,151 @@ public class ReflectionRefractionTests {
                 .writeToImage();
     }
 
-    /**
-     * test of reflection, refraction and shadow on more than 10 different shapes
-     */
-    @Test
-    public void Panda() {
-        scene.geometries.add(
-                //Large reflective floor
-                new Plane(new Point(0, -40, 0), new Vector(0, 1, 0))
-                        .setEmission(new Color(255, 218, 185))
-                        .setMaterial(new Material().setKd(0.6).setKs(0.4).setShininess(100)),
-                //head
-                new Sphere(new Point(0, 50, -100), 30)
-                        .setEmission(new Color(WHITE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-                //eyes
-                new Sphere(new Point(-10, 60, -60), 8)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+   /**
+    * test of reflection, refraction and shadow on more than 10 different shapes
+    */
+   @Test
+   public void Panda() {
+      scene.geometries.add(
+              //Large reflective floor
+              new Plane(new Point(0, -40, 0), new Vector(0, 1, 0))
+                      .setEmission(new Color(255, 218, 185))
+                      .setMaterial(new Material().setKd(0.6).setKs(0.4).setShininess(100)),
+              //head
+              new Sphere(new Point(0, 50, -100), 30)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+              //eyes
+              new Sphere(new Point(-10, 60, -60), 8)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                new Sphere(new Point(10, 60, -60), 8)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
-                //pupils
-                new Sphere(new Point(-10, 60, -50), 4)
-                        .setEmission(new Color(WHITE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              new Sphere(new Point(10, 60, -60), 8)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              //pupils
+              new Sphere(new Point(-10, 60, -50), 4)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                new Sphere(new Point(10, 60, -50), 4)
-                        .setEmission(new Color(WHITE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              new Sphere(new Point(10, 60, -50), 4)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                //nose
-                new Triangle(new Point(-5, 52, -50), new Point(5, 52, -50), new Point(0, 47, -50))
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
-                //ears
-                new Sphere(new Point(-30, 65, -100), 10)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              //nose
+              new Triangle(new Point(-5, 52, -50), new Point(5, 52, -50), new Point(0, 47, -50))
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              //ears
+              new Sphere(new Point(-30, 65, -100), 10)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                new Sphere(new Point(30, 65, -100), 10)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              new Sphere(new Point(30, 65, -100), 10)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                //body
-                new Sphere(new Point(0, 0, -70), 35)
-                        .setEmission(new Color(WHITE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+              //body
+              new Sphere(new Point(0, 0, -70), 35)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
-                new Sphere(new Point(0, 0, -100), 50)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+              new Sphere(new Point(0, 0, -100), 50)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
-                //pole
-                new Tube(new Ray(new Point(70, 0, 300), new Vector(0, 1, 0)), 3)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+              //pole
+              new Tube(new Ray(new Point(70,0,300),new Vector(0,1,0)),3)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
-                //pole
-                new Tube(new Ray(new Point(50, 0, -250), new Vector(0, 1, 0)), 3)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+              //pole
+              new Tube(new Ray(new Point(50,0,-250),new Vector(0,1,0)),3)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
-                // Mirror polygon
-                new Polygon(
-                        new Point(50, 200, -250),  // Top-left
-                        new Point(70, 200, 300),   // Top-right
-                        new Point(70, -35, 300),  // Bottom-right
-                        new Point(50, -35, -250)  // Bottom-left
-                )
-                        .setEmission(new Color(30, 30, 30))
-                        .setMaterial(new Material().setKr(0.4).setKd(0.05).setShininess(20)));
+              // Mirror polygon
+              new Polygon(
+                      new Point(50, 200, -250),  // Top-left
+                      new Point(70, 200, 300),   // Top-right
+                      new Point(70, -35, 300),  // Bottom-right
+                      new Point(50, -35, -250)  // Bottom-left
+              )
+                      .setEmission(new Color(30,30,30))
+                      .setMaterial(new Material().setKr(0.4).setKd(0.05).setShininess(20)));
 
-        scene.setBackground(new Color(64, 128, 128));
-        scene.lights.add(
-                new SpotLight(new Color(1000, 800, 800), new Point(-150, 200, -100), new Vector(1, -1, 0))
-                        .setKl(0.0004).setKq(0.0000006)
-        );
+      scene.setBackground(new Color(64, 128, 128));
+      scene.lights.add(
+              new SpotLight(new Color(1000, 800, 800), new Point(-150, 200, -100), new Vector(1, -1, 0))
+                      .setKl(0.0004).setKq(0.0000006)
+      );
 
-        cameraBuilder.setLocation(new Point(-100, 0, 1000))
-                .setVpDistance(2200)
-                .setVpSize(500, 500)
-                .setDirection(new Vector(0.15, 0, -1), new Vector(0, 1, 0))
-                .setImageWriter(new ImageWriter("panda", 2048, 2048))
-                .build()
-                .renderImage()
-                .writeToImage();
-    }
+      cameraBuilder.setLocation(new Point(-100, 0, 1000))
+              .setVpDistance(2200)
+              .setVpSize(500, 500)
+              .setDirection(new Vector(0.15,0,-1),new Vector(0,1,0))
+              .setImageWriter(new ImageWriter("panda", 2048, 2048))
+              .build()
+              .renderImage()
+              .writeToImage();
+   }
 
-    /**
-     * test of reflection, refraction and shadow on 4 different shapes
-     */
-    @Test
-    public void PandaHead() {
-        scene.geometries.add(
-                //Large reflective floor
-                new Plane(new Point(0, -90, 0), new Vector(0, 1, 0))
-                        .setEmission(new Color(255, 127, 80))
-                        .setMaterial(new Material().setKd(0.6).setKs(0.4).setShininess(100)),
-                //head
-                new Sphere(new Point(0, 0, -100), 30)
-                        .setEmission(new Color(WHITE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-                //eyes
-                new Sphere(new Point(-10, 10, -60), 8)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+   /**
+    * test of reflection, refraction and shadow on 4 different shapes
+    */
+   @Test
+   public void PandaHead() {
+      scene.geometries.add(
+              //Large reflective floor
+              new Plane(new Point(0, -90, 0), new Vector(0, 1, 0))
+                      .setEmission(new Color(255, 127, 80))
+                      .setMaterial(new Material().setKd(0.6).setKs(0.4).setShininess(100)),
+              //head
+              new Sphere(new Point(0, 0, -100), 30)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+              //eyes
+              new Sphere(new Point(-10, 10, -60), 8)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                new Sphere(new Point(10, 10, -60), 8)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
-                //pupils
-                new Sphere(new Point(-10, 10, -50), 4)
-                        .setEmission(new Color(WHITE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              new Sphere(new Point(10, 10, -60), 8)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              //pupils
+              new Sphere(new Point(-10, 10, -50), 4)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                new Sphere(new Point(10, 10, -50), 4)
-                        .setEmission(new Color(WHITE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              new Sphere(new Point(10, 10, -50), 4)
+                      .setEmission(new Color(WHITE))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                //nose
-                new Triangle(new Point(-5, 2, -50), new Point(5, 2, -50), new Point(0, -3, -50))
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
-                //ears
-                new Sphere(new Point(-30, 15, -100), 10)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              //nose
+              new Triangle(new Point(-5, 2, -50), new Point(5, 2, -50), new Point(0, -3, -50))
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
+              //ears
+              new Sphere(new Point(-30, 15, -100), 10)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                new Sphere(new Point(30, 15, -100), 10)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)));
+              new Sphere(new Point(30, 15, -100), 10)
+                      .setEmission(new Color(BLACK))
+                      .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)));
 
-        scene.setBackground(new Color(137, 207, 240));
-        scene.lights.add(
-                new SpotLight(new Color(600, 400, 400), new Point(-150, 200, -100), new Vector(1, -1, 0))
-                        .setKl(0.0004).setKq(0.0000006)
-        );
+      scene.setBackground(new Color(137, 207, 240));
+      scene.lights.add(
+              new SpotLight(new Color(600, 400, 400), new Point(-150, 200, -100), new Vector(1, -1, 0))
+                      .setKl(0.0004).setKq(0.0000006)
+      );
 
-        cameraBuilder.setLocation(new Point(0, 0, 1000))
-                .setVpDistance(2700)
-                .setVpSize(500, 500)
-                .setImageWriter(new ImageWriter("pandaHead", 2048, 2048))
-                .build()
-                .renderImage()
-                .writeToImage();
-    }
+      cameraBuilder.setLocation(new Point(0, 0, 1000))
+              .setVpDistance(2700)
+              .setVpSize(500, 500)
+              .setImageWriter(new ImageWriter("pandaHead", 2048, 2048))
+              .build()
+              .renderImage()
+              .writeToImage();
+   }
 }

@@ -189,8 +189,8 @@ public class TubeTest {
         // **** Group: Ray's line not vertical to axis and crosses the Tube and goes through the center
 
         // Points of intersection
-        Point p11 = new Point(1.2928932188134525, 0.7071067811865475, -0.7071067811865475);
-        Point p12 = new Point(2.7071067811865475, -0.7071067811865475, 0.7071067811865475);
+        Point p11 = new Point(1.2928932188134525,0.7071067811865475,-0.7071067811865475);
+        Point p12 = new Point(2.7071067811865475,-0.7071067811865475,0.7071067811865475);
         List<GeoPoint> expected = List.of(new GeoPoint(tube, p11), new GeoPoint(tube, p12));
 
         // TC22: starts before the tube (2 points)
@@ -230,8 +230,8 @@ public class TubeTest {
         // **** Group: Ray's line not vertical to axis and crosses the Tube and goes through the center
 
         // Points of intersection
-        Point p21 = new Point(-1.7071067811865475, 0.7071067811865475, -0.7071067811865475);
-        Point p22 = new Point(-0.29289321881345254, -0.7071067811865475, 0.7071067811865475);
+        Point p21 = new Point(-1.7071067811865475,0.7071067811865475,-0.7071067811865475);
+        Point p22 = new Point(-0.29289321881345254,-0.7071067811865475,0.7071067811865475);
         expected = List.of(new GeoPoint(tube, p21), new GeoPoint(tube, p22));
 
         // TC28: starts before the tube (2 points)
@@ -270,8 +270,8 @@ public class TubeTest {
 
         // **** Group: Ray's line vertical to axis line and goes through the p0
         // Points of intersection
-        Point p31 = new Point(-1, 0, -1);
-        Point p32 = new Point(-1, 0, 1);
+        Point p31 = new Point(-1,0,-1);
+        Point p32 = new Point(-1,0,1);
         expected = List.of(new GeoPoint(tube, p31), new GeoPoint(tube, p32));
         //TC34: starts before the tube(2 points)
         Ray ray34 = new Ray(new Point(-1, 0, -2), v001);

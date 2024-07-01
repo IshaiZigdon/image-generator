@@ -70,7 +70,8 @@ public class TubeTest {
      */
     @Test
     public void testFindGeoIntersectionsHelper() {
-        Tube tube = new Tube(new Ray(new Point(-1, 0, 0), v100), 1);
+        Point p0 = new Point(-1, 0, 0);
+        Tube tube = new Tube(new Ray(p0, v100), 1);
 
         // ============ Equivalence Partitions Tests ==============
 
@@ -80,7 +81,9 @@ public class TubeTest {
         assertNull(tube.findGeoIntersectionsHelper(r01), "TC01: didn't return null");
 
         // **** Group: Ray's line crosses the Tube (but not the center)
+
         Vector v1M11 = new Vector(1, -1, 1);
+        // Points of intersection
         Point p010 = new Point(0, 1, 0);
         Point p101 = new Point(1, 0, 1);
         var exp = List.of(new GeoPoint(tube, p010), new GeoPoint(tube, p101));
@@ -111,20 +114,20 @@ public class TubeTest {
         // =============== Boundary Values Tests ==================
 
         // **** Group: ray line orthogonal to axis
+
         // TC07: ray line is on the tube
-        Ray r07 = new Ray(new Point(1, 0, 1), v100);
-        assertNull(tube.findGeoIntersectionsHelper(r07), "TC07: didn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(new Ray(new Point(1, 0, 1), v100)), "TC07: didn't return null");
         // TC08: ray line is on the axis
-        Ray r08 = new Ray(new Point(1, 0, 0), v100);
-        assertNull(tube.findGeoIntersectionsHelper(r08), "TC08: didn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(new Ray(new Point(1, 0, 0), v100)), "TC08: didn't return null");
         // TC09: ray line is inside the tube in the direction of the axis
-        Ray r09 = new Ray(new Point(0.5, 0, 0), v100);
-        assertNull(tube.findGeoIntersectionsHelper(r09), "TC09: didn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(new Ray(new Point(0.5, 0, 0), v100)), "TC09: didn't return null");
         // TC10: ray line is outside the tube in the direction of the axis
         assertNull(tube.findGeoIntersectionsHelper(new Ray(new Point(10, 10, 10), v100)), "TC10: didn't return null");
 
         // **** Group: Ray's line vertical to axis line(but not going through the center axis)
+
         Vector v001 = new Vector(0, 0, 1);
+        // Points of intersection
         Point p01 = new Point(1, 0.5, -0.8660254037844386);
         Point p02 = new Point(1, 0.5, 0.8660254037844384);
         // TC11: starts before the tube (2 points)
@@ -153,6 +156,8 @@ public class TubeTest {
         assertNull(tube.findGeoIntersectionsHelper(ray15), "TC15: didn't return null");
 
         // **** Group: Ray's line goes through the axis and vertical to axis line
+
+        // Points of intersection
         Point p1 = new Point(1, 0, -1);
         Point p2 = new Point(1, 0, 1);
         // TC16: starts before the tube (2 points)
@@ -189,42 +194,35 @@ public class TubeTest {
         // **** Group: Ray's line not vertical to axis and crosses the Tube and goes through the center
 
         // Points of intersection
-        Point p11 = new Point(1.2928932188134525,0.7071067811865475,-0.7071067811865475);
-        Point p12 = new Point(2.7071067811865475,-0.7071067811865475,0.7071067811865475);
-        List<GeoPoint> expected = List.of(new GeoPoint(tube, p11), new GeoPoint(tube, p12));
-
+        Point p11 = new Point(0.2928932188134525,0.7071067811865475,-0.7071067811865475);
+        Point p12 = new Point(1.7071067811865475,-0.7071067811865475,0.7071067811865475);
+        exp = List.of(new GeoPoint(tube, p11), new GeoPoint(tube, p12));
         // TC22: starts before the tube (2 points)
-        Ray ray22 = new Ray(new Point(1, 1, -1), v1M11);
+        Ray ray22 = new Ray(new Point(0, 1, -1), v1M11);
         List<GeoPoint> result22 = tube.findGeoIntersectionsHelper(ray22);
         assertEquals(2, result22.size(), "TC22: wrong number of intersections");
-        assertEquals(expected, result22, "TC22: wrong points");
-
+        assertEquals(exp, result22, "TC22: wrong points");
         // TC23: starts on the tube (1 point)
         Ray ray23 = new Ray(p11, v1M11);
         List<GeoPoint> result23 = tube.findGeoIntersectionsHelper(ray23);
-        expected = List.of(new GeoPoint(tube, p12));
+        exp = List.of(new GeoPoint(tube, p12));
         assertEquals(1, result23.size(), "TC23: wrong number of intersections");
-        assertEquals(expected, result23, "TC23: wrong points");
-
+        assertEquals(exp, result23, "TC23: wrong points");
         // TC24: starts inside the tube (1 point)
-        Ray ray24 = new Ray(new Point(1.5, 0.5, -0.5), v1M11);
+        Ray ray24 = new Ray(new Point(0.5, 0.5, -0.5), v1M11);
         List<GeoPoint> result24 = tube.findGeoIntersectionsHelper(ray24);
         assertEquals(1, result24.size(), "TC24: wrong number of intersections");
-        assertEquals(expected, result24, "TC24: wrong points");
-
-        //todo
+        assertEquals(exp, result24, "TC24: wrong points");
         // TC25: starts on the axis (1 point)
         Ray ray25 = new Ray(new Point(1, 0, 0), v1M11);
         List<GeoPoint> result25 = tube.findGeoIntersectionsHelper(ray25);
         assertEquals(1, result25.size(), "TC25: wrong number of intersections");
-        assertEquals(expected, result25, "TC25: wrong points");
-
+        assertEquals(exp, result25, "TC25: wrong points");
         // TC26: starts on the tube and goes outside (0 points)
         Ray ray26 = new Ray(p12, v1M11);
         assertNull(tube.findGeoIntersectionsHelper(ray26), "TC26: didn't return null");
-
         // TC27: starts after the tube (0 points)
-        Ray ray27 = new Ray(new Point(3, -2, 2), v1M11);
+        Ray ray27 = new Ray(new Point(2,-1,1), v1M11);
         assertNull(tube.findGeoIntersectionsHelper(ray27), "TC27: didn't return null");
 
         // **** Group: Ray's line not vertical to axis and crosses the Tube and goes through the center
@@ -232,95 +230,92 @@ public class TubeTest {
         // Points of intersection
         Point p21 = new Point(-1.7071067811865475,0.7071067811865475,-0.7071067811865475);
         Point p22 = new Point(-0.29289321881345254,-0.7071067811865475,0.7071067811865475);
-        expected = List.of(new GeoPoint(tube, p21), new GeoPoint(tube, p22));
-
+        exp = List.of(new GeoPoint(tube, p21), new GeoPoint(tube, p22));
         // TC28: starts before the tube (2 points)
         Ray ray28 = new Ray(new Point(-2, 1, -1), v1M11);
         List<GeoPoint> result28 = tube.findGeoIntersectionsHelper(ray28);
-        assertEquals(2, result28.size(), "TC22: wrong number of intersections");
-        assertEquals(expected, result28, "TC22: wrong points");
-
+        assertEquals(2, result28.size(), "TC28: wrong number of intersections");
+        assertEquals(exp, result28, "TC28: wrong points");
         // TC29: starts on the tube (1 point)
         Ray ray29 = new Ray(p21, v1M11);
-        expected = List.of(new GeoPoint(tube, p22));
+        exp = List.of(new GeoPoint(tube, p22));
         List<GeoPoint> result29 = tube.findGeoIntersectionsHelper(ray29);
-        assertEquals(1, result29.size(), "TC23: wrong number of intersections");
-        assertEquals(expected, result29, "TC23: wrong points");
-
+        assertEquals(1, result29.size(), "TC29: wrong number of intersections");
+        assertEquals(exp, result29, "TC29: wrong points");
         // TC30: starts inside the tube (1 point)
         Ray ray30 = new Ray(new Point(-0.5, -0.5, 0.5), v1M11);
         List<GeoPoint> result30 = tube.findGeoIntersectionsHelper(ray30);
-        assertEquals(1, result30.size(), "TC24: wrong number of intersections");
-        assertEquals(expected, result30, "TC24: wrong points");
-
+        assertEquals(1, result30.size(), "TC30: wrong number of intersections");
+        assertEquals(exp, result30, "TC30: wrong points");
         // TC31: starts on p0(1 point)
-        Ray ray31 = new Ray(new Point(-1, 0, 0), v1M11);
+        Ray ray31 = new Ray(p0, v1M11);
         List<GeoPoint> result31 = tube.findGeoIntersectionsHelper(ray31);
-        assertEquals(1, result31.size(), "TC25: wrong number of intersections");
-        assertEquals(expected, result31, "TC25: wrong points");
-
+        assertEquals(1, result31.size(), "TC31: wrong number of intersections");
+        assertEquals(exp, result31, "TC31: wrong points");
         // TC32: starts on the tube and goes outside (0 points)
         Ray ray32 = new Ray(p22, v1M11);
-        assertNull(tube.findGeoIntersectionsHelper(ray32), "TC26: didn't return null");
-
+        assertNull(tube.findGeoIntersectionsHelper(ray32), "TC32: didn't return null");
         // TC33: starts after the tube (0 points)
         Ray ray33 = new Ray(new Point(2, -2, 2), v1M11);
-        assertNull(tube.findGeoIntersectionsHelper(ray33), "TC27: didn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(ray33), "TC33: didn't return null");
 
 
         // **** Group: Ray's line vertical to axis line and goes through the p0
+
         // Points of intersection
         Point p31 = new Point(-1,0,-1);
         Point p32 = new Point(-1,0,1);
-        expected = List.of(new GeoPoint(tube, p31), new GeoPoint(tube, p32));
+        exp = List.of(new GeoPoint(tube, p31), new GeoPoint(tube, p32));
         //TC34: starts before the tube(2 points)
         Ray ray34 = new Ray(new Point(-1, 0, -2), v001);
         List<GeoPoint> result34 = tube.findGeoIntersectionsHelper(ray34);
-        assertEquals(2, result34.size(), "TC22: wrong number of intersections");
-        assertEquals(expected, result34, "TC22: wrong points");
+        assertEquals(2, result34.size(), "TC34: wrong number of intersections");
+        assertEquals(exp, result34, "TC34: wrong points");
         //TC35: starts on the tube(1 point)
         Ray ray35 = new Ray(new Point(-1, 0, -1), v001);
         List<GeoPoint> result35 = tube.findGeoIntersectionsHelper(ray35);
-        expected = List.of(new GeoPoint(tube, p32));
-        assertEquals(1, result35.size(), "TC22: wrong number of intersections");
-        assertEquals(expected, result35, "TC22: wrong points");
+        exp = List.of(new GeoPoint(tube, p32));
+        assertEquals(1, result35.size(), "TC35: wrong number of intersections");
+        assertEquals(exp, result35, "TC35: wrong points");
         //TC36: starts inside the tube(1 point)
         Ray ray36 = new Ray(new Point(-1, 0, -0.5), v001);
         List<GeoPoint> result36 = tube.findGeoIntersectionsHelper(ray36);
-        assertEquals(1, result36.size(), "TC22: wrong number of intersections");
-        assertEquals(expected, result36, "TC22: wrong points");
+        assertEquals(1, result36.size(), "TC36: wrong number of intersections");
+        assertEquals(exp, result36, "TC36: wrong points");
         //TC37: starts on p0(1 point)
-        Ray ray37 = new Ray(new Point(-1, 0, 0), v001);
+        Ray ray37 = new Ray(p0, v001);
         List<GeoPoint> result37 = tube.findGeoIntersectionsHelper(ray37);
-        assertEquals(1, result37.size(), "TC22: wrong number of intersections");
-        assertEquals(expected, result37, "TC22: wrong points");
+        assertEquals(1, result37.size(), "TC37: wrong number of intersections");
+        assertEquals(exp, result37, "TC37: wrong points");
         //TC38: starts on the tube and goes outside (0 point)
         Ray ray38 = new Ray(p32, v001);
-        assertNull(tube.findGeoIntersectionsHelper(ray38), "TC26: didn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(ray38), "TC38: didn't return null");
         //TC39: start after the tube(0 points)
         Ray ray39 = new Ray(new Point(-1, 0, 2), v1M11);
-        assertNull(tube.findGeoIntersectionsHelper(ray39), "TC27: didn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(ray39), "TC39: didn't return null");
 
         // **** Group: Ray's line is tangent to the Tube (all tests 0 points)
+
         //TC40: starts before the tube
         Ray ray40 = new Ray(new Point(1, -1, -1), v001);
-        assertNull(tube.findGeoIntersectionsHelper(ray40), "doesn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(ray40), "TC40: doesn't return null");
         //TC41: starts on the tube
         Ray ray41 = new Ray(new Point(1, -1, 0), v001);
-        assertNull(tube.findGeoIntersectionsHelper(ray41), "doesn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(ray41), "TC41: doesn't return null");
         //TC42: starts after the tube
         Ray ray42 = new Ray(new Point(1, -1, 1), v001);
-        assertNull(tube.findGeoIntersectionsHelper(ray42), "doesn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(ray42), "T42: doesn't return null");
 
         // **** special cases
+
         //TC43: Ray's line is outside, ray is orthogonal to ray start to axis
         Ray ray43 = new Ray(new Point(1, 2, 0), v001);
-        assertNull(tube.findGeoIntersectionsHelper(ray43), "doesn't return null");
+        assertNull(tube.findGeoIntersectionsHelper(ray43), "TC43: doesn't return null");
         //TC44: Ray's line is inside, ray is orthogonal to ray start to axis
         Ray ray44 = new Ray(new Point(1, 0.5, 0), v001);
         List<GeoPoint> result44 = tube.findGeoIntersectionsHelper(ray44);
         exp = List.of(new GeoPoint(tube, p02));
-        assertEquals(1, result44.size(), "wrong number of results");
-        assertEquals(exp, result44, "wrong points");
+        assertEquals(1, result44.size(), "TC44: wrong number of results");
+        assertEquals(exp, result44, "TC45: wrong points");
     }
 }

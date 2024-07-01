@@ -64,7 +64,7 @@ public class Tube extends RadialGeometry {
 
 
         if (isZero(d.dotProduct(w) - d.length() * w.length()))
-            return List.of(new GeoPoint(this, ray.getPoint(alignZero(radius / v.length()))));
+            return List.of(new GeoPoint(this, ray.getPoint(alignZero(radius / sqrt(a)))));
 
         //dw = d x w
         Vector dw = d.crossProduct(w);

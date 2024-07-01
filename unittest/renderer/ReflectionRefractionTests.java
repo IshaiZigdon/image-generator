@@ -122,7 +122,7 @@ public class ReflectionRefractionTests {
                 //Large reflective floor
                 new Plane(new Point(0, -40, 0), new Vector(0, 1, 0))
                         .setEmission(new Color(255, 218, 185))
-                        .setMaterial(new Material().setKd(0.6).setKs(0.4).setShininess(100)),
+                        .setMaterial(new Material().setKd(0.6).setKs(0.3).setShininess(100)),
                 //head
                 new Sphere(new Point(0, 50, -100), 30)
                         .setEmission(new Color(WHITE))
@@ -211,7 +211,7 @@ public class ReflectionRefractionTests {
                 //Large reflective floor
                 new Plane(new Point(0, -90, 0), new Vector(0, 1, 0))
                         .setEmission(new Color(255, 127, 80))
-                        .setMaterial(new Material().setKd(0.6).setKs(0.4).setShininess(100)),
+                        .setMaterial(new Material().setKd(0.6).setKs(0.3).setShininess(100)),
                 //head
                 new Sphere(new Point(0, 0, -100), 30)
                         .setEmission(new Color(WHITE))

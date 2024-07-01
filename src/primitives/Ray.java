@@ -25,6 +25,7 @@ public class Ray {
      * Delta value for accuracy
      */
     private static final double DELTA = 0.1;
+
     /**
      * constructor to initialize ray with head and direction
      *
@@ -39,10 +40,11 @@ public class Ray {
 
     /**
      * ctor that moves the given point DELTA on the direction of given normal
-     * @param point the given point
+     *
+     * @param point     the given point
      * @param direction the given direction
-     * @param normal the given normal
-     * @param dotP to check if the normal and direction on the same direction
+     * @param normal    the given normal
+     * @param dotP      to check if the normal and direction on the same direction
      */
     public Ray(Point point, Vector direction, Vector normal, double dotP) {
         Vector deltaVec = normal.scale(dotP < 0 ? DELTA : -DELTA);

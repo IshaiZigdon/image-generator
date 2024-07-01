@@ -49,7 +49,7 @@ public class Camera implements Cloneable {
     /**
      * the middle of the view plane
      */
-    private Point viewPlaneMiddle ;
+    private Point viewPlaneMiddle;
     /**
      * the image writer with the resolution
      */
@@ -341,7 +341,7 @@ public class Camera implements Cloneable {
 
             if (!isZero(camera.vTo.dotProduct(camera.vUp)))
                 throw new IllegalArgumentException("camera vectors must be vertical to each other");
-            camera.viewPlaneMiddle =camera.p0.add(camera.vTo.scale(camera.viewPlaneDistance));
+            camera.viewPlaneMiddle = camera.p0.add(camera.vTo.scale(camera.viewPlaneDistance));
             camera.vRight = camera.vTo.crossProduct(camera.vUp).normalize();
 
             try {

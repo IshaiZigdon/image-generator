@@ -82,7 +82,7 @@ public class SimpleRayTracer extends RayTracerBase {
             if (ln * nv > 0) {
                 Double3 ktr = transparency(gp, lightSource, l, n);
                 Double3 ktrK = ktr.product(k);
-                if (!ktrK.lowerThan(MIN_CALC_COLOR_K)||!ktrK.equals(new Double3(MIN_CALC_COLOR_K))) {
+                if (!ktrK.lowerThan(MIN_CALC_COLOR_K) || !ktrK.equals(new Double3(MIN_CALC_COLOR_K))) {
                     Color iL = lightSource.getIntensity(gp.point).scale(ktr);
                     color = color.add(
                             iL.scale(calcDiffusive(material, ln)
@@ -145,7 +145,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the color due to the global effect
      */
     private Color calcGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
-        Double3 kkx = kx.product(k.equals(new Double3(MIN_CALC_COLOR_K))? Double3.ONE :k);
+        Double3 kkx = kx.product(k.equals(new Double3(MIN_CALC_COLOR_K)) ? Double3.ONE : k);
         if (kkx.lowerThan(MIN_CALC_COLOR_K)) return Color.BLACK;
         GeoPoint gp = findClosestIntersection(ray);
         return gp == null ? scene.background
@@ -163,7 +163,7 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector v = ray.getDirection();
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
         double nv = alignZero(n.dotProduct(v));
-        return new Ray(geoPoint.point,v,n,-nv);
+        return new Ray(geoPoint.point, v, n, -nv);
     }
 
 
@@ -179,7 +179,7 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
         double nv = alignZero(n.dotProduct(v));
         Vector r = v.subtract(n.scale(2 * nv));
-        return new Ray(geoPoint.point,r,n,nv);
+        return new Ray(geoPoint.point, r, n, nv);
     }
 
     /**
@@ -194,7 +194,7 @@ public class SimpleRayTracer extends RayTracerBase {
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1);
         double ln = alignZero(l.dotProduct(n));
-        Ray ray = new Ray(gp.point,lightDirection,n,ln);
+        Ray ray = new Ray(gp.point, lightDirection, n, ln);
 
         var intersections = scene.geometries.findGeoIntersections(ray);
         if (intersections == null) return Double3.ONE;

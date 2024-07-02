@@ -195,9 +195,9 @@ public class Camera implements Cloneable {
     }
 
     /**
-     *
-     * @param angleDegrees
-     * @return
+     * rotate the camera given degrees to the right
+     * @param angleDegrees the given degrees
+     * @return the updated camera
      */
     public Camera rotate(double angleDegrees) {
         double angleRadians = Math.toRadians(angleDegrees);
@@ -254,7 +254,6 @@ public class Camera implements Cloneable {
          * camera
          */
         final private Camera camera;
-        private Point p0;
 
         /**
          * constructor that initialize camera with given Camera object
@@ -273,7 +272,6 @@ public class Camera implements Cloneable {
          */
         public Builder setLocation(Point p) {
             camera.p0 = p;
-            p0 = p;
             return this;
         }
 
@@ -294,14 +292,15 @@ public class Camera implements Cloneable {
         }
 
         /**
-         *
-         * @param p
-         * @param vUp
-         * @return
+         * set diraction to the given point with the given up vector
+         * @param p the point to direct the camera to
+         * @param vUp the given up vector
+         * @return builder with given directions of all the vectors
          */
         public Builder setDirection(Point p,Vector vUp){
             camera.vUp = vUp.normalize();
-            if(p0 == null)
+            Point p0 = camera.getP0();
+            if(p0 == null || p0.equals(p))
                 camera.vTo = Vector.Z.scale(-1);
             else {
                 camera.vTo = p.subtract(p0).normalize();
@@ -394,8 +393,10 @@ public class Camera implements Cloneable {
 
             if (!isZero(camera.vTo.dotProduct(camera.vUp)))
                 throw new IllegalArgumentException("camera vectors must be vertical to each other");
+            if(camera.vRight == null)
+                camera.vRight = camera.vTo.crossProduct(camera.vUp).normalize();
+
             camera.viewPlaneMiddle = camera.p0.add(camera.vTo.scale(camera.viewPlaneDistance));
-            camera.vRight = camera.vTo.crossProduct(camera.vUp).normalize();
 
             try {
                 return (Camera) camera.clone();

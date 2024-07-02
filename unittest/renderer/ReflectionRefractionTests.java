@@ -240,8 +240,9 @@ public class ReflectionRefractionTests {
                 .setVpSize(500, 500)
                 .setDirection(new Vector(0.15, 0, -1), new Vector(0, 1, 0));
 
-        for (int i = 0; i<=360; i += 90)
-            cameraBuilder.setImageWriter(new ImageWriter("panda " + i, 500, 500))
+        for (int i = 0, j = 0; i <= 360; i += 90, j += 20)
+            cameraBuilder.setDirection(new Point(j, 35, 0), Vector.Y)
+                    .setImageWriter(new ImageWriter("panda " + i, 500, 500))
                     .build()
                     .rotate(i)
                     .renderImage()

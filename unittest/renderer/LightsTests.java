@@ -59,7 +59,7 @@ public class LightsTests {
     private final Camera.Builder camera1 = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(scene1))
             .setLocation(new Point(0, 0, 1000))
-            .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
+            .setDirection(Point.ZERO, Vector.Y)
             .setVpSize(150, 150).setVpDistance(1000);
     /**
      * Second camera builder for some of tests
@@ -67,7 +67,7 @@ public class LightsTests {
     private final Camera.Builder camera2 = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(scene2))
             .setLocation(new Point(0, 0, 1000))
-            .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
+            .setDirection(Point.ZERO, Vector.Y)
             .setVpSize(200, 200).setVpDistance(1000);
     /**
      * Material for some of the geometries in the tests

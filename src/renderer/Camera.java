@@ -195,6 +195,37 @@ public class Camera implements Cloneable {
     }
 
     /**
+     *
+     * @param angleDegrees
+     * @return
+     */
+    public Camera rotate(double angleDegrees) {
+        double angleRadians = Math.toRadians(angleDegrees);
+
+        double cosTheta = alignZero(Math.cos(angleRadians));
+        double sinTheta = alignZero(Math.sin(angleRadians));
+
+        Vector newRight, newUp;
+        if (cosTheta == 0) {
+            // Handle the case where cosTheta is zero
+            newRight = vUp.scale(sinTheta);
+            newUp = vRight.scale(-sinTheta);
+        } else if (sinTheta == 0) {
+            // Handle the case where sinTheta is zero
+            newRight = vRight.scale(cosTheta);
+            newUp = vUp.scale(cosTheta);
+        } else {
+            // General case
+            newRight = vRight.scale(cosTheta).add(vUp.scale(sinTheta));
+            newUp = vRight.scale(-sinTheta).add(vUp.scale(cosTheta));
+        }
+
+        vRight = newRight;
+        vUp = newUp;
+        return this;
+    }
+
+    /**
      * cast a ray through a given pixel and colors it
      *
      * @param nX the width of the pixel
@@ -223,6 +254,7 @@ public class Camera implements Cloneable {
          * camera
          */
         final private Camera camera;
+        private Point p0;
 
         /**
          * constructor that initialize camera with given Camera object
@@ -241,6 +273,7 @@ public class Camera implements Cloneable {
          */
         public Builder setLocation(Point p) {
             camera.p0 = p;
+            p0 = p;
             return this;
         }
 
@@ -257,6 +290,26 @@ public class Camera implements Cloneable {
             camera.vRight = vTo.crossProduct(vUp).normalize();
             camera.vTo = vTo.normalize();
             camera.vUp = vUp.normalize();
+            return this;
+        }
+
+        /**
+         *
+         * @param p
+         * @param vUp
+         * @return
+         */
+        public Builder setDirection(Point p,Vector vUp){
+            camera.vUp = vUp.normalize();
+            if(p0 == null)
+                camera.vTo = Vector.Z.scale(-1);
+            else {
+                camera.vTo = p.subtract(p0).normalize();
+                if (camera.vTo.equals(Vector.Y) || camera.vTo.equals(Vector.Y.scale(-1)))
+                    camera.vUp = Vector.Z;
+            }
+
+            camera.vRight = camera.vTo.crossProduct(camera.vUp).normalize();
             return this;
         }
 

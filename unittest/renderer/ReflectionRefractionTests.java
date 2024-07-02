@@ -30,7 +30,7 @@ public class ReflectionRefractionTests {
      * Camera builder for the tests with triangles
      */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
-            .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
+            .setDirection(Point.ZERO, Vector.Y)
             .setRayTracer(new SimpleRayTracer(scene));
 
     /**
@@ -238,11 +238,14 @@ public class ReflectionRefractionTests {
         cameraBuilder.setLocation(new Point(-100, 35, 1000))
                 .setVpDistance(2200)
                 .setVpSize(500, 500)
-                .setDirection(new Vector(0.15, 0, -1), new Vector(0, 1, 0))
-                .setImageWriter(new ImageWriter("panda2048", 2048, 2048))
-                .build()
-                .renderImage()
-                .writeToImage();
+                .setDirection(new Vector(0.15, 0, -1), new Vector(0, 1, 0));
+
+        for (int i = 0; i<=360; i += 90)
+            cameraBuilder.setImageWriter(new ImageWriter("panda " + i, 500, 500))
+                    .build()
+                    .rotate(i)
+                    .renderImage()
+                    .writeToImage();
     }
 
 
@@ -301,7 +304,7 @@ public class ReflectionRefractionTests {
                         .setKl(0.0004).setKq(0.0000006)
         );
         scene.lights.add(
-                new DirectionalLight(new Color(600, 400, 400),new Vector(-1, 1, 0))
+                new DirectionalLight(new Color(600, 400, 400), new Vector(-1, 1, 0))
         );
 
         cameraBuilder.setLocation(new Point(0, 0, 1000))

@@ -68,22 +68,22 @@ public class TriangleTest {
         /// ============ Equivalence Partitions Tests ==============
 
         //TC01: Ray intersects the triangle
-        final var result01 = triangle.findGeoIntersectionsHelper(new Ray(new Point(0.7, 0.7, -1), v001));
+        final var result01 = triangle.findGeoIntersections(new Ray(new Point(0.7, 0.7, -1), v001));
         var exp = List.of(new GeoPoint(triangle, new Point(0.7, 0.7, 0)));
         assertEquals(exp, result01, "Triangle: findGeoIntersectionsHelper TC01 didnt work");
         // **** Group: Ray doesn't intersect the triangle (but does the plane)
         //TC02: in front of edge
-        assertNull(triangle.findGeoIntersectionsHelper(new Ray(new Point(0.3, 0.3, -1), v001)), "TC02: Ray's line is outside of the triangle");
+        assertNull(triangle.findGeoIntersections(new Ray(new Point(0.3, 0.3, -1), v001)), "TC02: Ray's line is outside of the triangle");
         //TC03: in front of vertex
-        assertNull(triangle.findGeoIntersectionsHelper(new Ray(new Point(2, 2, -1), v001)), "TC03: Ray's line is outside of the triangle");
+        assertNull(triangle.findGeoIntersections(new Ray(new Point(2, 2, -1), v001)), "TC03: Ray's line is outside of the triangle");
 
         // =============== Boundary Values Tests ==================
 
         //TC10: Ray intersects the triangle on the edge
-        assertNull(triangle.findGeoIntersectionsHelper(new Ray(new Point(0.5, 0.5, -1), v001)), "TC10: Ray's line is outside of the triangle");
+        assertNull(triangle.findGeoIntersections(new Ray(new Point(0.5, 0.5, -1), v001)), "TC10: Ray's line is outside of the triangle");
         //TC11: Ray intersects the triangle on the vertex
-        assertNull(triangle.findGeoIntersectionsHelper(new Ray(p100, v001)), "TC11: Ray's line is outside of the triangle");
+        assertNull(triangle.findGeoIntersections(new Ray(p100, v001)), "TC11: Ray's line is outside of the triangle");
         //TC12: Ray intersects the triangle on the edge line but not on the triangle
-        assertNull(triangle.findGeoIntersectionsHelper(new Ray(new Point(-2, 3, -1), v001)), "TC12: Ray's line is outside of the triangle");
+        assertNull(triangle.findGeoIntersections(new Ray(new Point(-2, 3, -1), v001)), "TC12: Ray's line is outside of the triangle");
     }
 }

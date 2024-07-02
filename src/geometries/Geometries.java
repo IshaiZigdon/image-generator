@@ -40,18 +40,11 @@ public class Geometries extends Intersectable {
         intersectables.addAll(Arrays.asList(geometries));
     }
 
-    /**
-     * calculates where are the intersecting points of the
-     * shape with the given ray
-     *
-     * @param ray the ray
-     * @return list of intersecting points
-     */
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> result = null;
         for (Intersectable i : intersectables) {
-            List<GeoPoint> geoPoints = i.findGeoIntersections(ray);
+            List<GeoPoint> geoPoints = i.findGeoIntersections(ray, maxDistance);
             if (geoPoints != null) {
                 if (result == null)
                     result = new LinkedList<>(geoPoints);

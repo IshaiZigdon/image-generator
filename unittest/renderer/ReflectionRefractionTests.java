@@ -5,6 +5,7 @@ package renderer;
 
 import geometries.*;
 import lighting.AmbientLight;
+import lighting.DirectionalLight;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
@@ -55,7 +56,7 @@ public class ReflectionRefractionTests {
     }
 
     /**
-     * Produce a picture of a sphere lighted by a spot light
+     * Produce a picture of a sphere lighted by a spotlight
      */
     @Test
     public void twoSpheresOnMirrors() {
@@ -244,6 +245,7 @@ public class ReflectionRefractionTests {
                 .writeToImage();
     }
 
+
     /**
      * test of reflection, refraction and shadow on 4 different shapes
      */
@@ -297,6 +299,9 @@ public class ReflectionRefractionTests {
         scene.lights.add(
                 new SpotLight(new Color(600, 400, 400), new Point(-150, 200, -100), new Vector(1, -1, 0))
                         .setKl(0.0004).setKq(0.0000006)
+        );
+        scene.lights.add(
+                new DirectionalLight(new Color(600, 400, 400),new Vector(-1, 1, 0))
         );
 
         cameraBuilder.setLocation(new Point(0, 0, 1000))

@@ -43,7 +43,7 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         //Axis direction == d   //ray direction == v
         Vector d = axis.getDirection(), v = ray.getDirection();
 
@@ -75,15 +75,23 @@ public class Tube extends RadialGeometry {
         double sqrtDiscriminant = sqrt(b * b - 4 * a * c);
 
         if (sqrtDiscriminant > 0) {
-            double t1, t2;
-            t1 = alignZero((-b - sqrtDiscriminant) / (2 * a));
-            t2 = alignZero((-b + sqrtDiscriminant) / (2 * a));
-            if (t2 <= 0)
-                return null;
-            return t1 <= 0 ?
-                    List.of(new GeoPoint(this, ray.getPoint(t2)))
-                    : List.of(new GeoPoint(this, ray.getPoint(t1)),
-                    new GeoPoint(this, ray.getPoint(t2)));
+            double t2 = alignZero((-b + sqrtDiscriminant) / (2 * a));
+            if (t2 <= 0) return null;
+
+            double t1 = alignZero((-b - sqrtDiscriminant) / (2 * a));
+            //if t1 is bigger than maxDistance so do t2
+            if (alignZero(t1 - maxDistance) > 0) return null;
+
+            if (alignZero(t2 - maxDistance) <= 0) {
+                return t1 <= 0 ?
+                        List.of(new GeoPoint(this, ray.getPoint(t2)))
+                        : List.of(new GeoPoint(this, ray.getPoint(t1)),
+                        new GeoPoint(this, ray.getPoint(t2)));
+            } else {
+                return t1 <= 0 ?
+                        null :
+                        List.of(new GeoPoint(this, ray.getPoint(t1)));
+            }
         }
         return null;
     }

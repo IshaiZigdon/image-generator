@@ -18,10 +18,23 @@ public abstract class Intersectable {
      * calculates where are the intersecting GeoPoints of the
      * shapes with the given ray
      *
-     * @param ray the ray
-     * @return list of intersecting GeoPoints
+     * @param ray         the ray
+     * @param maxDistance the max distance of the intersection points
+     * @return list of intersecting GeoPoints that are within the given distance
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
+
+    /**
+     * calculates where are the intersecting GeoPoints of the
+     * shapes with the given ray
+     *
+     * @param ray         the ray
+     * @param maxDistance the max distance of the intersection points
+     * @return list of intersecting GeoPoints that are within the given distance
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
 
     /**
      * calculates where are the intersecting GeoPoints of the
@@ -31,7 +44,7 @@ public abstract class Intersectable {
      * @return list of intersecting GeoPoints
      */
     public final List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
     }
 
     /**

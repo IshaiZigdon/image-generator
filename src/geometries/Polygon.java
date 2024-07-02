@@ -95,9 +95,9 @@ public class Polygon extends Geometry {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         // Find intersections with the plane
-        List<Point> lst = plane.findIntersections(ray);
+        List<GeoPoint> lst = plane.findGeoIntersections(ray, maxDistance);
         if (lst == null)
             return null;
 
@@ -116,6 +116,9 @@ public class Polygon extends Geometry {
             }
             if (x1 * x2 <= 0) return null;
         }
-        return List.of(new GeoPoint(this, lst.getFirst()));
+
+        //change the geometry from plane to polygon
+        lst.getFirst().geometry = this;
+        return List.of(lst.getFirst());
     }
 }

@@ -81,8 +81,7 @@ public class SimpleRayTracer extends RayTracerBase {
             double ln = alignZero(l.dotProduct(n));
             if (ln * nv > 0) {
                 Double3 ktr = transparency(gp, lightSource, l, n);
-                Double3 ktrK = ktr.product(k);
-                if (ktr.greaterThan(ktrK)) {
+                if (ktr.greaterThan(ktr.product(k))) {
                     Color iL = lightSource.getIntensity(gp.point).scale(ktr);
                     color = color.add(
                             iL.scale(calcDiffusive(material, ln)
@@ -196,17 +195,13 @@ public class SimpleRayTracer extends RayTracerBase {
         double ln = alignZero(l.dotProduct(n));
         Ray ray = new Ray(gp.point, lightDirection, n, ln);
 
-        var intersections = scene.geometries.findGeoIntersections(ray);
+        double distance = light.getDistance(gp.point);
+        var intersections = scene.geometries.findGeoIntersections(ray, distance);
         if (intersections == null) return Double3.ONE;
 
         Double3 ktr = Double3.ONE;
-        double distance = light.getDistance(gp.point);
-
-        for (var intersection : intersections) {
-            if (intersection.point.distance(gp.point) < distance) {
-                ktr = ktr.product(intersection.geometry.getMaterial().kT);
-            }
-        }
+        for (var intersection : intersections)
+            ktr = ktr.product(intersection.geometry.getMaterial().kT);
         return ktr;
     }
 

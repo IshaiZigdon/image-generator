@@ -8,17 +8,18 @@ package primitives;
  */
 public class Vector extends Point {
     /**
-     *  the x-axis
+     * the x-axis
      */
     public static final Vector X = new Vector(1, 0, 0);
     /**
-     *  the y-axis
+     * the y-axis
      */
     public static final Vector Y = new Vector(0, 1, 0);
     /**
-     *  the z-axis
+     * the z-axis
      */
     public static final Vector Z = new Vector(0, 0, 1);
+
     /**
      * constructor to initialize vector with 3 number values
      *

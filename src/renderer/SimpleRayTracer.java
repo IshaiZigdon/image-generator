@@ -21,7 +21,7 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Minimum factor to stop recursion for global effects
      */
-    private static final double MIN_CALC_COLOR_K = 0.001;
+    private static final Double3 MIN_CALC_COLOR_K = new Double3(0.001);
 
     /**
      * ctor with given scene
@@ -41,7 +41,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the color of geoPoint
      */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
-        return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, new Double3(MIN_CALC_COLOR_K))
+        return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, Double3.ONE)
                 .add(scene.ambientLight.getIntensity());
     }
 
@@ -81,7 +81,7 @@ public class SimpleRayTracer extends RayTracerBase {
             double ln = alignZero(l.dotProduct(n));
             if (ln * nv > 0) {
                 Double3 ktr = transparency(gp, lightSource, l, n);
-                if (ktr.greaterThan(ktr.product(k))) {
+                if (ktr.product(k).greaterThan(MIN_CALC_COLOR_K)) {
                     Color iL = lightSource.getIntensity(gp.point).scale(ktr);
                     color = color.add(
                             iL.scale(calcDiffusive(material, ln)
@@ -144,7 +144,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the color due to the global effect
      */
     private Color calcGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
-        Double3 kkx = kx.product(k.equals(new Double3(MIN_CALC_COLOR_K)) ? Double3.ONE : k);
+        Double3 kkx = kx.product(k);
         if (kkx.lowerThan(MIN_CALC_COLOR_K)) return Color.BLACK;
         GeoPoint gp = findClosestIntersection(ray);
         return gp == null ? scene.background
@@ -161,8 +161,7 @@ public class SimpleRayTracer extends RayTracerBase {
     private Ray constructRefractedRay(GeoPoint geoPoint, Ray ray) {
         Vector v = ray.getDirection();
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
-        double nv = alignZero(n.dotProduct(v));
-        return new Ray(geoPoint.point, v, n, -nv);
+        return new Ray(geoPoint.point, v, n);
     }
 
 
@@ -176,9 +175,8 @@ public class SimpleRayTracer extends RayTracerBase {
     private Ray constructReflectedRay(GeoPoint geoPoint, Ray ray) {
         Vector v = ray.getDirection();
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
-        double nv = alignZero(n.dotProduct(v));
-        Vector r = v.subtract(n.scale(2 * nv));
-        return new Ray(geoPoint.point, r, n, nv);
+        Vector r = v.subtract(n.scale(2 * n.dotProduct(v)));
+        return new Ray(geoPoint.point, r, n);
     }
 
     /**
@@ -192,8 +190,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1);
-        double ln = alignZero(l.dotProduct(n));
-        Ray ray = new Ray(gp.point, lightDirection, n, ln);
+        Ray ray = new Ray(gp.point, lightDirection, n);
 
         double distance = light.getDistance(gp.point);
         var intersections = scene.geometries.findGeoIntersections(ray, distance);

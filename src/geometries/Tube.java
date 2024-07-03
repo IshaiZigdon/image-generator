@@ -77,7 +77,7 @@ public class Tube extends RadialGeometry {
         double c = (dw.lengthSquared() / d.lengthSquared()) - radiusSquared;
         double sqrtDiscriminant = sqrt(b * b - 4 * a * c);
 
-        if (sqrtDiscriminant > 0) {
+        if (alignZero(sqrtDiscriminant) > 0) {
             double t2 = alignZero((-b + sqrtDiscriminant) / (2 * a));
             if (t2 <= 0) return null;
 

@@ -16,9 +16,17 @@ public class Vector extends Point {
      */
     public static final Vector Y = new Vector(0, 1, 0);
     /**
+     * opposite to the y-axis
+     */
+    public static final Vector MINUS_Y = new Vector(0, -1, 0);
+    /**
      * the z-axis
      */
     public static final Vector Z = new Vector(0, 0, 1);
+    /**
+     * opposite to the z-axis
+     */
+    public static final Vector MINUS_Z = new Vector(0, 0, -1);
 
     /**
      * constructor to initialize vector with 3 number values

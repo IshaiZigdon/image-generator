@@ -4,6 +4,7 @@ import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 /**
@@ -44,10 +45,10 @@ public class Ray {
      * @param point     the given point
      * @param direction the given direction
      * @param normal    the given normal
-     * @param dotP      to check if the normal and direction on the same direction
      */
-    public Ray(Point point, Vector direction, Vector normal, double dotP) {
-        Vector deltaVec = normal.scale(dotP < 0 ? DELTA : -DELTA);
+    public Ray(Point point, Vector direction, Vector normal) {
+        double vn = alignZero(direction.dotProduct(normal));
+        Vector deltaVec = normal.scale(vn >= 0 ? DELTA : -DELTA);
         this.head = point.add(deltaVec);
         this.direction = direction;
     }
@@ -77,7 +78,11 @@ public class Ray {
      * @return the point
      */
     public Point getPoint(double t) {
-        return isZero(t) ? head : head.add(direction.scale(t));
+        try {
+            return head.add(direction.scale(t));
+        } catch (IllegalArgumentException ignore) {
+            return head;
+        }
     }
 
     /**

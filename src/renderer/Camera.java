@@ -293,7 +293,7 @@ public class Camera implements Cloneable {
         }
 
         /**
-         * set diraction to the given point with the given up vector
+         * set direction to the given point with the given up vector
          *
          * @param p   the point to direct the camera to
          * @param vUp the given up vector
@@ -303,10 +303,10 @@ public class Camera implements Cloneable {
             camera.vUp = vUp.normalize();
             Point p0 = camera.getP0();
             if (p0 == null || p0.equals(p))
-                camera.vTo = Vector.Z.scale(-1);
+                camera.vTo = Vector.MINUS_Z;
             else {
                 camera.vTo = p.subtract(p0).normalize();
-                if (camera.vTo.equals(Vector.Y) || camera.vTo.equals(Vector.Y.scale(-1)))
+                if (camera.vTo.equals(Vector.Y) || camera.vTo.equals(Vector.MINUS_Y))
                     camera.vUp = Vector.Z;
             }
 

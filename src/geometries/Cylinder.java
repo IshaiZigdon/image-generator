@@ -71,14 +71,14 @@ public class Cylinder extends Tube {
             return null;
 
         if (intersections != null) {
-            //if the ray goes through one of the bases
-            Vector v2 = axisStart.subtract(intersections.getFirst().point);
-            Vector v3 = axisEnd.subtract(intersections.getFirst().point);
-            if (isZero(v2.dotProduct(aD)) || isZero(v3.dotProduct(aD))) return null;
-
             //removing the points out of bounds
             for (GeoPoint gp : intersections) {
-                Point p = intersections.getFirst().point;
+                //if the ray goes through one of the bases
+                Vector v2 = axisStart.subtract(gp.point);
+                Vector v3 = axisEnd.subtract(gp.point);
+                if (isZero(v2.dotProduct(aD)) || isZero(v3.dotProduct(aD))) continue;
+
+                Point p = gp.point;
                 Vector vectorToAxisStart = p.subtract(axisStart);
                 Vector vectorToAxisEnd = p.subtract(axisEnd);
                 double dp = alignZero(vectorToAxisStart.dotProduct(vectorToAxisEnd));
@@ -91,51 +91,34 @@ public class Cylinder extends Tube {
 
             //no points were find
             if (result == null) return null;
+            if (result.size() == 2) return result;
         }
 
         // Check for intersections with the cylinder caps
         Plane bottomCap = new Plane(axisStart, aD);
-        Point p1 = basesIntersection(bottomCap, ray, maxDistance);
-
-        result = updatedList(result, p1, d1, d2);
-
+        Point p1 = basesIntersection(bottomCap, ray, maxDistance, axisStart);
         Plane topCap = new Plane(axisEnd, aD);
-        Point p2 = basesIntersection(topCap, ray, maxDistance);
+        Point p2 = basesIntersection(topCap, ray, maxDistance, axisEnd);
 
-        result = updatedList(result, p2, d2, d1);
+        if(p1 == null && p2 == null) return result;
 
-        return result;
+        if (result == null)
+            return List.of(new GeoPoint(this,p1),new GeoPoint(this,p2));
+        GeoPoint gp = result.getFirst();
+        if(gp.equals(intersections.getFirst()))
+            return List.of(gp,new GeoPoint(this,p1 == null? p2:p1));
+        return List.of(new GeoPoint(this,p1 == null? p2:p1),gp);
     }
 
-    private Point basesIntersection(Plane base, Ray ray, double maxDistance) {
+    private Point basesIntersection(Plane base, Ray ray, double maxDistance,Point axisBase) {
         var baseIntersections = base.findGeoIntersections(ray, maxDistance);
 
         if (baseIntersections != null) {
             Point baseIntersection = baseIntersections.getFirst().point;
-            if (baseIntersection.distance(axis.getHead()) < radius) {
+            if (baseIntersection.distance(axisBase) < radius) {
                 return baseIntersection;
             }
         }
         return null;
-    }
-
-    private List<GeoPoint> updatedList(List<GeoPoint> list, Point p, double d1, double d2) {
-        if (p != null) {
-            GeoPoint gp1 = new GeoPoint(this, p);
-            if (list == null)
-                return List.of(gp1);
-            else {
-                if (d1 < d2) {
-                    if (list.size() > 1)
-                        return List.of(gp1, list.getLast());
-                    return List.of(gp1);
-                } else {
-                    if (list.size() > 1)
-                        return List.of(list.getFirst(), gp1);
-                    return List.of(gp1);
-                }
-            }
-        }
-        return list;
     }
 }

@@ -5,6 +5,9 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -94,7 +97,10 @@ public class CylinderTest {
         Cylinder cylinder = new Cylinder(new Ray(p100, v200), 1, 1);
 
         // ============ Equivalence Partitions Tests ==============
-
+        Ray ray = new Ray(Point.ZERO, v200);
+        var result = cylinder.findIntersections(ray);
+        var exp = List.of(p100,new Point(2,0,0));
+        assertEquals(exp,result,"");
         // =============== Boundary Values Tests ==================
         Vector v001 = new Vector(0, 0, 1);
         //1: ray line is on 1 base

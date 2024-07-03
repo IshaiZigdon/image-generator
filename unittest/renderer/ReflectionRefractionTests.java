@@ -209,22 +209,26 @@ public class ReflectionRefractionTests {
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
-                //pole
-                new Cylinder(new Ray(new Point(70, -35, 300), new Vector(0, 1, 0)), 3, 85)
+                //frame
+                new Cylinder(new Ray(new Point(70, -30, 300), new Vector(0, 1, 0)), 3, 85)
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-
-                //pole
-                new Cylinder(new Ray(new Point(50, -35, -250), new Vector(0, 1, 0)), 3, 85)
+                new Cylinder(new Ray(new Point(50, -30, -250), new Vector(0, 1, 0)), 3, 85)
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+                new Cylinder(new Ray(new Point(50, -30, -250), new Vector(0, 0, 1)), 3, 550)
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+                new Cylinder(new Ray(new Point(50, 70, -250), new Vector(0, 0, 1)), 3, 550)
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
                 // Mirror polygon
                 new Polygon(
-                        new Point(50, 50, -250),  // Top-left
-                        new Point(70, 50, 300),   // Top-right
-                        new Point(70, -35, 300),  // Bottom-right
-                        new Point(50, -35, -250)  // Bottom-left
+                        new Point(50, 70, -250),  // Top-left
+                        new Point(70, 70, 300),   // Top-right
+                        new Point(70, -30, 300),  // Bottom-right
+                        new Point(50, -30, -250)  // Bottom-left
                 )
                         .setEmission(new Color(30, 30, 30))
                         .setMaterial(new Material().setKr(0.5).setKd(0.05).setShininess(20)));

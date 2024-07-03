@@ -130,8 +130,8 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Color calcGlobalEffects(GeoPoint geoPoint, Ray ray, int level, Double3 k) {
         Material material = geoPoint.geometry.getMaterial();
-        return calcGlobalEffect(constructRefractedRay(geoPoint, ray), material.kT, level, k)
-                .add(calcGlobalEffect(constructReflectedRay(geoPoint, ray), material.kR, level, k));
+        return calcGlobalEffect(constructRefractedRay(geoPoint, ray.getDirection()), material.kT, level, k)
+                .add(calcGlobalEffect(constructReflectedRay(geoPoint, ray.getDirection()), material.kR, level, k));
     }
 
     /**
@@ -155,11 +155,10 @@ public class SimpleRayTracer extends RayTracerBase {
      * Constructs a refracted ray from the given point and ray.
      *
      * @param geoPoint the point of intersection
-     * @param ray      the original ray
+     * @param v      the direction of the original ray
      * @return the refracted ray
      */
-    private Ray constructRefractedRay(GeoPoint geoPoint, Ray ray) {
-        Vector v = ray.getDirection();
+    private Ray constructRefractedRay(GeoPoint geoPoint, Vector v) {
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
         return new Ray(geoPoint.point, v, n);
     }
@@ -169,11 +168,10 @@ public class SimpleRayTracer extends RayTracerBase {
      * Constructs a reflected ray from the given point and ray.
      *
      * @param geoPoint the point of intersection
-     * @param ray      the original ray
+     * @param v      the direction of the original ray
      * @return the reflected ray
      */
-    private Ray constructReflectedRay(GeoPoint geoPoint, Ray ray) {
-        Vector v = ray.getDirection();
+    private Ray constructReflectedRay(GeoPoint geoPoint, Vector v) {
         Vector n = geoPoint.geometry.getNormal(geoPoint.point);
         Vector r = v.subtract(n.scale(2 * n.dotProduct(v)));
         return new Ray(geoPoint.point, r, n);

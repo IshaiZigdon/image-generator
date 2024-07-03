@@ -210,19 +210,19 @@ public class ReflectionRefractionTests {
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
                 //pole
-                new Tube(new Ray(new Point(70, 0, 300), new Vector(0, 1, 0)), 3)
+                new Cylinder(new Ray(new Point(70, -35, 300), new Vector(0, 1, 0)), 3, 85)
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
                 //pole
-                new Tube(new Ray(new Point(50, 0, -250), new Vector(0, 1, 0)), 3)
+                new Cylinder(new Ray(new Point(50, -35, -250), new Vector(0, 1, 0)), 3, 85)
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
                 // Mirror polygon
                 new Polygon(
-                        new Point(50, 200, -250),  // Top-left
-                        new Point(70, 200, 300),   // Top-right
+                        new Point(50, 50, -250),  // Top-left
+                        new Point(70, 50, 300),   // Top-right
                         new Point(70, -35, 300),  // Bottom-right
                         new Point(50, -35, -250)  // Bottom-left
                 )
@@ -238,15 +238,19 @@ public class ReflectionRefractionTests {
         cameraBuilder.setLocation(new Point(-100, 35, 1000))
                 .setVpDistance(2200)
                 .setVpSize(500, 500)
-                .setDirection(new Vector(0.15, 0, -1), new Vector(0, 1, 0));
+                .setDirection(new Vector(0.15, 0, -1), new Vector(0, 1, 0))
+                .setImageWriter(new ImageWriter("panda", 1024, 1024))
+                .build()
+                .renderImage()
+                .writeToImage();
 
-        for (int i = 0, j = 0; i <= 360; i += 90, j += 20)
-            cameraBuilder.setDirection(new Point(j, 35, 0), Vector.Y)
-                    .setImageWriter(new ImageWriter("panda " + i, 1024, 1024))
-                    .build()
-                    .rotate(i)
-                    .renderImage()
-                    .writeToImage();
+//        for (int i = 0, j = 0; i <= 360; i += 90, j += 20)
+//            cameraBuilder.setDirection(new Point(j, 35, 0), Vector.Y)
+//                    .setImageWriter(new ImageWriter("panda " + i, 1024, 1024))
+//                    .build()
+//                    .rotate(i)
+//                    .renderImage()
+//                    .writeToImage();
     }
 
 

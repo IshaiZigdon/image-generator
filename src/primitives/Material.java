@@ -35,9 +35,6 @@ public class Material {
      * @return the updated Material
      */
     public Material setKd(Double3 kD) {
-        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE)
-                || kD.add(kR.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kD out of range");
         this.kD = kD;
         return this;
     }
@@ -49,11 +46,7 @@ public class Material {
      * @return the updated Material
      */
     public Material setKd(double kD2) {
-        Double3 kD = new Double3(kD2);
-        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE)
-                || kD.add(kR.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kD out of range");
-        this.kD = kD;
+        this.kD =  new Double3(kD2);
         return this;
     }
 
@@ -64,8 +57,6 @@ public class Material {
      * @return the updated Material
      */
     public Material setKs(Double3 kS) {
-        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kS out of range");
         this.kS = kS;
         return this;
     }
@@ -77,10 +68,7 @@ public class Material {
      * @return the updated Material
      */
     public Material setKs(double kS2) {
-        Double3 kS = new Double3(kS2);
-        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kS out of range");
-        this.kS = kS;
+        this.kS = new Double3(kS2);
         return this;
     }
 
@@ -91,9 +79,6 @@ public class Material {
      * @return the updated material
      */
     public Material setKt(Double3 kT) {
-        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE)
-                || kD.add(kR.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kT out of range");
         this.kT = kT;
         return this;
     }
@@ -105,11 +90,7 @@ public class Material {
      * @return the updated material
      */
     public Material setKt(double kT2) {
-        Double3 kT = new Double3(kT2);
-        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE)
-                || kD.add(kR.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kT out of range");
-        this.kT = kT;
+        this.kT = new Double3(kT2);
         return this;
     }
 
@@ -120,8 +101,6 @@ public class Material {
      * @return the updated material
      */
     public Material setKr(Double3 kR) {
-        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kR out of range");
         this.kR = kR;
         return this;
     }
@@ -133,10 +112,7 @@ public class Material {
      * @return the updated material
      */
     public Material setKr(double kR2) {
-        Double3 kR = new Double3(kR2);
-        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kR out of range");
-        this.kR = kR;
+        this.kR = new Double3(kR2);
         return this;
     }
 

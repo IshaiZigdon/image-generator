@@ -55,16 +55,19 @@ public class Tube extends RadialGeometry {
 
         //a= |d x v|^2/|d|^2
         double a = (dv.lengthSquared()) / d.lengthSquared();
+        double rDivA = alignZero(radius / sqrt(a));
 
         if (ray.getHead().equals(axis.getHead()))
-            return List.of(new GeoPoint(this, ray.getPoint(alignZero(radius / sqrt(a)))));
+            return alignZero(rDivA - maxDistance) <= 0 ?
+                    List.of(new GeoPoint(this, ray.getPoint(rDivA)))
+                    : null;
 
         // w= distance between the point of ray and the point of axis
         Vector w = ray.getHead().subtract(axis.getHead());
-
-
         if (isZero(d.dotProduct(w) - d.length() * w.length()))
-            return List.of(new GeoPoint(this, ray.getPoint(alignZero(radius / sqrt(a)))));
+            return alignZero(rDivA - maxDistance) <= 0 ?
+                    List.of(new GeoPoint(this, ray.getPoint(rDivA)))
+                    : null;
 
         //dw = d x w
         Vector dw = d.crossProduct(w);

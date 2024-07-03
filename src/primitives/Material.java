@@ -35,9 +35,8 @@ public class Material {
      * @return the updated Material
      */
     public Material setKd(Double3 kD) {
-        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kD out of range");
-        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
+        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE)
+                || kD.add(kR.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kD out of range");
         this.kD = kD;
         return this;
@@ -51,9 +50,8 @@ public class Material {
      */
     public Material setKd(double kD2) {
         Double3 kD = new Double3(kD2);
-        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kD out of range");
-        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
+        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE)
+                || kD.add(kR.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kD out of range");
         this.kD = kD;
         return this;
@@ -93,9 +91,8 @@ public class Material {
      * @return the updated material
      */
     public Material setKt(Double3 kT) {
-        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kT out of range");
-        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
+        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE)
+                || kD.add(kR.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kT out of range");
         this.kT = kT;
         return this;
@@ -109,9 +106,8 @@ public class Material {
      */
     public Material setKt(double kT2) {
         Double3 kT = new Double3(kT2);
-        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE))
-            throw new IllegalArgumentException("kT out of range");
-        if (kD.add(kR.add(kT)).greaterThan(Double3.ONE))
+        if (kD.add(kS.add(kT)).greaterThan(Double3.ONE)
+                || kD.add(kR.add(kT)).greaterThan(Double3.ONE))
             throw new IllegalArgumentException("kT out of range");
         this.kT = kT;
         return this;

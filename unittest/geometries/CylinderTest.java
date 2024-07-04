@@ -92,15 +92,34 @@ public class CylinderTest {
      */
     @Test
     public void testFindIntersections() {
-        Point p100 = new Point(1, 0, 0);
+        Point p100 = new Point(-1, 0, 0);
         Vector v200 = new Vector(2, 0, 0);
-        Cylinder cylinder = new Cylinder(new Ray(p100, v200), 1, 1);
+        Cylinder cylinder = new Cylinder(new Ray(p100, v200), 1, 5);
+
+        Vector v1M11 = new Vector(1, -1, 1);
+        // Points of intersection
+        Point p010 = new Point(0, 1, 0);
+        Point p101 = new Point(1, 0, 1);
+        var exp = List.of(p010, p101);
+        // TC02: start before the tube
+        Ray r02 = new Ray(new Point(-1, 2, -1), v1M11);
+        List<Point> result02 = cylinder.findIntersections(r02);
+        assertEquals(2, result02.size(), "TC02: wrong number of intersections");
+        assertEquals(exp, result02, "TC02: wrong points");
 
         // ============ Equivalence Partitions Tests ==============
-        Ray ray = new Ray(Point.ZERO, v200);
-        var result = cylinder.findIntersections(ray);
-        var exp = List.of(p100,new Point(2,0,0));
+        //before
+        Ray ray01 = new Ray(new Point(-2,0,0), v200);
+        var result = cylinder.findIntersections(ray01);
+        exp = List.of(p100,new Point(4,0,0));
         assertEquals(exp,result,"");
+
+        //after
+        Ray ray02 = new Ray(Point.ZERO, v200);
+        result = cylinder.findIntersections(ray02);
+        exp = List.of(new Point(4,0,0));
+        assertEquals(exp,result,"");
+
         // =============== Boundary Values Tests ==================
         Vector v001 = new Vector(0, 0, 1);
         //1: ray line is on 1 base

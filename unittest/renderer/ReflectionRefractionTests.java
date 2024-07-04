@@ -210,23 +210,23 @@ public class ReflectionRefractionTests {
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(50)),
 
                 //frame
-                new Cylinder(new Ray(new Point(70, -30, 300), new Vector(0, 1, 0)), 3, 85)
+                new Cylinder(new Ray(new Point(70, -30, 300), new Vector(0, 1, 0)), 3, 130)
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-                new Cylinder(new Ray(new Point(50, -30, -250), new Vector(0, 1, 0)), 3, 85)
+                new Cylinder(new Ray(new Point(50, -30, -250), new Vector(0, 1, 0)), 3, 130)
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-                new Cylinder(new Ray(new Point(50, -30, -250), new Vector(0, 0, 1)), 3, 550)
+                new Cylinder(new Ray(new Point(50, -30, -250), new Vector(20, 0, 550)), 3, 550)
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-                new Cylinder(new Ray(new Point(50, 70, -250), new Vector(0, 0, 1)), 3, 550)
+                new Cylinder(new Ray(new Point(50, 100, -250), new Vector(20, 0, 550)), 3, 550)
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
                 // Mirror polygon
                 new Polygon(
-                        new Point(50, 70, -250),  // Top-left
-                        new Point(70, 70, 300),   // Top-right
+                        new Point(50, 100, -250),  // Top-left
+                        new Point(70, 100, 300),   // Top-right
                         new Point(70, -30, 300),  // Bottom-right
                         new Point(50, -30, -250)  // Bottom-left
                 )

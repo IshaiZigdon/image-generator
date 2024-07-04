@@ -188,6 +188,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1);
+
         Ray ray = new Ray(gp.point, lightDirection, n);
 
         double distance = light.getDistance(gp.point);

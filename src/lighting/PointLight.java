@@ -1,10 +1,17 @@
 package lighting;
 
+import geometries.Polygon;
 import primitives.Color;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 /**
  * class for point light
@@ -18,6 +25,10 @@ public class PointLight extends Light implements LightSource {
      */
     protected final Point position;
     /**
+     * the radius
+     */
+    protected final double radius;
+    /**
      * the constant attenuation factor
      */
     private double kC = 1;
@@ -30,15 +41,19 @@ public class PointLight extends Light implements LightSource {
      */
     private double kQ = 0;
 
+    private final double SIZE_OF_GRID = 17;
+    private final int SIZE_OF_RAYS = 10;
+
     /**
      * ctor with given intensity and position
      *
      * @param intensity the intensity
      * @param position  the position
      */
-    public PointLight(Color intensity, Point position) {
+    public PointLight(Color intensity, Point position, double radius) {
         super(intensity);
         this.position = position;
+        this.radius = radius;
     }
 
     /**
@@ -91,5 +106,44 @@ public class PointLight extends Light implements LightSource {
     @Override
     public Vector getL(Point p) {
         return p.subtract(position).normalize();
+    }
+
+    @Override
+    public  List<Ray> beamOfRays(Point p, Vector v, Vector n) {
+        List<Ray> rayBeam = new LinkedList<>();
+        Point gridCenter = p.add(v.scale(10));
+
+        //todo
+        Vector up = Vector.Y;
+        Vector right = up.crossProduct(v);
+        double halfSizeOfGrid = SIZE_OF_GRID / 2;
+
+        Point topRight = gridCenter.add(right.scale(halfSizeOfGrid)).add(up.scale(halfSizeOfGrid));
+        Point topLeft = gridCenter.add(right.scale(-halfSizeOfGrid)).add(up.scale(halfSizeOfGrid));
+        Point bottomRight = gridCenter.add(right.scale(halfSizeOfGrid)).add(up.scale(-halfSizeOfGrid));
+        Point bottomLeft = gridCenter.add(right.scale(-halfSizeOfGrid)).add(up.scale(-halfSizeOfGrid));
+        Point[] squarePoints = {topRight, bottomRight, topLeft, bottomLeft};
+
+        Polygon square = new Polygon(squarePoints);
+
+        double d1 = alignZero(Math.sqrt(SIZE_OF_GRID * SIZE_OF_GRID / SIZE_OF_RAYS));
+        int distance = (int) (SIZE_OF_GRID / d1);
+        double r = SIZE_OF_GRID / distance;
+
+        for (int i = 0; i < distance; i++) {
+            for (int j = 0; j < distance; j++) {
+                double yI = -(i - (distance - 1) / 2.0) * r;
+                double xJ = (j - (distance - 1) / 2.0) * r;
+
+                Point pIJ = gridCenter;
+                if (!isZero(xJ))
+                    pIJ = pIJ.add(right.scale(xJ));
+                if (!isZero(yI))
+                    pIJ = pIJ.add(up.scale(yI));
+
+                rayBeam.add(new Ray(p, pIJ.subtract(p),n));
+            }
+        }
+        return rayBeam;
     }
 }

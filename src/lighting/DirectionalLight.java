@@ -2,7 +2,10 @@ package lighting;
 
 import primitives.Color;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 /**
  * class for directional light
@@ -40,5 +43,10 @@ public class DirectionalLight extends Light implements LightSource {
     @Override
     public Vector getL(Point p) {
         return direction; //not normalized because we did it before
+    }
+
+    @Override
+    public List<Ray> beamOfRays(Point p, Vector v, Vector n){
+        return List.of(new Ray(p, v, n));
     }
 }

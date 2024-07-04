@@ -84,7 +84,7 @@ public class Tube extends RadialGeometry {
             double t1 = alignZero((-b - sqrtDiscriminant) / (2 * a));
             //if t1 is bigger than maxDistance so do t2
             if (alignZero(t1 - maxDistance) > 0) return null;
-
+            //todo
             if (alignZero(t2 - maxDistance) <= 0) {
                 return t1 <= 0 ?
                         List.of(new GeoPoint(this, ray.getPoint(t2)))

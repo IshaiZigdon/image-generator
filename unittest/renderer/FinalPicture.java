@@ -25,10 +25,8 @@ public class FinalPicture {
         scene.geometries.add(
                 new Cylinder(new Ray(new Point(0, -70, 0),new Vector(0,1,1)), 50,110)
                         .setEmission(new Color(BLUE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100)),
-                new Sphere(new Point(0, -70, 0),10)
-                        .setEmission(new Color(BLUE))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100).setKt(0.3)));
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100)));
+               
         scene.lights.add(
                 new SpotLight(new Color(1000, 600, 0), new Point(0, 0, 500), Vector.MINUS_Z)
                         .setKl(0.0004).setKq(0.0000006));

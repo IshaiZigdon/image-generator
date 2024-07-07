@@ -6,7 +6,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -125,9 +124,15 @@ public class PointLight extends Light implements LightSource {
         List<Ray> rayBeam = new LinkedList<>();
         Point gridCenter = p.add(v.scale(10));
 
-        //todo
+        //todo chatgpt did this
         Vector up = Vector.Y;
-        Vector right = up.crossProduct(v);
+        if (v.dotProduct(up) == 1 || v.dotProduct(up) == -1) {
+            up = Vector.Z;
+        }
+
+        Vector right = v.crossProduct(up).normalize();
+
+        up = right.crossProduct(v).normalize();
         double halfSizeOfGrid = SIZE_OF_GRID / 2;
 
         Point topRight = gridCenter.add(right.scale(halfSizeOfGrid)).add(up.scale(halfSizeOfGrid));
@@ -136,6 +141,7 @@ public class PointLight extends Light implements LightSource {
         Point bottomLeft = gridCenter.add(right.scale(-halfSizeOfGrid)).add(up.scale(-halfSizeOfGrid));
         Point[] squarePoints = {topRight, bottomRight, topLeft, bottomLeft};
 
+        //todo we dont use this
         Polygon square = new Polygon(squarePoints);
 
         double d1 = alignZero(Math.sqrt(SIZE_OF_GRID * SIZE_OF_GRID / SIZE_OF_RAYS));

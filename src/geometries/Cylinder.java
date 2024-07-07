@@ -77,8 +77,8 @@ public class Cylinder extends Tube {
                         || isZero(vectorToAxisEnd.length() - radius))
                     continue;
 
-                double d1 = vectorToAxisStart.lengthSquared()-radiusSquared;
-                double d2 = vectorToAxisEnd.lengthSquared()-radiusSquared;
+                double d1 = alignZero(vectorToAxisStart.lengthSquared()-radiusSquared);
+                double d2 = alignZero(vectorToAxisEnd.lengthSquared()-radiusSquared);
                 double heightSquared = height*height;
                 if (d1 < heightSquared && d2 < heightSquared) {
                     if (result == null)

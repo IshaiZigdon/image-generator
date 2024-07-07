@@ -1,8 +1,6 @@
 package renderer;
 
 import geometries.*;
-import lighting.AmbientLight;
-import lighting.DirectionalLight;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
@@ -23,7 +21,7 @@ public class FinalPicture {
     @Test
     public void FinalPictureTest() {
         scene.geometries.add(
-                new Cylinder(new Ray(new Point(0, -70, 0),new Vector(0,1,1)), 50,110)
+                new Cylinder(new Ray(new Point(0, -70, 0),new Vector(0,1,-1)), 50,110)
                         .setEmission(new Color(BLUE))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(100)));
                
@@ -31,7 +29,7 @@ public class FinalPicture {
                 new SpotLight(new Color(1000, 600, 0), new Point(0, 0, 500), Vector.MINUS_Z)
                         .setKl(0.0004).setKq(0.0000006));
 
-        cameraBuilder.setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
+        cameraBuilder.setLocation(new Point(0, -50, 1000)).setVpDistance(1000)
                 .setVpSize(150, 150)
                 .setImageWriter(new ImageWriter("FinalPicture", 500, 500))
                 .build()

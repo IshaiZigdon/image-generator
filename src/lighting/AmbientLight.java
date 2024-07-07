@@ -1,7 +1,8 @@
 package lighting;
 
-import primitives.Color;
-import primitives.Double3;
+import primitives.*;
+
+import java.util.List;
 
 /**
  * this class represent the ambient light
@@ -35,5 +36,9 @@ public class AmbientLight extends Light {
      */
     public AmbientLight(Color ia, double ka) {
         super(ia.scale(ka));
+    }
+    public  List<Ray> beamOfRays(Point p, Vector v, Vector n)
+    {
+        return null;
     }
 }

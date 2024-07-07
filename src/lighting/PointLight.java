@@ -27,7 +27,7 @@ public class PointLight extends Light implements LightSource {
     /**
      * the radius
      */
-    protected final double radius;
+    protected double radius = 30;
     /**
      * the constant attenuation factor
      */
@@ -49,6 +49,18 @@ public class PointLight extends Light implements LightSource {
      *
      * @param intensity the intensity
      * @param position  the position
+     */
+    public PointLight(Color intensity, Point position) {
+        super(intensity);
+        this.position = position;
+    }
+
+    /**
+     * ctor with given intensity and position
+     *
+     * @param intensity the intensity
+     * @param position  the position
+     * @param radius the radius of the light
      */
     public PointLight(Color intensity, Point position, double radius) {
         super(intensity);

@@ -155,7 +155,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * Constructs a refracted ray from the given point and ray.
      *
      * @param geoPoint the point of intersection
-     * @param v      the direction of the original ray
+     * @param v        the direction of the original ray
      * @return the refracted ray
      */
     private Ray constructRefractedRay(GeoPoint geoPoint, Vector v) {
@@ -168,7 +168,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * Constructs a reflected ray from the given point and ray.
      *
      * @param geoPoint the point of intersection
-     * @param v      the direction of the original ray
+     * @param v        the direction of the original ray
      * @return the reflected ray
      */
     private Ray constructReflectedRay(GeoPoint geoPoint, Vector v) {
@@ -189,24 +189,27 @@ public class SimpleRayTracer extends RayTracerBase {
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1);
         Ray ray = new Ray(gp.point, lightDirection, n);
-        var rayBeam = ray.beamOfRays(n);
+        var rayBeam = ray.beamOfRays(n, light);
 
         Double3 totalKtr = Double3.ONE;
-        for(Ray r: rayBeam) {
+        for (Ray r : rayBeam) {
             //if reaching light
-            if(light.reachingLight(r)) {
-                double distance = light.getDistance(r.getHead());
+            if (light.reachingLight(r)) {
+                double distance = light.getDistance(gp.point);
                 //if nothing is blocking total ktr stay the same
                 var intersections = scene.geometries.findGeoIntersections(r, distance);
-                if (intersections != null) {
-                    Double3 ktr = Double3.ONE;
-                    for (var intersection : intersections)
-                        ktr = ktr.product(intersection.geometry.getMaterial().kT);
-                    totalKtr = totalKtr.add(ktr);
-                }
+                if (intersections == null) return Double3.ONE;
+
+                Double3 ktr = Double3.ONE;
+                for (var intersection : intersections)
+                    ktr = ktr.product(intersection.geometry.getMaterial().kT);
+                totalKtr = ktr.equals(Double3.ONE) ? totalKtr : totalKtr.add(ktr);
+
+
             }
+            else return Double3.ONE;
         }
-        return totalKtr.scale((double)100/ rayBeam.size());
+        return totalKtr.scale((double) 1 / 100 * rayBeam.size());
     }
 
     /**

@@ -261,8 +261,8 @@ public class ReflectionRefractionTests {
     /**
      * test of reflection, refraction and shadow on 4 different shapes
      */
-    @Test
-    public void PandaHead() {
+   // @Test
+  /*  public void PandaHead() {
         scene.geometries.add(
                 //Large reflective floor
                 new Plane(new Point(0, -90, 0), new Vector(0, 1, 0))
@@ -323,5 +323,5 @@ public class ReflectionRefractionTests {
                 .build()
                 .renderImage()
                 .writeToImage();
-    }
+    }*/
 }

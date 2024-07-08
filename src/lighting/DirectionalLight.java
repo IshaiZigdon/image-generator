@@ -46,6 +46,6 @@ public class DirectionalLight extends Light implements LightSource {
 
     @Override
     public boolean reachingLight(Ray ray){
-        return true;
+        return false;
     }
 }

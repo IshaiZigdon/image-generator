@@ -1,6 +1,7 @@
 package primitives;
 
 import geometries.Intersectable.GeoPoint;
+import lighting.LightSource;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -126,9 +127,10 @@ public class Ray {
      * @param n the given normal for ray ctor
      * @return list of rays
      */
-    public List<Ray> beamOfRays(Vector n) {
+    public List<Ray> beamOfRays(Vector n, LightSource light) {
         List<Ray> rayBeam = new LinkedList<>();
-        Point gridCenter = head.add(direction.scale(50));
+
+        Point gridCenter = head.add(direction.scale(light.getDistance(head)/2));
 
         Vector up = direction.equals(Vector.Y) ? Vector.Z : Vector.Y;
 
@@ -136,7 +138,7 @@ public class Ray {
 
         up = right.crossProduct(direction).normalize();
 
-        double d1 = alignZero(Math.sqrt(17d * 17d / 10));
+        double d1 = alignZero(Math.sqrt(17d * 17d / 13));
         int distance = (int) (17 / d1);
         double r = 17d / distance;
 

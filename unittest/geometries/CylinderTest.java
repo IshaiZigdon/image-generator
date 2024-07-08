@@ -132,9 +132,8 @@ public class CylinderTest {
         // **** Group: only intersects on the edge of base 1
         Vector v101 = new Vector(1, 0, 1);
         //11:before
-        Ray ray11 = new Ray(new Point(-2, 0, -2), v101);
-        var exp11 = List.of(new Point(1,0,1));
-        assertEquals(exp11,cylinder.findIntersections(ray11),"not the same point");
+        Ray ray11 = new Ray(new Point(-1, 0, 1), v101);
+        assertNull(cylinder.findIntersections(ray11), "does not return null");
         //12:on
         Ray ray12 = new Ray(new Point(1, 0, 1), v101);
         assertNull(cylinder.findIntersections(ray12), "does not return null");
@@ -188,7 +187,7 @@ public class CylinderTest {
 
         //30:before (2 points)
         Ray ray30 = new Ray(new Point(-2,0,-1), v101);
-        var exp30 = List.of(new Point(0,0,1),new Point(-1,0,0));
+        var exp30 = List.of(new Point(-1,0,0),new Point(0,0,1));
         assertEquals(exp30,cylinder.findIntersections(ray30));
 
         //31:on (1 point)

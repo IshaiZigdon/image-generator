@@ -126,23 +126,23 @@ public class PointLight extends Light implements LightSource {
 
         //todo chatgpt did this
         Vector up = Vector.Y;
-        if (v.dotProduct(up) == 1 || v.dotProduct(up) == -1) {
+        if (v.equals(up))
             up = Vector.Z;
-        }
+
 
         Vector right = v.crossProduct(up).normalize();
 
         up = right.crossProduct(v).normalize();
-        double halfSizeOfGrid = SIZE_OF_GRID / 2;
+//        double halfSizeOfGrid = SIZE_OF_GRID / 2;
 
-        Point topRight = gridCenter.add(right.scale(halfSizeOfGrid)).add(up.scale(halfSizeOfGrid));
-        Point topLeft = gridCenter.add(right.scale(-halfSizeOfGrid)).add(up.scale(halfSizeOfGrid));
-        Point bottomRight = gridCenter.add(right.scale(halfSizeOfGrid)).add(up.scale(-halfSizeOfGrid));
-        Point bottomLeft = gridCenter.add(right.scale(-halfSizeOfGrid)).add(up.scale(-halfSizeOfGrid));
-        Point[] squarePoints = {topRight, bottomRight, topLeft, bottomLeft};
-
-        //todo we dont use this
-        Polygon square = new Polygon(squarePoints);
+//        Point topRight = gridCenter.add(right.scale(halfSizeOfGrid)).add(up.scale(halfSizeOfGrid));
+//        Point topLeft = gridCenter.add(right.scale(-halfSizeOfGrid)).add(up.scale(halfSizeOfGrid));
+//        Point bottomRight = gridCenter.add(right.scale(halfSizeOfGrid)).add(up.scale(-halfSizeOfGrid));
+//        Point bottomLeft = gridCenter.add(right.scale(-halfSizeOfGrid)).add(up.scale(-halfSizeOfGrid));
+//        Point[] squarePoints = {topRight, bottomRight, topLeft, bottomLeft};
+//
+//        todo we dont use this
+//        Polygon square = new Polygon(squarePoints);
 
         double d1 = alignZero(Math.sqrt(SIZE_OF_GRID * SIZE_OF_GRID / SIZE_OF_RAYS));
         int distance = (int) (SIZE_OF_GRID / d1);

@@ -87,9 +87,7 @@ public class Cylinder extends Tube {
                 }
             }
 
-            //no points were find
-            if (result == null) return null;
-            if (result.size() == 2) return result;
+            if (result!=null && result.size() == 2) return result;
         }
 
         // Check for intersections with the cylinder caps
@@ -107,7 +105,7 @@ public class Cylinder extends Tube {
             return result;
         }
         GeoPoint gp = result.getFirst();
-        if (gp.equals(intersections.getFirst()))
+        if (gp.equals(intersections.getFirst())&&intersections.size()>1)
             return List.of(gp, new GeoPoint(this, p1 == null ? p2 : p1));
         return List.of(new GeoPoint(this, p1 == null ? p2 : p1), gp);
     }

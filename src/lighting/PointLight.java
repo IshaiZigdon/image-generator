@@ -1,16 +1,13 @@
 package lighting;
 
-import geometries.Polygon;
+import geometries.Sphere;
 import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import static primitives.Util.alignZero;
-import static primitives.Util.isZero;
+
 
 /**
  * class for point light
@@ -120,48 +117,8 @@ public class PointLight extends Light implements LightSource {
     }
 
     @Override
-    public  List<Ray> beamOfRays(Point p, Vector v, Vector n) {
-        List<Ray> rayBeam = new LinkedList<>();
-        Point gridCenter = p.add(v.scale(10));
-
-        //todo chatgpt did this
-        Vector up = Vector.Y;
-        if (v.equals(up))
-            up = Vector.Z;
-
-
-        Vector right = v.crossProduct(up).normalize();
-
-        up = right.crossProduct(v).normalize();
-//        double halfSizeOfGrid = SIZE_OF_GRID / 2;
-
-//        Point topRight = gridCenter.add(right.scale(halfSizeOfGrid)).add(up.scale(halfSizeOfGrid));
-//        Point topLeft = gridCenter.add(right.scale(-halfSizeOfGrid)).add(up.scale(halfSizeOfGrid));
-//        Point bottomRight = gridCenter.add(right.scale(halfSizeOfGrid)).add(up.scale(-halfSizeOfGrid));
-//        Point bottomLeft = gridCenter.add(right.scale(-halfSizeOfGrid)).add(up.scale(-halfSizeOfGrid));
-//        Point[] squarePoints = {topRight, bottomRight, topLeft, bottomLeft};
-//
-//        todo we dont use this
-//        Polygon square = new Polygon(squarePoints);
-
-        double d1 = alignZero(Math.sqrt(SIZE_OF_GRID * SIZE_OF_GRID / SIZE_OF_RAYS));
-        int distance = (int) (SIZE_OF_GRID / d1);
-        double r = SIZE_OF_GRID / distance;
-
-        for (int i = 0; i < distance; i++) {
-            for (int j = 0; j < distance; j++) {
-                double yI = -(i - (distance - 1) / 2.0) * r;
-                double xJ = (j - (distance - 1) / 2.0) * r;
-
-                Point pIJ = gridCenter;
-                if (!isZero(xJ))
-                    pIJ = pIJ.add(right.scale(xJ));
-                if (!isZero(yI))
-                    pIJ = pIJ.add(up.scale(yI));
-
-                rayBeam.add(new Ray(p, pIJ.subtract(p),n));
-            }
-        }
-        return rayBeam;
+    public boolean reachingLight(Ray ray){
+        Sphere sphere = new Sphere(position,radius);
+        return sphere.findIntersections(ray) != null;
     }
 }

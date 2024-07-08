@@ -1,7 +1,10 @@
 package lighting;
 
+import geometries.Plane;
+import geometries.Sphere;
 import primitives.Color;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 import static primitives.Util.alignZero;
@@ -84,5 +87,16 @@ public class SpotLight extends PointLight {
     public Color getIntensity(Point p) {
         double angle = alignZero(direction.dotProduct(getL(p)));
         return angle <= 0 ? Color.BLACK : super.getIntensity(p).scale(Math.pow(angle, narrowBeam));
+    }
+
+    @Override
+    public boolean reachingLight(Ray ray) {
+        Sphere sphere = new Sphere(position, radius);
+        Plane plane = new Plane(position, direction);
+        var intersection = plane.findIntersections(ray);
+        if (sphere.findIntersections(ray) != null && intersection != null) {
+            return intersection.getFirst().distance(position) <= radius;
+        }
+        return false;
     }
 }

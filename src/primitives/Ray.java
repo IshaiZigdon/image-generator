@@ -2,6 +2,7 @@ package primitives;
 
 import geometries.Intersectable.GeoPoint;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.alignZero;
@@ -119,6 +120,43 @@ public class Ray {
         return closestGeoPoint;
     }
 
+    /**
+     * returns beam of rays from a given point in the given direction
+     *
+     * @param n the given normal for ray ctor
+     * @return list of rays
+     */
+    public List<Ray> beamOfRays(Vector n) {
+        List<Ray> rayBeam = new LinkedList<>();
+        Point gridCenter = head.add(direction.scale(50));
+
+        Vector up = direction.equals(Vector.Y) ? Vector.Z : Vector.Y;
+
+        Vector right = direction.crossProduct(up).normalize();
+
+        up = right.crossProduct(direction).normalize();
+
+        double d1 = alignZero(Math.sqrt(17d * 17d / 10));
+        int distance = (int) (17 / d1);
+        double r = 17d / distance;
+
+        for (int i = 0; i < distance; i++) {
+            for (int j = 0; j < distance; j++) {
+                double yI = -(i - (distance - 1) / 2.0) * r;
+                double xJ = (j - (distance - 1) / 2.0) * r;
+
+                Point pIJ = gridCenter;
+                if (!isZero(xJ))
+                    pIJ = pIJ.add(right.scale(xJ));
+                if (!isZero(yI))
+                    pIJ = pIJ.add(up.scale(yI));
+
+                rayBeam.add(new Ray(head, pIJ.subtract(head), n));
+            }
+        }
+        return rayBeam;
+    }
+
     @Override
     public final boolean equals(Object obj) {
         if (this == obj) return true;
@@ -127,6 +165,6 @@ public class Ray {
 
     @Override
     public final String toString() {
-        return "Ray:" + head.xyz + "->" + direction.xyz;
+        return "Ray: " + head.xyz + "+ v" + direction.xyz;
     }
 }

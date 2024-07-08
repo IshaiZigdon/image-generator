@@ -188,17 +188,25 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1);
-
         Ray ray = new Ray(gp.point, lightDirection, n);
+        var rayBeam = ray.beamOfRays(n);
 
-        double distance = light.getDistance(gp.point);
-        var intersections = scene.geometries.findGeoIntersections(ray, distance);
-        if (intersections == null) return Double3.ONE;
-
-        Double3 ktr = Double3.ONE;
-        for (var intersection : intersections)
-            ktr = ktr.product(intersection.geometry.getMaterial().kT);
-        return ktr;
+        Double3 totalKtr = Double3.ONE;
+        for(Ray r: rayBeam) {
+            //if reaching light
+            if(light.reachingLight(r)) {
+                double distance = light.getDistance(r.getHead());
+                //if nothing is blocking total ktr stay the same
+                var intersections = scene.geometries.findGeoIntersections(r, distance);
+                if (intersections != null) {
+                    Double3 ktr = Double3.ONE;
+                    for (var intersection : intersections)
+                        ktr = ktr.product(intersection.geometry.getMaterial().kT);
+                    totalKtr = totalKtr.add(ktr);
+                }
+            }
+        }
+        return totalKtr.scale((double)100/ rayBeam.size());
     }
 
     /**

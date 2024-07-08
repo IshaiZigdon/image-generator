@@ -2,7 +2,9 @@ package lighting;
 
 import primitives.Color;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
 
 /**
  * class for calculating lights on given point
@@ -34,4 +36,7 @@ public interface LightSource {
      * @return the result
      */
     public double getDistance(Point p);
+
+
+    public boolean reachingLight(Ray ray);
 }

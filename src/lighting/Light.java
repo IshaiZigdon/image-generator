@@ -1,9 +1,6 @@
 package lighting;
 
 import primitives.Color;
-import primitives.*;
-
-import java.util.List;
 
 /**
  * class for all the lights
@@ -35,12 +32,5 @@ public abstract class Light {
         return intensity;
     }
 
-    /**
-     * returns beam of rays from a given point in the given direction
-     * @param p the given point
-     * @param v the given direction
-     * @param n the given normal for ray ctor
-     * @return list of rays
-     */
-    public abstract List<Ray> beamOfRays( Point p, Vector v, Vector n);
+
 }

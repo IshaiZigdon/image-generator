@@ -5,6 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 
 /**
  * class for directional light
@@ -46,6 +48,11 @@ public class DirectionalLight extends Light implements LightSource {
 
     @Override
     public boolean reachingLight(Ray ray){
-        return false;
+        return true;
+    }
+
+    @Override
+    public List<Ray> beamOfRays(Point p, Vector v, Vector n) {
+        return List.of(new Ray(p,v,n));
     }
 }

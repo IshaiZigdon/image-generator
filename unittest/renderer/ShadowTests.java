@@ -1,19 +1,12 @@
 package renderer;
 
-import geometries.Intersectable;
-import geometries.Sphere;
-import geometries.Triangle;
-import lighting.AmbientLight;
-import lighting.SpotLight;
+import geometries.*;
+import lighting.*;
 import org.junit.jupiter.api.Test;
-import primitives.Color;
-import primitives.Material;
-import primitives.Point;
-import primitives.Vector;
+import primitives.*;
 import scene.Scene;
 
-import static java.awt.Color.BLUE;
-import static java.awt.Color.WHITE;
+import static java.awt.Color.*;
 
 /**
  * Testing basic shadows
@@ -57,7 +50,7 @@ public class ShadowTests {
         scene.lights.add( //
                 new SpotLight(new Color(400, 240, 0), spotLocation, new Vector(1, 1, -3)) //
                         .setKl(1E-5).setKq(1.5E-7));
-        camera.setImageWriter(new ImageWriter(pictName, 400, 400))
+        camera.setImageWriter(new ImageWriter(pictName, 1024, 1024))
                 .build()
                 .renderImage() //
                 .writeToImage();
@@ -140,4 +133,36 @@ public class ShadowTests {
                 .writeToImage();
     }
 
+    @Test
+    public void softShadowsTest() {
+        // Adding a plane to the scene
+        scene.geometries.add(
+                //Large reflective floor
+                new Plane(new Point(0, -40, 0), new Vector(0, 1, 0))
+                        .setEmission(new Color(GRAY))
+                        .setMaterial(new Material().setKd(0.6).setKs(0.3)),
+                new Cylinder(new Ray(new Point(-40, -40, 0),Vector.Y),60,70)
+                        .setEmission(new Color(GRAY))
+                        .setMaterial(new Material().setKd(0.6).setKs(0.3))
+        );
+
+        // Setting ambient light
+        scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
+
+        // Adding a spotlight to the scene, positioned above the plane
+        scene.lights.add(
+                new DirectionalLight(new Color(WHITE), new Vector(1, -1, 0))
+                      //  .setKl(4E-4).setKq(2E-5)
+        );
+
+        // Setting the camera location above the plane and directing it downwards
+        camera.setLocation(new Point(-140, 200, 1400))
+                .setVpDistance(2200)
+                .setVpSize(500, 500)
+                .setDirection(Point.ZERO, new Vector(0, 1, -2/14d))
+                .setImageWriter(new ImageWriter("softShadow", 1024, 1024))
+                .build()
+                .renderImage()
+                .writeToImage();
+    }
 }

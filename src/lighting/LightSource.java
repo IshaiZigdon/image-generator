@@ -5,6 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 
 /**
  * class for calculating lights on given point
@@ -37,6 +39,15 @@ public interface LightSource {
      */
     public double getDistance(Point p);
 
+    /**
+     * returns beam of rays from a given point in the given direction
+     *
+     * @param p the given point
+     * @param v the given direction
+     * @param n the normal vector form the shape for DELTA moving
+     * @return list of rays
+     */
+    public List<Ray> beamOfRays(Point p, Vector v,Vector n);
 
     public boolean reachingLight(Ray ray);
 }

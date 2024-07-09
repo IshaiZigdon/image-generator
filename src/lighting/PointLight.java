@@ -42,7 +42,7 @@ public class PointLight extends Light implements LightSource {
     private double kQ = 0;
 
     private final double SIZE_OF_GRID = 17;
-    private final int SIZE_OF_RAYS = 100;
+    private final int SIZE_OF_RAYS = 9;
 
     /**
      * ctor with given intensity and position
@@ -108,6 +108,7 @@ public class PointLight extends Light implements LightSource {
         return p.distance(position);
     }
 
+
     @Override
     public Color getIntensity(Point p) {
         double distanceSquared = position.distanceSquared(p);
@@ -121,16 +122,21 @@ public class PointLight extends Light implements LightSource {
     }
 
     @Override
-    public boolean reachingLight(Ray ray){
+    public double reachingLight(Ray ray){
+        Point head = ray.getHead();
         Sphere sphere = new Sphere(position,radius);
-        return sphere.findIntersections(ray) != null;
+        var lst = sphere.findIntersections(ray);
+        if(lst!=null) {
+            return lst.getLast().distance(head);
+        }
+        return 0;
     }
 
     @Override
     public List<Ray> beamOfRays(Point p, Vector v,Vector n) {
         List<Ray> rayBeam = new LinkedList<>();
 
-        Point gridCenter = p.add(v.scale(this.getDistance(p)/2));
+        Point gridCenter = p.add(v.scale(getDistance(p)/2));
 
         Vector up = v.equals(Vector.Y) ? Vector.Z : Vector.Y;
 

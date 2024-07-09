@@ -6,6 +6,7 @@ import primitives.*;
 import scene.Scene;
 
 import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 /**
  * class for simple ray tracing
@@ -190,11 +191,12 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector lightDirection = l.scale(-1);
         var rayBeam = light.beamOfRays(gp.point, lightDirection, n);
 
-        Double3 totalKtr = Double3.ONE;
+        Double3 totalKtr = Double3.ZERO;
+
         for (Ray r : rayBeam) {
             //if reaching light
-            if (light.reachingLight(r)) {
-                double distance = light.getDistance(gp.point);
+            double distance = light.getDistance(gp.point);
+           // if (!isZero(light.reachingLight(r))) {
                 //if nothing is blocking total ktr stay the same
                 var intersections = scene.geometries.findGeoIntersections(r, distance);
                 if (intersections == null)
@@ -205,9 +207,9 @@ public class SimpleRayTracer extends RayTracerBase {
                         ktr = ktr.product(intersection.geometry.getMaterial().kT);
                     totalKtr = totalKtr.add(ktr);
                 }
-            }
+           // }
         }
-        return totalKtr.scale((double) 1 / rayBeam.size());
+        return totalKtr.equals(Double3.ZERO)? Double3.ONE:  totalKtr.scale((double) 1 / rayBeam.size());
     }
 
     /**

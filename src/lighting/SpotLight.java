@@ -90,13 +90,15 @@ public class SpotLight extends PointLight {
     }
 
     @Override
-    public boolean reachingLight(Ray ray) {
+    public double reachingLight(Ray ray) {
+        Point head = ray.getHead();
         Sphere sphere = new Sphere(position, radius);
         Plane plane = new Plane(position, direction);
         var intersection = plane.findIntersections(ray);
         if (sphere.findIntersections(ray) != null && intersection != null) {
-            return intersection.getFirst().distance(position) <= radius;
+            if(intersection.getFirst().distance(position) <= radius)
+                return intersection.getFirst().distance(head);
         }
-        return false;
+        return 0;
     }
 }

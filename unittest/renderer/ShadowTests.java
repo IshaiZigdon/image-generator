@@ -151,8 +151,8 @@ public class ShadowTests {
 
         // Adding a spotlight to the scene, positioned above the plane
         scene.lights.add(
-                new DirectionalLight(new Color(WHITE), new Vector(1, -1, 0))
-                      //  .setKl(4E-4).setKq(2E-5)
+                new SpotLight(new Color(WHITE),new Point(-140,70,0), new Vector(1, -1, 0))
+                        .setKl(4E-4).setKq(2E-5)
         );
 
         // Setting the camera location above the plane and directing it downwards

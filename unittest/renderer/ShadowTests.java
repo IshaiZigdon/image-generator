@@ -156,10 +156,10 @@ public class ShadowTests {
         );
 
         // Setting the camera location above the plane and directing it downwards
-        camera.setLocation(new Point(-140, 200, 1400))
+        camera.setLocation(new Point(-140, 100, 1400))
                 .setVpDistance(2200)
                 .setVpSize(500, 500)
-                .setDirection(Point.ZERO, new Vector(0, 1, -2/14d))
+                .setDirection(Point.ZERO, new Vector(0, 1, -1/14d))
                 .setImageWriter(new ImageWriter("softShadow", 1024, 1024))
                 .build()
                 .renderImage()

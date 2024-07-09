@@ -122,14 +122,9 @@ public class PointLight extends Light implements LightSource {
     }
 
     @Override
-    public double reachingLight(Ray ray){
-        Point head = ray.getHead();
+    public boolean reachingLight(Ray ray){
         Sphere sphere = new Sphere(position,radius);
-        var lst = sphere.findIntersections(ray);
-        if(lst!=null) {
-            return lst.getLast().distance(head);
-        }
-        return 0;
+        return sphere.findIntersections(ray) != null;
     }
 
     @Override

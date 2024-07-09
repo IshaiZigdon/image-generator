@@ -27,7 +27,7 @@ public class PointLight extends Light implements LightSource {
     /**
      * the radius
      */
-    protected double radius = 30;
+    protected double radius = 100;
     /**
      * the constant attenuation factor
      */
@@ -42,7 +42,7 @@ public class PointLight extends Light implements LightSource {
     private double kQ = 0;
 
     private final double SIZE_OF_GRID = 17;
-    private final int SIZE_OF_RAYS = 100;
+    private final int SIZE_OF_RAYS = 30;
 
     /**
      * ctor with given intensity and position
@@ -130,7 +130,7 @@ public class PointLight extends Light implements LightSource {
     public List<Ray> beamOfRays(Point p, Vector v,Vector n) {
         List<Ray> rayBeam = new LinkedList<>();
 
-        Point gridCenter = p.add(v.scale(this.getDistance(p)/2));
+        Point gridCenter = p.add(v.scale(getDistance(p)/2));
 
         Vector up = v.equals(Vector.Y) ? Vector.Z : Vector.Y;
 

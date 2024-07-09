@@ -190,7 +190,7 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector lightDirection = l.scale(-1);
         var rayBeam = light.beamOfRays(gp.point, lightDirection, n);
 
-        Double3 totalKtr = Double3.ONE;
+        Double3 totalKtr = Double3.ZERO;
         for (Ray r : rayBeam) {
             //if reaching light
             if (light.reachingLight(r)) {
@@ -206,8 +206,9 @@ public class SimpleRayTracer extends RayTracerBase {
                     totalKtr = totalKtr.add(ktr);
                 }
             }
+            else totalKtr= totalKtr.add(Double3.ONE);
         }
-        return totalKtr.scale((double) 1 / rayBeam.size());
+        return totalKtr.equals(Double3.ZERO)?Double3.ONE : totalKtr.scale( 1d / rayBeam.size());
     }
 
     /**

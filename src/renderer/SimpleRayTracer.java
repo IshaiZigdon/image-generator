@@ -68,6 +68,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param k   the attenuation factor
      * @return the result color
      */
+
     private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
         Vector n = gp.geometry.getNormal(gp.point);
         Vector v = ray.getDirection();

@@ -134,7 +134,7 @@ public class PointLight extends Light implements LightSource {
 
         Point gridCenter = p.add(v.scale(getDistance(p) / 2));
 
-        Vector up = v.verticalVector();
+        Vector up = v.verticalVector();//
 
         Vector right = v.crossProduct(up).normalize();
 

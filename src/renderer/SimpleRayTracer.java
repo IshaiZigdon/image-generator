@@ -191,7 +191,7 @@ public class SimpleRayTracer extends RayTracerBase {
         var rayBeam = light.beamOfRays(gp.point, lightDirection, n);
 
         Double3 totalKtr = Double3.ZERO;
-//
+
         for (Ray r : rayBeam) {
             Point p =light.reachingLight(r);
             if (p!=null) {

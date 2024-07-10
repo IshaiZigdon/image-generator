@@ -1,11 +1,13 @@
-package renderer;
+package finalPicture;
 
 import geometries.Cylinder;
 import geometries.Polygon;
 import lighting.PointLight;
-import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
+import renderer.Camera;
+import renderer.ImageWriter;
+import renderer.SimpleRayTracer;
 import scene.Scene;
 
 import static java.awt.Color.*;
@@ -48,10 +50,14 @@ public class FinalPicture {
                 new Cylinder(new Ray(new Point(500, 0, 0), new Vector(0, 1, 0)), 3, 500)
                         .setEmission(new Color(0, 255, 255))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-                new Cylinder(new Ray(new Point(-500, 0, 0), new Vector(1, 0, 0)), 3, 1000)
-                        .setEmission(new Color(0, 255, 255))
+                new Cylinder(new Ray(new Point(-500, 0, 0), new Vector(1, 0, 0)), 12, 1000)
+                        .setEmission(Color.BLACK)
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
                 new Cylinder(new Ray(new Point(-500, 500, 0), new Vector(1, 0, 0)), 3, 1000)
+                        .setEmission(new Color(0, 255, 255))
+                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+                new Polygon(new Point(500,0,1),new Point(-500, 0, 1),
+                            new Point(-500,50,1), new Point(500,50,1))
                         .setEmission(new Color(0, 255, 255))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 

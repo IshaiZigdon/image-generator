@@ -27,7 +27,7 @@ public class PointLight extends Light implements LightSource {
     /**
      * the radius
      */
-    protected double radius = 30;
+    protected double radius = 0;
     /**
      * the constant attenuation factor
      */
@@ -60,7 +60,7 @@ public class PointLight extends Light implements LightSource {
      *
      * @param intensity the intensity
      * @param position  the position
-     * @param radius the radius of the light
+     * @param radius    the radius of the light
      */
     public PointLight(Color intensity, Point position, double radius) {
         super(intensity);
@@ -122,22 +122,21 @@ public class PointLight extends Light implements LightSource {
     }
 
     @Override
-    public boolean reachingLight(Ray ray){
-        Sphere sphere = new Sphere(position,radius);
-        return sphere.findIntersections(ray) != null;
+    public Point reachingLight(Ray ray) {
+        Sphere sphere = new Sphere(position, radius);
+        var intersection = sphere.findIntersections(ray);
+        return intersection == null ? null : intersection.getFirst();
     }
 
     @Override
-    public List<Ray> beamOfRays(Point p, Vector v,Vector n) {
+    public List<Ray> beamOfRays(Point p, Vector v, Vector n) {
         List<Ray> rayBeam = new LinkedList<>();
 
-        Point gridCenter = p.add(v.scale(getDistance(p)/2));
+        Point gridCenter = p.add(v.scale(getDistance(p) / 2));
 
-        Vector up = v.equals(Vector.Y) ? Vector.Z : Vector.Y;
+        Vector up = v.verticalVector();
 
         Vector right = v.crossProduct(up).normalize();
-
-        up = right.crossProduct(v).normalize();
 
         double d1 = alignZero(Math.sqrt(SIZE_OF_GRID * SIZE_OF_GRID / SIZE_OF_RAYS));
         int distance = (int) (SIZE_OF_GRID / d1);

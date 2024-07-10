@@ -1,9 +1,6 @@
 package lighting;
 
-import primitives.Color;
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.List;
 
@@ -47,8 +44,8 @@ public class DirectionalLight extends Light implements LightSource {
     }
 
     @Override
-    public boolean reachingLight(Ray ray){
-        return true;
+    public Point reachingLight(Ray ray){
+        return new Point(new Double3(Double.POSITIVE_INFINITY));
     }
 
     @Override

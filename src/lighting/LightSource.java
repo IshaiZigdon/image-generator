@@ -49,5 +49,5 @@ public interface LightSource {
      */
     public List<Ray> beamOfRays(Point p, Vector v,Vector n);
 
-    public boolean reachingLight(Ray ray);
+    public Point reachingLight(Ray ray);
 }

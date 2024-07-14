@@ -48,7 +48,7 @@ public class Ray {
         double vn = alignZero(direction.dotProduct(normal));
         Vector deltaVec = normal.scale(vn >= 0 ? DELTA : -DELTA);
         this.head = point.add(deltaVec);
-        this.direction = direction;
+        this.direction = direction.normalize();
     }
 
     /**

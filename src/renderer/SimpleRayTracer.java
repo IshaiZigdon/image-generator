@@ -201,6 +201,7 @@ public class SimpleRayTracer extends RayTracerBase {
                     totalKtr = totalKtr.add(Double3.ONE);
                 else {
                     Double3 ktr = Double3.ONE;
+                    intersections = scene.geometries.findGeoIntersections(r);
                     for (var intersection : intersections)
                         ktr = ktr.product(intersection.geometry.getMaterial().kT);
                     totalKtr = totalKtr.add(ktr);

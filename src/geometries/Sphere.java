@@ -47,18 +47,19 @@ public class Sphere extends RadialGeometry {
             //try because if they are the same point we need to do a different calculation
             u = center.subtract(p0);
         } catch (IllegalArgumentException msg) {
-            return List.of(new GeoPoint(this, ray.getPoint(radius)));
+            return alignZero(radius - maxDistance) >= 0 ? null :
+                    List.of(new GeoPoint(this, ray.getPoint(radius)));
         }
 
         //the length of the vector
-        double tm = u.dotProduct(v);
+        double tm = alignZero(u.dotProduct(v));
         //the distance from the center to the vector
         double dSquared = u.lengthSquared() - tm * tm;
         double thSquared = alignZero(radiusSquared - dSquared);
         if (thSquared <= 0)
             return null;
 
-        double th = sqrt(thSquared);
+        double th = alignZero(sqrt(thSquared));
         //calculates the distance in the point from the vector
         double t2 = alignZero(tm + th);
         if (t2 <= 0) return null;

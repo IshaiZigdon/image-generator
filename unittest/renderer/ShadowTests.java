@@ -135,13 +135,30 @@ public class ShadowTests {
 
     @Test
     public void softShadowsTest() {
-        // Adding a plane to the scene
+        // Adding a plane and other geometries to the scene
         scene.geometries.add(
-                //Large reflective floor
-                new Plane(new Point(0, -40, 0), new Vector(0, 1, 0))
+                // Large reflective floor
+                new Plane(new Point(0, -40, 0), new Vector(0, 1, 0.1))
                         .setEmission(new Color(GRAY))
                         .setMaterial(new Material().setKd(0.6).setKs(0.3)),
-                new Cylinder(new Ray(new Point(-40, -40, 0),Vector.Y),60,70)
+
+                // Cylinder
+                new Cylinder(new Ray(new Point(-95, -60, 140), Vector.Y), 10, 100)
+                        .setEmission(new Color(GRAY))
+                        .setMaterial(new Material().setKd(0.6).setKs(0.3)),
+
+                // Cylinder
+                new Cylinder(new Ray(new Point(5, -60, 130), Vector.Y), 10, 100)
+                        .setEmission(new Color(GRAY))
+                        .setMaterial(new Material().setKd(0.6).setKs(0.3)),
+
+                // Cylinder
+                new Cylinder(new Ray(new Point(-105, 30, 130), new Vector(1,0,-0.1)), 10, 120)
+                        .setEmission(new Color(GRAY))
+                        .setMaterial(new Material().setKd(0.6).setKs(0.3)),
+
+                // Sphere 2
+                new Sphere(new Point(-45, -20, 140), 30)
                         .setEmission(new Color(GRAY))
                         .setMaterial(new Material().setKd(0.6).setKs(0.3))
         );
@@ -149,20 +166,21 @@ public class ShadowTests {
         // Setting ambient light
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
 
-        // Adding a spotlight to the scene, positioned above the plane
+        // Adding a spotlight to the scene, positioned to cast shadows effectively
         scene.lights.add(
-                new SpotLight(new Color(WHITE),new Point(-140,70,0), new Vector(1, -1, 0))
-                        .setKl(4E-4).setKq(2E-5)
+                new PointLight(new Color(WHITE),new Point(-140,80,0))//, new Vector(1, -1, 0))
+                        .setKl(4E-4).setKq(2E-5).setRadius(100)
         );
 
-        // Setting the camera location above the plane and directing it downwards
-        camera.setLocation(new Point(-140, 100, 1400))
+        // Setting the camera location to capture the scene with shadows
+        camera.setLocation(new Point(100, 100, 1700))
                 .setVpDistance(2200)
                 .setVpSize(500, 500)
-                .setDirection(Point.ZERO, new Vector(0, 1, -1/14d))
+                .setDirection(Point.ZERO, new Vector(0, 1, -1/17d))
                 .setImageWriter(new ImageWriter("softShadow", 1024, 1024))
                 .build()
                 .renderImage()
                 .writeToImage();
     }
 }
+

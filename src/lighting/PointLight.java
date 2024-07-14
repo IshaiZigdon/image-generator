@@ -42,7 +42,7 @@ public class PointLight extends Light implements LightSource {
     private double kQ = 0;
 
     private final double SIZE_OF_GRID = 17;
-    private final int SIZE_OF_RAYS = 9;
+    private final int SIZE_OF_RAYS = 81;
 
     /**
      * ctor with given intensity and position
@@ -100,6 +100,17 @@ public class PointLight extends Light implements LightSource {
      */
     public PointLight setKq(double kQ) {
         this.kQ = kQ;
+        return this;
+    }
+
+    /**
+     * set function for radius
+     *
+     * @param radius the given radius
+     * @return the updated PointLight
+     */
+    public PointLight setRadius(double radius) {
+        this.radius = radius;
         return this;
     }
 

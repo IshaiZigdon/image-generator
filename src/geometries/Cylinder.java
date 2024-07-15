@@ -77,9 +77,9 @@ public class Cylinder extends Tube {
                         || isZero(vectorToAxisEnd.length() - radius))
                     continue;
 
-                double d1 = alignZero(vectorToAxisStart.lengthSquared()-radiusSquared);
-                double d2 = alignZero(vectorToAxisEnd.lengthSquared()-radiusSquared);
-                double heightSquared = height*height;
+                double d1 = alignZero(vectorToAxisStart.lengthSquared() - radiusSquared);
+                double d2 = alignZero(vectorToAxisEnd.lengthSquared() - radiusSquared);
+                double heightSquared = height * height;
                 if (d1 < heightSquared && d2 < heightSquared) {
                     if (result == null)
                         result = new LinkedList<>();
@@ -87,7 +87,7 @@ public class Cylinder extends Tube {
                 }
             }
 
-            if (result!=null && result.size() == 2) return result;
+            if (result != null && result.size() == 2) return result;
         }
 
         // Check for intersections with the cylinder caps
@@ -100,16 +100,25 @@ public class Cylinder extends Tube {
 
         if (result == null) {
             result = new LinkedList<>();
-            if(p1 != null) result.add(new GeoPoint(this, p1));
-            if(p2 != null) result.add(new GeoPoint(this, p2));
+            if (p1 != null) result.add(new GeoPoint(this, p1));
+            if (p2 != null) result.add(new GeoPoint(this, p2));
             return result;
         }
         GeoPoint gp = result.getFirst();
-        if (gp.equals(intersections.getFirst())&&intersections.size()>1)
+        if (gp.equals(intersections.getFirst()) && intersections.size() > 1)
             return List.of(gp, new GeoPoint(this, p1 == null ? p2 : p1));
         return List.of(new GeoPoint(this, p1 == null ? p2 : p1), gp);
     }
 
+    /**
+     * a method to check intersect with the bases
+     *
+     * @param base        the base we are checking
+     * @param ray         the rays that should intersect
+     * @param maxDistance the max distance of the intersection points
+     * @param axisBase    the middle of the current base
+     * @return the intersection
+     */
     private Point basesIntersection(Plane base, Ray ray, double maxDistance, Point axisBase) {
         var baseIntersections = base.findGeoIntersections(ray, maxDistance);
 

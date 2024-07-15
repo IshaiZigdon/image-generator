@@ -124,7 +124,12 @@ public class Vector extends Point {
         return scale(1 / length());
     }
 
-    public Vector verticalVector(){
+    /**
+     * method to generate a vertical vector
+     *
+     * @return a vertical vector
+     */
+    public Vector verticalVector() {
         double x, y, z;
 
         if (xyz.d3 == 0) {

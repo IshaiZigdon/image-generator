@@ -46,7 +46,7 @@ public class Material {
      * @return the updated Material
      */
     public Material setKd(double kD2) {
-        this.kD =  new Double3(kD2);
+        this.kD = new Double3(kD2);
         return this;
     }
 

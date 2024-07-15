@@ -34,8 +34,14 @@ public class SimpleRayTracer extends RayTracerBase {
         super(s);
     }
 
+    /**
+     * ctor with given scene and blackboard
+     *
+     * @param s          the given scene
+     * @param blackBoard the given black board
+     */
     public SimpleRayTracer(Scene s, BlackBoard blackBoard) {
-        super(s,blackBoard);
+        super(s, blackBoard);
     }
 
     /**
@@ -194,7 +200,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1);
-        var rayBeam = blackBoard == null ?
+        var rayBeam = blackBoard == null || light.getDistance(gp.point) == Double.POSITIVE_INFINITY ?
                 List.of(new Ray(gp.point, lightDirection, n))
                 : blackBoard.beamOfRays(gp.point, light.getDistance(gp.point), lightDirection, n);
 

@@ -16,6 +16,9 @@ public abstract class RayTracerBase {
      */
     protected final Scene scene;
 
+    /**
+     * the black board we are using for soft shadows
+     */
     protected BlackBoard blackBoard;
 
     /**
@@ -27,6 +30,12 @@ public abstract class RayTracerBase {
         this.scene = scene;
     }
 
+    /**
+     * ctor with a given scene and blackboard
+     *
+     * @param scene      the given scene
+     * @param blackBoard the given blackboard
+     */
     public RayTracerBase(Scene scene, BlackBoard blackBoard) {
         this.scene = scene;
         this.blackBoard = blackBoard;

@@ -7,7 +7,6 @@ import primitives.Vector;
 
 import java.util.List;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -87,7 +86,7 @@ public class CylinderTest {
         assertEquals(normal5, v100, "TC11: Cylinder: wrong normal values");
     }
 
-   /**
+    /**
      * Test method for {@link Cylinder#findIntersections(Ray)}.
      */
     @Test
@@ -109,16 +108,16 @@ public class CylinderTest {
 
         // ============ Equivalence Partitions Tests ==============
         //before
-        Ray ray01 = new Ray(new Point(-2,0,0), v100);
+        Ray ray01 = new Ray(new Point(-2, 0, 0), v100);
         var result = cylinder.findIntersections(ray01);
-        exp = List.of(pM100,new Point(4,0,0));
-        assertEquals(exp,result,"");
+        exp = List.of(pM100, new Point(4, 0, 0));
+        assertEquals(exp, result, "");
 
         //after
         Ray ray02 = new Ray(Point.ZERO, v100);
         result = cylinder.findIntersections(ray02);
-        exp = List.of(new Point(4,0,0));
-        assertEquals(exp,result,"");
+        exp = List.of(new Point(4, 0, 0));
+        assertEquals(exp, result, "");
 
         // =============== Boundary Values Tests ==================
         Vector v001 = new Vector(0, 0, 1);
@@ -156,63 +155,63 @@ public class CylinderTest {
         //****Group: ray parallel to the cylinder ray going through the center
 
         //24:before (2 points)
-        Ray ray24 = new Ray(new Point(-2,0,0), v100);
-        var exp24 = List.of(new Point(-1,0,0),new Point(4,0,0));
-        assertEquals(exp24,cylinder.findIntersections(ray24));
+        Ray ray24 = new Ray(new Point(-2, 0, 0), v100);
+        var exp24 = List.of(new Point(-1, 0, 0), new Point(4, 0, 0));
+        assertEquals(exp24, cylinder.findIntersections(ray24));
 
         //25: in the middle(1 point)
-        Ray ray25 = new Ray(new Point(2,0,0), v100);
-        var exp25 = List.of(new Point(4,0,0));
-        assertEquals(exp25,cylinder.findIntersections(ray25));
+        Ray ray25 = new Ray(new Point(2, 0, 0), v100);
+        var exp25 = List.of(new Point(4, 0, 0));
+        assertEquals(exp25, cylinder.findIntersections(ray25));
         //26: after the second base
-        Ray ray26 = new Ray(new Point(5,0,0), v100);
-        assertNull(cylinder.findIntersections(ray26),"answer is not null");
+        Ray ray26 = new Ray(new Point(5, 0, 0), v100);
+        assertNull(cylinder.findIntersections(ray26), "answer is not null");
 
         //****Group: on the surface of the tube
 
         //27:before
-        Ray ray27 = new Ray(new Point(-3,0,1), v100);
-        assertNull(cylinder.findIntersections(ray27),"answer is not null");
+        Ray ray27 = new Ray(new Point(-3, 0, 1), v100);
+        assertNull(cylinder.findIntersections(ray27), "answer is not null");
 
         //28:on
-        Ray ray28 = new Ray(new Point(-1,0,1), v100);
-        assertNull(cylinder.findIntersections(ray28),"answer is not null");
+        Ray ray28 = new Ray(new Point(-1, 0, 1), v100);
+        assertNull(cylinder.findIntersections(ray28), "answer is not null");
         //29:after
-        Ray ray29 = new Ray(new Point(5,0,1), v100);
-        assertNull(cylinder.findIntersections(ray29),"answer is not null");
+        Ray ray29 = new Ray(new Point(5, 0, 1), v100);
+        assertNull(cylinder.findIntersections(ray29), "answer is not null");
 
         //****Group: going through the center with some intersection
 
         //** mini-group: base 1
 
         //30:before (2 points)
-        Ray ray30 = new Ray(new Point(-2,0,-1), v101);
-        var exp30 = List.of(new Point(-1,0,0),new Point(0,0,1));
-        assertEquals(exp30,cylinder.findIntersections(ray30));
+        Ray ray30 = new Ray(new Point(-2, 0, -1), v101);
+        var exp30 = List.of(new Point(-1, 0, 0), new Point(0, 0, 1));
+        assertEquals(exp30, cylinder.findIntersections(ray30));
 
         //31:on (1 point)
-        Ray ray31 = new Ray(new Point(-1,0,0), v101);
-        var exp31 = List.of(new Point(0,0,1));
-        assertEquals(exp31,cylinder.findIntersections(ray31));
+        Ray ray31 = new Ray(new Point(-1, 0, 0), v101);
+        var exp31 = List.of(new Point(0, 0, 1));
+        assertEquals(exp31, cylinder.findIntersections(ray31));
 
         //32: after(null)
-        Ray ray32 = new Ray(new Point(1,0,2), v101);
-        assertNull(cylinder.findIntersections(ray32),"answer is not null");
+        Ray ray32 = new Ray(new Point(1, 0, 2), v101);
+        assertNull(cylinder.findIntersections(ray32), "answer is not null");
 
         //** mini-group: base 2:
         //33:before (2 points)
-        Ray ray33 = new Ray(new Point(2,0,2), v10M1);
-        var exp33 = List.of(new Point(3,0,1),new Point(4,0,0));
-        assertEquals(exp33,cylinder.findIntersections(ray33));
+        Ray ray33 = new Ray(new Point(2, 0, 2), v10M1);
+        var exp33 = List.of(new Point(3, 0, 1), new Point(4, 0, 0));
+        assertEquals(exp33, cylinder.findIntersections(ray33));
 
         //34:on (1 point)
-        Ray ray34 = new Ray(new Point(3,0,1), v10M1);
-        var exp34 = List.of(new Point(4,0,0));
-        assertEquals(exp34,cylinder.findIntersections(ray34));
+        Ray ray34 = new Ray(new Point(3, 0, 1), v10M1);
+        var exp34 = List.of(new Point(4, 0, 0));
+        assertEquals(exp34, cylinder.findIntersections(ray34));
 
         //35: after(null)
-        Ray ray35 = new Ray(new Point(5,0,-1), v10M1);
-        assertNull(cylinder.findIntersections(ray35),"answer is not null");
+        Ray ray35 = new Ray(new Point(5, 0, -1), v10M1);
+        assertNull(cylinder.findIntersections(ray35), "answer is not null");
 
 
     }

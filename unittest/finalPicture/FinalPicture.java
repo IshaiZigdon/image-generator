@@ -5,6 +5,7 @@ import geometries.Polygon;
 import lighting.PointLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
+import renderer.BlackBoard;
 import renderer.Camera;
 import renderer.ImageWriter;
 import renderer.SimpleRayTracer;
@@ -12,6 +13,9 @@ import scene.Scene;
 
 import static java.awt.Color.*;
 
+/**
+ * test for the final picture
+ */
 public class FinalPicture {
     /**
      * Scene for the picture
@@ -22,8 +26,11 @@ public class FinalPicture {
      */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             .setDirection(Point.ZERO, Vector.Y)
-            .setRayTracer(new SimpleRayTracer(scene));
+            .setRayTracer(new SimpleRayTracer(scene, new BlackBoard()));
 
+    /**
+     * test for the final picture
+     */
     @Test
     public void FinalPictureTest() {
         //computer
@@ -56,8 +63,8 @@ public class FinalPicture {
                 new Cylinder(new Ray(new Point(-500, 500, 0), new Vector(1, 0, 0)), 3, 1000)
                         .setEmission(new Color(0, 255, 255))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-                new Polygon(new Point(500,0,1),new Point(-500, 0, 1),
-                            new Point(-500,50,1), new Point(500,50,1))
+                new Polygon(new Point(500, 0, 1), new Point(-500, 0, 1),
+                        new Point(-500, 50, 1), new Point(500, 50, 1))
                         .setEmission(new Color(0, 255, 255))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
@@ -87,7 +94,7 @@ public class FinalPicture {
                         new Point(1000, -20, -2000), new Point(-1000, -20, -2000))
                         .setEmission(new Color(GRAY))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3)),
-                new Cylinder(new Ray(new Point(0, -20, -400),Vector.Y),100,200)
+                new Cylinder(new Ray(new Point(0, -20, -400), Vector.Y), 100, 200)
                         .setEmission(new Color(GREEN))
                         .setMaterial(new Material().setKd(0.6).setKs(0.3))
         );
@@ -114,22 +121,22 @@ public class FinalPicture {
         scene.setBackground(new Color(64, 128, 128));
 
         scene.lights.add(
-                new PointLight(new Color(WHITE),new Point(0,500,700))
+                new PointLight(new Color(WHITE), new Point(0, 500, 700))
                         .setKl(0.0004).setKq(0.0000006)
         );
 
         scene.lights.add(
-                new PointLight(new Color(WHITE),new Point(-200,150,-400))
+                new PointLight(new Color(WHITE), new Point(-200, 150, -400))
                         .setKl(0.0004).setKq(0.0000006)
         );
 
-        cameraBuilder.setLocation(new Point(0, 1200, 4200))
-                .setVpDistance(2200)
-                .setVpSize(900, 500)
-                .setDirection(new Point(0,0,-160), new Vector(0, 1, -120/ 436d))
-                .setImageWriter(new ImageWriter("FinalPicture", 900, 500))
-                .build()
-                .renderImage()
-                .writeToImage();
+//        cameraBuilder.setLocation(new Point(0, 1200, 4200))
+//                .setVpDistance(2200)
+//                .setVpSize(900, 500)
+//                .setDirection(new Point(0, 0, -160), new Vector(0, 1, -120 / 436d))
+//                .setImageWriter(new ImageWriter("FinalPicture", 900, 500))
+//                .build()
+//                .renderImage()
+//                .writeToImage();
     }
 }

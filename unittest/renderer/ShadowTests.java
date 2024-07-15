@@ -1,7 +1,9 @@
 package renderer;
 
 import geometries.*;
-import lighting.*;
+import lighting.AmbientLight;
+import lighting.PointLight;
+import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
 import scene.Scene;
@@ -19,6 +21,9 @@ public class ShadowTests {
      */
     private final Scene scene = new Scene("Test scene");
 
+    /**
+     * blackboard of the test
+     */
     private final BlackBoard blackBoard = new BlackBoard();
     /**
      * Camera builder of the tests
@@ -135,6 +140,9 @@ public class ShadowTests {
                 .writeToImage();
     }
 
+    /**
+     * test method for soft shadows
+     */
     @Test
     public void softShadowsTest() {
         // Adding a plane and other geometries to the scene
@@ -155,7 +163,7 @@ public class ShadowTests {
                         .setMaterial(new Material().setKd(0.6).setKs(0.3)),
 
                 // Cylinder
-                new Cylinder(new Ray(new Point(-105, 30, 130), new Vector(1,0,-0.1)), 10, 120)
+                new Cylinder(new Ray(new Point(-105, 30, 130), new Vector(1, 0, -0.1)), 10, 120)
                         .setEmission(new Color(GRAY))
                         .setMaterial(new Material().setKd(0.6).setKs(0.3)),
 
@@ -170,7 +178,7 @@ public class ShadowTests {
 
         // Adding a spotlight to the scene, positioned to cast shadows effectively
         scene.lights.add(
-                new PointLight(new Color(WHITE),new Point(-140,80,0))//, new Vector(1, -1, 0))
+                new PointLight(new Color(WHITE), new Point(-140, 80, 0))//, new Vector(1, -1, 0))
                         .setKl(4E-4).setKq(2E-5).setRadius(100)
         );
 
@@ -178,7 +186,7 @@ public class ShadowTests {
         camera.setLocation(new Point(100, 100, 1700))
                 .setVpDistance(2200)
                 .setVpSize(500, 500)
-                .setDirection(Point.ZERO, new Vector(0, 1, -1/17d))
+                .setDirection(Point.ZERO, new Vector(0, 1, -1 / 17d))
                 .setImageWriter(new ImageWriter("softShadow", 1024, 1024))
                 .build()
                 .renderImage()

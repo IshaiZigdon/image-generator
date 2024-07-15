@@ -1,7 +1,6 @@
 package lighting;
 
 import primitives.Color;
-import renderer.BlackBoard;
 
 /**
  * class for all the lights

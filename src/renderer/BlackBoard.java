@@ -1,7 +1,9 @@
 package renderer;
 
 
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,33 +19,61 @@ import static primitives.Util.isZero;
  */
 public class BlackBoard {
 
-    private  double sizeOfGrid = 17;
-    private  int sizeOfRays = 81;
+    /**
+     * size of the grid
+     */
+    private double sizeOfGrid = 17;
+    /**
+     * the amount of rays we are sending to the grid
+     */
+    private int amountOfRays = 81;
 
-    public BlackBoard(double sizeOfGrid, int sizeOfRays) {
+    /**
+     * constructor with grid size and amount of rays
+     *
+     * @param sizeOfGrid   the size of the grid
+     * @param amountOfRays the amount of the rays
+     */
+    public BlackBoard(double sizeOfGrid, int amountOfRays) {
         this.sizeOfGrid = sizeOfGrid;
-        this.sizeOfRays = sizeOfRays;
+        this.amountOfRays = amountOfRays;
     }
 
-    public BlackBoard() {}
+    /**
+     * empty constructor
+     */
+    public BlackBoard() {
+    }
 
+    /**
+     * set function for the size of the grid
+     *
+     * @param sizeOfGrid the size of the grid
+     * @return this object
+     */
     public BlackBoard setSizeOfGrid(double sizeOfGrid) {
         this.sizeOfGrid = sizeOfGrid;
         return this;
     }
 
-    public BlackBoard setSizeOfRays(int sizeOfRays) {
-        this.sizeOfRays = sizeOfRays;
+    /**
+     * set function for the amount of the rays
+     *
+     * @param amountOfRays the amount of the rays
+     * @return this object
+     */
+    public BlackBoard setAmountOfRays(int amountOfRays) {
+        this.amountOfRays = amountOfRays;
         return this;
     }
 
     /**
      * returns beam of rays from a given point to a given target in the given direction
      *
-     * @param p the given point
+     * @param p        the given point
      * @param distance the distance between the point and the target point
-     * @param v the given direction
-     * @param normal the normal vector form the shape for DELTA moving
+     * @param v        the given direction
+     * @param normal   the normal vector form the shape for DELTA moving
      * @return list of rays
      */
     public List<Ray> beamOfRays(Point p, double distance, Vector v, Vector normal) {
@@ -55,7 +85,7 @@ public class BlackBoard {
 
         Vector right = v.crossProduct(up).normalize();
 
-        double d1 = alignZero(Math.sqrt(sizeOfGrid * sizeOfGrid / sizeOfRays));
+        double d1 = alignZero(Math.sqrt(sizeOfGrid * sizeOfGrid / amountOfRays));
         int distance1 = (int) (sizeOfGrid / d1);
         double r = sizeOfGrid / distance1;
 

@@ -5,7 +5,6 @@ package renderer;
 
 import geometries.*;
 import lighting.AmbientLight;
-import lighting.DirectionalLight;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
@@ -31,7 +30,7 @@ public class ReflectionRefractionTests {
      */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             .setDirection(Point.ZERO, Vector.Y)
-            .setRayTracer(new SimpleRayTracer(scene));
+            .setRayTracer(new SimpleRayTracer(scene, new BlackBoard()));
 
     /**
      * Produce a picture of a sphere lighted by a spotlight
@@ -261,7 +260,7 @@ public class ReflectionRefractionTests {
     /**
      * test of reflection, refraction and shadow on 4 different shapes
      */
-   // @Test
+    // @Test
   /*  public void PandaHead() {
         scene.geometries.add(
                 //Large reflective floor

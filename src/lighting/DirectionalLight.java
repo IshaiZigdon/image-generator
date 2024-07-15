@@ -48,8 +48,4 @@ public class DirectionalLight extends Light implements LightSource {
         return new Point(new Double3(Double.POSITIVE_INFINITY));
     }
 
-    @Override
-    public List<Ray> beamOfRays(Point p, Vector v, Vector n) {
-        return List.of(new Ray(p,v,n));
-    }
 }

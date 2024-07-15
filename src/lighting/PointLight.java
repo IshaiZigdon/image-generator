@@ -5,6 +5,7 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import renderer.BlackBoard;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -41,9 +42,6 @@ public class PointLight extends Light implements LightSource {
      */
     private double kQ = 0;
 
-    private final double SIZE_OF_GRID = 17;
-    private final int SIZE_OF_RAYS = 81;
-
     /**
      * ctor with given intensity and position
      *
@@ -54,6 +52,7 @@ public class PointLight extends Light implements LightSource {
         super(intensity);
         this.position = position;
     }
+
 
     /**
      * ctor with given intensity and position
@@ -137,36 +136,5 @@ public class PointLight extends Light implements LightSource {
         Sphere sphere = new Sphere(position, radius);
         var intersection = sphere.findIntersections(ray);
         return intersection == null ? null : intersection.getFirst();
-    }
-
-    @Override
-    public List<Ray> beamOfRays(Point p, Vector v, Vector n) {
-        List<Ray> rayBeam = new LinkedList<>();
-
-        Point gridCenter = p.add(v.scale(getDistance(p) / 2));
-
-        Vector up = v.verticalVector();///
-
-        Vector right = v.crossProduct(up).normalize();
-
-        double d1 = alignZero(Math.sqrt(SIZE_OF_GRID * SIZE_OF_GRID / SIZE_OF_RAYS));
-        int distance = (int) (SIZE_OF_GRID / d1);
-        double r = SIZE_OF_GRID / distance;
-
-        for (int i = 0; i < distance; i++) {
-            for (int j = 0; j < distance; j++) {
-                double yI = -(i - (distance - 1) / 2.0) * r;
-                double xJ = (j - (distance - 1) / 2.0) * r;
-
-                Point pIJ = gridCenter;
-                if (!isZero(xJ))
-                    pIJ = pIJ.add(right.scale(xJ));
-                if (!isZero(yI))
-                    pIJ = pIJ.add(up.scale(yI));
-
-                rayBeam.add(new Ray(p, pIJ.subtract(p), n));
-            }
-        }
-        return rayBeam;
     }
 }

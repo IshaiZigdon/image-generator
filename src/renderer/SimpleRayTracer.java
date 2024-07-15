@@ -5,6 +5,8 @@ import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
 
+import java.util.List;
+
 import static primitives.Util.alignZero;
 
 /**
@@ -30,6 +32,10 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     public SimpleRayTracer(Scene s) {
         super(s);
+    }
+
+    public SimpleRayTracer(Scene s, BlackBoard blackBoard) {
+        super(s,blackBoard);
     }
 
     /**
@@ -188,13 +194,15 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1);
-        var rayBeam = light.beamOfRays(gp.point, lightDirection, n);
+        var rayBeam = blackBoard == null ?
+                List.of(new Ray(gp.point, lightDirection, n))
+                : blackBoard.beamOfRays(gp.point, light.getDistance(gp.point), lightDirection, n);
 
         Double3 totalKtr = Double3.ZERO;
 
         for (Ray r : rayBeam) {
-            Point p =light.reachingLight(r);
-            if (p!=null) {
+            Point p = light.reachingLight(r);
+            if (p != null) {
                 double distance = alignZero(p.distance(gp.point));
                 var intersections = scene.geometries.findGeoIntersections(r, distance);
                 if (intersections == null)

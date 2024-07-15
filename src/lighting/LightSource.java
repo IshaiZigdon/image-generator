@@ -4,6 +4,7 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import renderer.BlackBoard;
 
 import java.util.List;
 
@@ -38,16 +39,6 @@ public interface LightSource {
      * @return the result
      */
     public double getDistance(Point p);
-
-    /**
-     * returns beam of rays from a given point in the given direction
-     *
-     * @param p the given point
-     * @param v the given direction
-     * @param n the normal vector form the shape for DELTA moving
-     * @return list of rays
-     */
-    public List<Ray> beamOfRays(Point p, Vector v,Vector n);
 
     public Point reachingLight(Ray ray);
 }

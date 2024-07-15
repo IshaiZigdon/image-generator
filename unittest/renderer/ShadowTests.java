@@ -18,6 +18,8 @@ public class ShadowTests {
      * Scene of the tests
      */
     private final Scene scene = new Scene("Test scene");
+
+    private final BlackBoard blackBoard = new BlackBoard();
     /**
      * Camera builder of the tests
      */
@@ -25,7 +27,7 @@ public class ShadowTests {
             .setDirection(Point.ZERO, Vector.Y)
             .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
             .setVpSize(200, 200)
-            .setRayTracer(new SimpleRayTracer(scene));
+            .setRayTracer(new SimpleRayTracer(scene, blackBoard));
 
     /**
      * The sphere in the tests

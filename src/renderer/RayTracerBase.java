@@ -16,6 +16,8 @@ public abstract class RayTracerBase {
      */
     protected final Scene scene;
 
+    protected BlackBoard blackBoard;
+
     /**
      * ctor with a given scene
      *
@@ -23,6 +25,11 @@ public abstract class RayTracerBase {
      */
     public RayTracerBase(Scene scene) {
         this.scene = scene;
+    }
+
+    public RayTracerBase(Scene scene, BlackBoard blackBoard) {
+        this.scene = scene;
+        this.blackBoard = blackBoard;
     }
 
     /**

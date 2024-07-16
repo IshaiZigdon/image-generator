@@ -30,6 +30,8 @@ public class ReflectionRefractionTests {
      */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             .setDirection(Point.ZERO, Vector.Y)
+            .setMultithreading(3)
+            .setDebugPrint(0.1)
             .setRayTracer(new SimpleRayTracer(scene, new BlackBoard()));
 
     /**

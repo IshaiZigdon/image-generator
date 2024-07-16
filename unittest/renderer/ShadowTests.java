@@ -32,6 +32,8 @@ public class ShadowTests {
             .setDirection(Point.ZERO, Vector.Y)
             .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
             .setVpSize(200, 200)
+            .setMultithreading(3)
+            .setDebugPrint(0.1)
             .setRayTracer(new SimpleRayTracer(scene, blackBoard));
 
     /**

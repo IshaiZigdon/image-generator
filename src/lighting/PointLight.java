@@ -23,7 +23,7 @@ public class PointLight extends Light implements LightSource {
     /**
      * the radius
      */
-    protected double radius = 0;
+    protected double radius = 30;
     /**
      * the constant attenuation factor
      */

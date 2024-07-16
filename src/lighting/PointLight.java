@@ -1,6 +1,6 @@
 package lighting;
 
-import geometries.Sphere;
+import geometries.Plane;
 import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
@@ -23,7 +23,7 @@ public class PointLight extends Light implements LightSource {
     /**
      * the radius
      */
-    protected double radius = 30;
+    protected double radius = 0;
     /**
      * the constant attenuation factor
      */
@@ -127,9 +127,9 @@ public class PointLight extends Light implements LightSource {
     }
 
     @Override
-    public Point reachingLight(Ray ray) {
-        Sphere sphere = new Sphere(position, radius);
-        var intersection = sphere.findIntersections(ray);
-        return intersection == null ? null : intersection.getFirst();
+    public Boolean reachingLight(Ray ray) {
+        Plane plane = new Plane(position, ray.getHead().subtract(position));
+        var intersection = plane.findIntersections(ray);
+        return intersection != null && intersection.getFirst().distance(position) <= radius ;
     }
 }

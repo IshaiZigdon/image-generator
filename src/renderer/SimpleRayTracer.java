@@ -205,11 +205,10 @@ public class SimpleRayTracer extends RayTracerBase {
                 : blackBoard.beamOfRays(gp.point, light.getDistance(gp.point), lightDirection, n);
 
         Double3 totalKtr = Double3.ZERO;
+        double distance = alignZero(light.getDistance(gp.point));
 
         for (Ray r : rayBeam) {
-            Point p = light.reachingLight(r);
-            if (p != null) {
-                double distance = alignZero(p.distance(gp.point));
+            if (light.reachingLight(r)) {
                 var intersections = scene.geometries.findGeoIntersections(r, distance);
                 if (intersections == null)
                     totalKtr = totalKtr.add(Double3.ONE);

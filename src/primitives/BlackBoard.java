@@ -19,10 +19,6 @@ public class BlackBoard {
      * size of the grid
      */
     private double sizeOfGrid = 17;
-    /**
-     * the amount of rays we are sending to the grid
-     */
-    private int amountOfRays = 81;
 
     /**
      * constructor with grid size and amount of rays
@@ -30,9 +26,8 @@ public class BlackBoard {
      * @param sizeOfGrid   the size of the grid
      * @param amountOfRays the amount of the rays
      */
-    public BlackBoard(double sizeOfGrid, int amountOfRays) {
+    public BlackBoard(double sizeOfGrid) {
         this.sizeOfGrid = sizeOfGrid;
-        this.amountOfRays = amountOfRays;
     }
 
     /**
@@ -53,17 +48,6 @@ public class BlackBoard {
     }
 
     /**
-     * set function for the amount of the rays
-     *
-     * @param amountOfRays the amount of the rays
-     * @return this object
-     */
-    public BlackBoard setAmountOfRays(int amountOfRays) {
-        this.amountOfRays = amountOfRays;
-        return this;
-    }
-
-    /**
      * returns beam of rays from a given point to a given target in the given direction
      *
      * @param p        the given point
@@ -75,20 +59,18 @@ public class BlackBoard {
     public List<Ray> beamOfRays(Point p, double distance, Vector v, Vector normal) {
         List<Ray> rayBeam = new LinkedList<>();
 
-        Point gridCenter = p.add(v.scale(distance / 2));
+        Point gridCenter = p.add(v.scale(distance));
 
-        Vector up = v.verticalVector();///
+        Vector up = v.verticalVector();
 
         Vector right = v.crossProduct(up).normalize();
 
-        double d1 = alignZero(Math.sqrt(sizeOfGrid * sizeOfGrid / amountOfRays));
-        int distance1 = (int) (sizeOfGrid / d1);
-        double r = sizeOfGrid / distance1;
+        double sizeOfGridSquared = alignZero(Math.sqrt(sizeOfGrid));
 
-        for (int i = 0; i < distance1; i++) {
-            for (int j = 0; j < distance1; j++) {
-                double yI = -(i - (distance1 - 1) / 2.0) * r;
-                double xJ = (j - (distance1 - 1) / 2.0) * r;
+        for (int i = 0; i < sizeOfGridSquared; i++) {
+            for (int j = 0; j < sizeOfGridSquared; j++) {
+                double yI = -(i - (sizeOfGridSquared - 1) / 2.0) * sizeOfGridSquared;
+                double xJ = (j - (sizeOfGridSquared - 1) / 2.0) * sizeOfGridSquared;
 
                 Point pIJ = gridCenter;
                 if (!isZero(xJ))

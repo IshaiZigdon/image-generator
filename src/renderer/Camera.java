@@ -186,14 +186,13 @@ public class Camera implements Cloneable {
                     .forEach(i -> IntStream.range(0, nX).parallel() //
                             .forEach(j -> castRay(nX, nY, j, i)));
         } else {
+            int count = threadsCount;
             var threads = new LinkedList<Thread>();
-            while (threadsCount-- > 0) {
+            while (count-- > 0) {
                 threads.add(new Thread(() -> {
                     Pixel pixel;
-                    pixel = Pixel.nextPixel();
-                    while (pixel != null) {
+                    while ((pixel  = Pixel.nextPixel()) != null) {
                         castRay(nX, nY, pixel.col(), pixel.row());
-                        pixel = Pixel.nextPixel();
                     }
                 }));
             }

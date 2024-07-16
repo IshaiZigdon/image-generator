@@ -69,7 +69,7 @@ public class LightsTests {
     private final Camera.Builder camera2 = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(scene2, new BlackBoard()))
             .setLocation(new Point(0, 0, 1000))
-            .setMultithreading(3)
+            .setMultithreading(0)
             .setDebugPrint(0.1)
             .setDirection(Point.ZERO, Vector.Y)
             .setVpSize(200, 200).setVpDistance(1000);

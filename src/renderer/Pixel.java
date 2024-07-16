@@ -32,9 +32,40 @@ record Pixel(int row, int col) {
             cCol = 0;
             ++cRow;
             if (cRow < maxRows) return new Pixel(cRow, cCol);
+            cRow = 0;
+            pixels = 0;
         }
         return null;
     }
+
+//    /**
+//     * Internal function for thread-safe manipulating of main follow up Pixel object - this function is
+//     * critical section for all the threads, and main Pixel object data is the shared data of this critical* section.<br/>
+//     * The function provides next pixel number each call.
+//     * @param target target secondary Pixel object to copy the row/column of the next pixel
+//     * @return the progress percentage for follow up: if it is 0 - nothing to print, if it is -1 - the task is* finished, any other value - the progress percentage (only when it changes)
+//     */
+//    private synchronized int nextP(Pixel target) {
+//        ++cCol; ++counter;
+//        if (col < maxCols) {
+//            target.cRow = this.row; target.cCol = this.col;
+//            if (print && counter == nextCounter) {
+//                ++percents;
+//                nextCounter = pixels * (percents + 1) / 100;
+//                return percents;}
+//            return 0;
+//        }
+//        ++cRow;
+//        if (row < maxRows) {
+//            cCol = 0;
+//            if (print && counter == nextCounter) {
+//                ++percents;
+//                nextCounter = pixels * (percents + 1) / 100;
+//                return percents;}
+//            return 0;
+//        }
+//        return -1;
+//    }
 
     static void pixelDone() {
         boolean flag = false;
@@ -42,7 +73,7 @@ record Pixel(int row, int col) {
         synchronized (mutexPixels) {
             ++pixels;
             if (print) {
-                percentage = (int) (1000l * pixels / totalPixels);
+                percentage = (int) (100l * pixels / totalPixels);
                 if (percentage - lastPrinted >= printInterval) {
                     lastPrinted = percentage;
                     flag = true;

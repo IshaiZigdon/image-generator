@@ -43,5 +43,5 @@ public interface LightSource {
      * @param ray the ray from the geometry to the light
      * @return the first intersecting point
      */
-    public Point reachingLight(Ray ray);
+    public Boolean reachingLight(Ray ray);
 }

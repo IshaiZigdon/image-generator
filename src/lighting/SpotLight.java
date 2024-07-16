@@ -98,10 +98,9 @@ public class SpotLight extends PointLight {
     }
 
     @Override
-    public Point reachingLight(Ray ray) {
+    public Boolean reachingLight(Ray ray) {
         Plane plane = new Plane(position, direction);
         var intersection = plane.findIntersections(ray);
-        return intersection != null && intersection.getFirst().distance(position) <= radius ?
-                intersection.getFirst() : null;
+        return intersection != null && intersection.getFirst().distance(position) <= radius;
     }
 }

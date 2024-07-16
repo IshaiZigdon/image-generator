@@ -1,5 +1,6 @@
 package renderer;
 
+import primitives.BlackBoard;
 import primitives.Color;
 import primitives.Ray;
 import scene.Scene;

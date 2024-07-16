@@ -42,8 +42,8 @@ public class DirectionalLight extends Light implements LightSource {
     }
 
     @Override
-    public Point reachingLight(Ray ray) {
-        return new Point(new Double3(Double.POSITIVE_INFINITY));
+    public Boolean reachingLight(Ray ray) {
+        return true;
     }
 
 }

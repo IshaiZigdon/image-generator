@@ -1,6 +1,7 @@
 package renderer;
 
 import geometries.Intersectable.GeoPoint;
+import lighting.DirectionalLight;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
@@ -90,16 +91,28 @@ public class SimpleRayTracer extends RayTracerBase {
         Color color = gp.geometry.getEmission();
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
-            double ln = alignZero(l.dotProduct(n));
-            if (ln * nv > 0) {
-                Double3 ktr = transparency(gp, lightSource, l, n);
-                if (ktr.product(k).greaterThan(MIN_CALC_COLOR_K)) {
-                    Color iL = lightSource.getIntensity(gp.point).scale(ktr);
-                    color = color.add(
-                            iL.scale(calcDiffusive(material, ln)
-                                    .add(calcSpecular(material, n, l, ln, v))));
+            Vector lightDirection = l.scale(-1);
+            var rayBeam = blackBoard == null || lightSource instanceof DirectionalLight ?
+                    List.of(new Ray(gp.point, lightDirection, n))
+                    : blackBoard.beamOfRays(gp.point, lightSource, lightDirection, n);
+
+            Color BeamColor = Color.BLACK;
+            double distance = lightSource.getDistance(gp.point);
+
+            for (Ray r : rayBeam) {
+                Vector l2 = r.getDirection().scale(-1);
+                double ln = l2.dotProduct(n);
+                if (ln * nv > 0) {
+                    Double3 ktr = transparency(r, distance);
+                    if (ktr.product(k).greaterThan(MIN_CALC_COLOR_K)) {
+                        Color iL = lightSource.getIntensity(gp.point).scale(ktr);
+                        BeamColor = BeamColor.add(
+                                iL.scale(calcDiffusive(material, ln)
+                                        .add(calcSpecular(material, n, l2, ln, v))));
+                    }
                 }
             }
+            color = color.add(BeamColor.reduce(rayBeam.size()));
         }
         return color;
     }
@@ -192,36 +205,16 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Calculates the transparency factor for a given point.
      *
-     * @param gp    the intersection point
-     * @param light the light source
-     * @param l     the light direction vector
-     * @param n     the normal vector at the intersection point
      * @return the transparency factor
      */
-    private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
-        Vector lightDirection = l.scale(-1);
-        var rayBeam = blackBoard == null || light.getDistance(gp.point) == Double.POSITIVE_INFINITY ?
-                List.of(new Ray(gp.point, lightDirection, n))
-                : blackBoard.beamOfRays(gp.point, light.getDistance(gp.point), lightDirection, n);
+    private Double3 transparency(Ray ray, double distance) {
+        var intersections = scene.geometries.findGeoIntersections(ray, distance);
+        if (intersections == null) return Double3.ONE;
 
-        Double3 totalKtr = Double3.ZERO;
-        double distance = alignZero(light.getDistance(gp.point));
-
-        for (Ray r : rayBeam) {
-            if (light.reachingLight(r)) {
-                var intersections = scene.geometries.findGeoIntersections(r, distance);
-                if (intersections == null)
-                    totalKtr = totalKtr.add(Double3.ONE);
-                else {
-                    Double3 ktr = Double3.ONE;
-                    intersections = scene.geometries.findGeoIntersections(r);
-                    for (var intersection : intersections)
-                        ktr = ktr.product(intersection.geometry.getMaterial().kT);
-                    totalKtr = totalKtr.add(ktr);
-                }
-            }
-        }
-        return totalKtr.scale((double) 1 / rayBeam.size());
+        Double3 ktr = Double3.ONE;
+        for (var intersection : intersections)
+            ktr = ktr.product(intersection.geometry.getMaterial().kT);
+        return ktr;
     }
 
     /**

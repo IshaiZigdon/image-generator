@@ -1,10 +1,12 @@
 package primitives;
 
 
+import lighting.LightSource;
+import lighting.PointLight;
+
 import java.util.LinkedList;
 import java.util.List;
 
-import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 /**
@@ -18,13 +20,12 @@ public class BlackBoard {
     /**
      * size of the grid
      */
-    private double sizeOfGrid = 17;
+    private double sizeOfGrid = 9;
 
     /**
      * constructor with grid size and amount of rays
      *
-     * @param sizeOfGrid   the size of the grid
-     * @param amountOfRays the amount of the rays
+     * @param sizeOfGrid the size of the grid
      */
     public BlackBoard(double sizeOfGrid) {
         this.sizeOfGrid = sizeOfGrid;
@@ -50,35 +51,41 @@ public class BlackBoard {
     /**
      * returns beam of rays from a given point to a given target in the given direction
      *
-     * @param p        the given point
-     * @param distance the distance between the point and the target point
-     * @param v        the given direction
-     * @param normal   the normal vector form the shape for DELTA moving
+     * @param p      the given point
+     * @param light  the given light
+     * @param v      the given direction
+     * @param normal the normal vector form the shape for DELTA moving
      * @return list of rays
      */
-    public List<Ray> beamOfRays(Point p, double distance, Vector v, Vector normal) {
-        List<Ray> rayBeam = new LinkedList<>();
-
-        Point gridCenter = p.add(v.scale(distance));
+    public List<Ray> beamOfRays(Point p, LightSource light, Vector v, Vector normal) {
+        double radius = ((PointLight) light).getRadius();
+        if (isZero(radius)) return List.of(new Ray(p, v, normal));
 
         Vector up = v.verticalVector();
 
         Vector right = v.crossProduct(up).normalize();
 
-        double sizeOfGridSquared = alignZero(Math.sqrt(sizeOfGrid));
+        List<Ray> rayBeam = new LinkedList<>();
+        Point gridCenter = p.add(v.scale(light.getDistance(p)));
 
-        for (int i = 0; i < sizeOfGridSquared; i++) {
-            for (int j = 0; j < sizeOfGridSquared; j++) {
-                double yI = -(i - (sizeOfGridSquared - 1) / 2.0) * sizeOfGridSquared;
-                double xJ = (j - (sizeOfGridSquared - 1) / 2.0) * sizeOfGridSquared;
+        // Calculate the grid size based on the number of rays
+        // int sizeOfGrid = (int) Math.ceil(Math.sqrt(81));
+        double cellSize = (2 * radius) / sizeOfGrid;
+
+        for (int i = 0; i < sizeOfGrid; i++) {
+            for (int j = 0; j < sizeOfGrid; j++) {
+                // Calculate the position within the grid
+                double x = (j - sizeOfGrid / 2.0) * cellSize;
+                double y = (i - sizeOfGrid / 2.0) * cellSize;
 
                 Point pIJ = gridCenter;
-                if (!isZero(xJ))
-                    pIJ = pIJ.add(right.scale(xJ));
-                if (!isZero(yI))
-                    pIJ = pIJ.add(up.scale(yI));
+                if (!isZero(x)) pIJ = pIJ.add(right.scale(x));
+                if (!isZero(y)) pIJ = pIJ.add(up.scale(y));
 
-                rayBeam.add(new Ray(p, pIJ.subtract(p), normal));
+                // Only add the ray if it is within the radius
+                if (light.getDistance(pIJ) <= radius) {
+                    rayBeam.add(new Ray(p, pIJ.subtract(p), normal));
+                }
             }
         }
         return rayBeam;

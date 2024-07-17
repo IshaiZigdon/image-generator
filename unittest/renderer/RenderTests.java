@@ -29,7 +29,7 @@ public class RenderTests {
     private final Camera.Builder camera = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(scene))
             .setLocation(Point.ZERO).setDirection(new Point(0, 0, -1), Vector.Y)
-            .setMultithreading(0)
+            .setMultithreading(-1)
             .setDebugPrint(0.1)
             .setVpDistance(100)
             .setVpSize(500, 500);

@@ -2,7 +2,6 @@ package lighting;
 
 import primitives.Color;
 import primitives.Point;
-import primitives.Ray;
 import primitives.Vector;
 
 
@@ -37,11 +36,4 @@ public interface LightSource {
      */
     public double getDistance(Point p);
 
-    /**
-     * method for checking if the light is reaching to the geometry
-     *
-     * @param ray the ray from the geometry to the light
-     * @return the first intersecting point
-     */
-    public Boolean reachingLight(Ray ray);
 }

@@ -40,10 +40,4 @@ public class DirectionalLight extends Light implements LightSource {
     public Vector getL(Point p) {
         return direction; //not normalized because we did it before
     }
-
-    @Override
-    public Boolean reachingLight(Ray ray) {
-        return true;
-    }
-
 }

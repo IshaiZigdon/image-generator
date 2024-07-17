@@ -15,15 +15,14 @@ import static primitives.Util.alignZero;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-public class PointLight extends Light implements LightSource {
-    /**
+public class PointLight extends Light implements LightSource { /**
      * the position of the light
      */
     protected final Point position;
     /**
      * the radius
      */
-    protected double radius = 30;
+    protected double radius = 3;
     /**
      * the constant attenuation factor
      */
@@ -108,6 +107,10 @@ public class PointLight extends Light implements LightSource {
         return this;
     }
 
+    public double getRadius(){
+        return radius;
+    }
+
     @Override
     public double getDistance(Point p) {
         return p.distance(position);
@@ -124,12 +127,5 @@ public class PointLight extends Light implements LightSource {
     @Override
     public Vector getL(Point p) {
         return p.subtract(position).normalize();
-    }
-
-    @Override
-    public Boolean reachingLight(Ray ray) {
-        Plane plane = new Plane(position, ray.getHead().subtract(position));
-        var intersection = plane.findIntersections(ray);
-        return intersection != null && intersection.getFirst().distance(position) <= radius ;
     }
 }

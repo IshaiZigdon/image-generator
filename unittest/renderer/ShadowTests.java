@@ -150,7 +150,7 @@ public class ShadowTests {
         // Adding a plane and other geometries to the scene
         scene.geometries.add(
                 // Large reflective floor
-                new Plane(new Point(0, -40, 0), new Vector(0, 1, 0.1))
+                new Plane(new Point(0, -40, 0), new Vector(0, 1, 0))
                         .setEmission(new Color(GRAY))
                         .setMaterial(new Material().setKd(0.6).setKs(0.3)),
 
@@ -180,8 +180,8 @@ public class ShadowTests {
 
         // Adding a spotlight to the scene, positioned to cast shadows effectively
         scene.lights.add(
-                new PointLight(new Color(WHITE), new Point(-140, 80, 0))//, new Vector(1, -1, 0))
-                        .setKl(4E-4).setKq(2E-5).setRadius(100)
+                new PointLight(new Color(1200,900,500), new Point(-140, -10, 0))//, new Vector(1, -1, 0))
+                        .setKl(4E-4).setKq(2E-5).setRadius(0)
         );
 
         // Setting the camera location to capture the scene with shadows

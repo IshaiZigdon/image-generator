@@ -73,7 +73,7 @@ record Pixel(int row, int col) {
         synchronized (mutexPixels) {
             ++pixels;
             if (print) {
-                percentage = (int) (100l * pixels / totalPixels);
+                percentage = (int) (1000l * pixels / totalPixels);
                 if (percentage - lastPrinted >= printInterval) {
                     lastPrinted = percentage;
                     flag = true;

@@ -96,11 +96,4 @@ public class SpotLight extends PointLight {
         double angle = alignZero(direction.dotProduct(getL(p)));
         return angle <= 0 ? Color.BLACK : super.getIntensity(p).scale(Math.pow(angle, narrowBeam));
     }
-
-    @Override
-    public Boolean reachingLight(Ray ray) {
-        Plane plane = new Plane(position, direction);
-        var intersection = plane.findIntersections(ray);
-        return intersection != null && intersection.getFirst().distance(position) <= radius;
-    }
 }

@@ -124,29 +124,6 @@ public class Vector extends Point {
         return scale(1 / length());
     }
 
-    /**
-     * method to generate a vertical vector
-     *
-     * @return a vertical vector
-     */
-    public Vector verticalVector() {
-        double x, y, z;
-
-        if (xyz.d3 == 0) {
-            // If a3 (z component) is zero, choose x and calculate y accordingly
-            x = 1;  // Arbitrary value for x
-            if (xyz.d2 == 0) return Vector.Y;
-            y = -(xyz.d1 * x) / xyz.d2;
-            z = 0;  // Set z to 0
-        } else {
-            // If a3 is not zero, choose x = 0 and y = 1, then calculate z
-            x = 0;  // Set x to 0
-            y = 1;  // Arbitrary value for y
-            z = -(xyz.d2 * y) / xyz.d3;
-        }
-        return new Vector(x, y, z).normalize();
-    }
-
     @Override
     public final String toString() {
         return "Vector: " + xyz;

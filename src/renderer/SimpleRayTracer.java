@@ -3,6 +3,7 @@ package renderer;
 import geometries.Intersectable.GeoPoint;
 import lighting.DirectionalLight;
 import lighting.LightSource;
+import lighting.PointLight;
 import primitives.*;
 import scene.Scene;
 
@@ -91,19 +92,18 @@ public class SimpleRayTracer extends RayTracerBase {
         Color color = gp.geometry.getEmission();
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
-            Vector lightDirection = l.scale(-1);
             var rayBeam = blackBoard == null || lightSource instanceof DirectionalLight ?
-                    List.of(new Ray(gp.point, lightDirection, n))
-                    : blackBoard.beamOfRays(gp.point, lightSource, lightDirection, n);
+                    List.of(new Ray(gp.point, l.scale(-1), n))
+                    : blackBoard.beamOfRays(gp.point, lightSource.getDistance(gp.point),
+                    ((PointLight) lightSource).getRadius(), l, n);
 
             Color BeamColor = Color.BLACK;
-            double distance = lightSource.getDistance(gp.point);
 
             for (Ray r : rayBeam) {
                 Vector l2 = r.getDirection().scale(-1);
-                double ln = l2.dotProduct(n);
+                double ln = alignZero(l2.dotProduct(n));
                 if (ln * nv > 0) {
-                    Double3 ktr = transparency(r, distance);
+                    Double3 ktr = transparency(gp, lightSource, l2, n);
                     if (ktr.product(k).greaterThan(MIN_CALC_COLOR_K)) {
                         Color iL = lightSource.getIntensity(gp.point).scale(ktr);
                         BeamColor = BeamColor.add(
@@ -207,8 +207,9 @@ public class SimpleRayTracer extends RayTracerBase {
      *
      * @return the transparency factor
      */
-    private Double3 transparency(Ray ray, double distance) {
-        var intersections = scene.geometries.findGeoIntersections(ray, distance);
+    private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
+        Ray ray = new Ray(gp.point, l.scale(-1), n);
+        var intersections = scene.geometries.findGeoIntersections(ray, light.getDistance(gp.point));
         if (intersections == null) return Double3.ONE;
 
         Double3 ktr = Double3.ONE;

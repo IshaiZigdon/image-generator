@@ -181,7 +181,7 @@ public class ShadowTests {
         // Adding a spotlight to the scene, positioned to cast shadows effectively
         scene.lights.add(
                 new PointLight(new Color(1200,900,500), new Point(-140, -10, 0))//, new Vector(1, -1, 0))
-                        .setKl(4E-4).setKq(2E-5).setRadius(0)
+                        .setKl(4E-4).setKq(2E-5).setRadius(30)
         );
 
         // Setting the camera location to capture the scene with shadows

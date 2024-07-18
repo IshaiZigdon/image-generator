@@ -51,19 +51,18 @@ public class BlackBoard {
     /**
      * returns beam of rays from a given point to a given target in the given direction
      *
-     * @param p      the given point
-     * @param light  the given light
-     * @param v      the given direction
-     * @param normal the normal vector form the shape for DELTA moving
+     * @param p        the given point
+     * @param distance the given distance of the black board
+     * @param v        the given direction
      * @return list of rays
      */
-    public List<Ray> beamOfRays(Point p, double distance, double size, Vector v, Vector normal) {
-        if (isZero(size)) return List.of(new Ray(p, v.scale(-1), normal));
+    public List<Vector> beamOfRays(Point p, double distance, double size, Vector v) {
+        if (isZero(size)) return List.of(v.scale(-1));
 
         Vector right = calculateVerticalVector(v);
         Vector up = v.crossProduct(right).normalize();
 
-        List<Ray> rayBeam = new LinkedList<>();
+        List<Vector> rayBeam = new LinkedList<>();
         Point gridCenter = p.add(v.scale(-distance));
 
         double cellSize = (2 * size) / amountOfRays;
@@ -81,7 +80,7 @@ public class BlackBoard {
 
                 // Only add the ray if it is within the radius
                 if (gridCenter.distance(pIJ) <= size) {
-                    rayBeam.add(new Ray(p, pIJ.subtract(p), normal));
+                    rayBeam.add(pIJ.subtract(p).normalize());
                 }
             }
         }

@@ -1,9 +1,7 @@
 package renderer;
 
 import geometries.Intersectable.GeoPoint;
-import lighting.DirectionalLight;
-import lighting.LightSource;
-import lighting.PointLight;
+import lighting.*;
 import primitives.*;
 import scene.Scene;
 
@@ -93,14 +91,14 @@ public class SimpleRayTracer extends RayTracerBase {
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
             var rayBeam = blackBoard == null || lightSource instanceof DirectionalLight ?
-                    List.of(new Ray(gp.point, l.scale(-1), n))
+                    List.of(l.scale(-1))
                     : blackBoard.beamOfRays(gp.point, lightSource.getDistance(gp.point),
-                    ((PointLight) lightSource).getRadius(), l, n);
+                    ((PointLight) lightSource).getRadius(), l);
 
             Color BeamColor = Color.BLACK;
 
-            for (Ray r : rayBeam) {
-                Vector l2 = r.getDirection().scale(-1);
+            for (Vector vec : rayBeam) {
+                Vector l2 = vec.scale(-1);
                 double ln = alignZero(l2.dotProduct(n));
                 if (ln * nv > 0) {
                     Double3 ktr = transparency(gp, lightSource, l2, n);

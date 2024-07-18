@@ -31,7 +31,7 @@ public class ShadowTests {
     private final Camera.Builder camera = Camera.getBuilder()
             .setDirection(Point.ZERO, Vector.Y)
             .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
-            .setMultithreading(-1)
+            .setMultithreading(0)
             .setDebugPrint(0.1)
             .setVpSize(200, 200)
             .setRayTracer(new SimpleRayTracer(scene, blackBoard));
@@ -180,8 +180,8 @@ public class ShadowTests {
 
         // Adding a spotlight to the scene, positioned to cast shadows effectively
         scene.lights.add(
-                new PointLight(new Color(1200,900,500), new Point(-140, -10, 0))//, new Vector(1, -1, 0))
-                        .setKl(4E-4).setKq(2E-5).setRadius(30)
+                new PointLight(new Color(1200,900,500), new Point(-140, -40, 0))//, new Vector(1, -1, 0))
+                        .setKl(4E-4).setKq(2E-5).setRadius(15)
         );
 
         // Setting the camera location to capture the scene with shadows

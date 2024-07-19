@@ -1,11 +1,6 @@
-package renderer;
+package primitives;
 
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -23,7 +18,7 @@ public class BlackBoard {
     /**
      * size of the grid
      */
-    private int amountOfRays = 9;
+    private double amountOfRays = 9;
 
     private static final Random RANDOM = new Random();
 
@@ -32,7 +27,7 @@ public class BlackBoard {
      *
      * @param sizeOfGrid the size of the grid
      */
-    public BlackBoard(int sizeOfGrid) {
+    public BlackBoard(double sizeOfGrid) {
         this.amountOfRays = sizeOfGrid;
     }
 
@@ -48,7 +43,7 @@ public class BlackBoard {
      * @param amountOfRays the size of the grid
      * @return this object
      */
-    public BlackBoard setAmountOfRays(int amountOfRays) {
+    public BlackBoard setAmountOfRays(double amountOfRays) {
         this.amountOfRays = amountOfRays;
         return this;
     }
@@ -56,38 +51,40 @@ public class BlackBoard {
     /**
      * returns beam of rays from a given point to a given target in the given direction
      *
-     * @param p      the given point
-     * @param light  the given light
-     * @param v      the given direction
-     * @param normal the normal vector form the shape for DELTA moving
+     * @param p        the given point
+     * @param distance the given distance of the black board
+     * @param v        the given direction
      * @return list of rays
      */
-    public List<Point> beamOfRays(Vector v, Point center, double size) {
-        if (isZero(size)) return List.of(center);
+    public List<Vector> beamOfRays(Point p, double distance, double size, Vector v) {
+        if (isZero(size)) return List.of(v.scale(-1));
 
         Vector right = calculateVerticalVector(v);
         Vector up = v.crossProduct(right).normalize();
 
-        List<Ray> rayBeam = new LinkedList<>();
+        List<Vector> rayBeam = new LinkedList<>();
+        Point gridCenter = p.add(v.scale(-distance));
 
         double cellSize = (2 * size) / amountOfRays;
-        Point topLeft = center.add(right.scale(-size).add(up.scale(size)));
-        List<Point> points = new ArrayList<>(amountOfRays * amountOfRays);
+        Point topLeft = gridCenter.add(right.scale(-size).add(up.scale(size)));
+
         for (int i = 0; i < amountOfRays; i++) {
             for (int j = 0; j < amountOfRays; j++) {
                 // Calculate the position within the grid
                 double x = (i + RANDOM.nextDouble()) * cellSize;
                 double y = -(j + RANDOM.nextDouble()) * cellSize;
 
+                Point pIJ = topLeft;
+                if (!isZero(x)) pIJ = pIJ.add(right.scale(x));
+                if (!isZero(y)) pIJ = pIJ.add(up.scale(y));
 
                 // Only add the ray if it is within the radius
-                points.add(topLeft
-                        .add(right.scale(x))
-                        .add(up.scale(y))
-                );
+                if (gridCenter.distance(pIJ) <= size) {
+                    rayBeam.add(pIJ.subtract(p).normalize());
+                }
             }
         }
-        return points;
+        return rayBeam;
     }
 
     private static Vector calculateVerticalVector(Vector n) {

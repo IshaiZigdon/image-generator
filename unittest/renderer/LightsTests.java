@@ -53,11 +53,12 @@ public class LightsTests {
      */
     private final Scene scene2 = new Scene("Test scene")
             .setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
+    private final BlackBoard blackBoard = new BlackBoard();
     /**
      * First camera builder for some of tests
      */
     private final Camera.Builder camera1 = Camera.getBuilder()
-            .setRayTracer(new SimpleRayTracer(scene1, new BlackBoard()))
+            .setRayTracer(new SimpleRayTracer(scene1))
             .setLocation(new Point(0, 0, 1000))
             .setMultithreading(-1)
             .setDebugPrint(0.1)
@@ -67,7 +68,7 @@ public class LightsTests {
      * Second camera builder for some of tests
      */
     private final Camera.Builder camera2 = Camera.getBuilder()
-            .setRayTracer(new SimpleRayTracer(scene2, new BlackBoard()))
+            .setRayTracer(new SimpleRayTracer(scene2))
             .setLocation(new Point(0, 0, 1000))
             .setMultithreading(0)
             .setDebugPrint(0.1)
@@ -161,7 +162,7 @@ public class LightsTests {
     @Test
     public void spherePoint() {
         scene1.geometries.add(sphere);
-        scene1.lights.add(new PointLight(sphereLightColor, sphereLightPosition)
+        scene1.lights.add(new PointLight(sphereLightColor, sphereLightPosition,30)
                 .setKl(0.001).setKq(0.0002));
 
         camera1.setImageWriter(new ImageWriter("lightSpherePoint", 500, 500))
@@ -176,7 +177,7 @@ public class LightsTests {
     @Test
     public void sphereSpot() {
         scene1.geometries.add(sphere);
-        scene1.lights.add(new SpotLight(sphereLightColor, sphereLightPosition, sphereLightDirection)
+        scene1.lights.add(new SpotLight(sphereLightColor, sphereLightPosition, sphereLightDirection,30)
                 .setKl(0.001).setKq(0.0001));
 
         camera1.setImageWriter(new ImageWriter("lightSphereSpot", 500, 500))

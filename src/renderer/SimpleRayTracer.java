@@ -1,12 +1,12 @@
 package renderer;
 
 import geometries.Intersectable.GeoPoint;
-import lighting.DirectionalLight;
 import lighting.LightSource;
 import lighting.PointLight;
 import primitives.*;
 import scene.Scene;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.alignZero;
@@ -26,6 +26,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * Minimum factor to stop recursion for global effects
      */
     private static final Double3 MIN_CALC_COLOR_K = new Double3(0.001);
+
 
     /**
      * ctor with given scene
@@ -91,28 +92,44 @@ public class SimpleRayTracer extends RayTracerBase {
         Material material = gp.geometry.getMaterial();
         Color color = gp.geometry.getEmission();
         for (LightSource lightSource : scene.lights) {
-            Vector l = lightSource.getL(gp.point);
-            var rayBeam = blackBoard == null || lightSource instanceof DirectionalLight ?
-                    List.of(new Ray(gp.point, l.scale(-1), n))
-                    : blackBoard.beamOfRays(gp.point, lightSource.getDistance(gp.point),
-                    ((PointLight) lightSource).getRadius(), l, n);
+            List<Vector> vectorsL = new LinkedList<>();
 
-            Color BeamColor = Color.BLACK;
+            // Add the light source vector
+            vectorsL.add(lightSource.getL(gp.point));
 
-            for (Ray r : rayBeam) {
-                Vector l2 = r.getDirection().scale(-1);
-                double ln = alignZero(l2.dotProduct(n));
-                if (ln * nv > 0) {
-                    Double3 ktr = transparency(gp, lightSource, l2, n);
-                    if (ktr.product(k).greaterThan(MIN_CALC_COLOR_K)) {
-                        Color iL = lightSource.getIntensity(gp.point).scale(ktr);
-                        BeamColor = BeamColor.add(
-                                iL.scale(calcDiffusive(material, ln)
-                                        .add(calcSpecular(material, n, l2, ln, v))));
+            // Generate a grid of vectors from the light source
+            if (lightSource instanceof PointLight && blackBoard!=null) {
+                // the center of the grid is the light source position
+                Point center = gp.point.add(lightSource.getL(gp.point).scale(lightSource.getDistance(gp.point)));
+                double radius = ((PointLight) lightSource).getRadius();
+
+                vectorsL.addAll(
+                        blackBoard.beamOfRays(
+                                lightSource.getL(gp.point),
+                                center,
+                                radius
+                        ).stream()
+                                .map(p -> p.subtract(gp.point).normalize())
+                                .toList()
+                );
+            }
+
+            Color colorBeam = Color.BLACK;
+            for (Vector l : vectorsL) {
+                double nl = alignZero(n.dotProduct(l));
+                if (nl * nv > 0) {
+                    Double3 ktr = transparency(gp, lightSource, l, n);
+                    if (MIN_CALC_COLOR_K.lowerThan(ktr.product(k))) {
+                        Color iL = lightSource.getIntensity(gp.point);
+                        colorBeam = colorBeam.add(iL.scale((calcDiffusive(material, nl))
+                                .add(calcSpecular(material, n, l, nl, v))).scale(ktr));
                     }
                 }
             }
-            color = color.add(BeamColor.reduce(rayBeam.size()));
+            if (blackBoard!=null)
+                color = color.add(colorBeam.reduce(vectorsL.size()));
+            else
+                color = color.add(colorBeam);
         }
         return color;
     }

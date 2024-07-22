@@ -91,7 +91,7 @@ public class RegularGrid extends SimpleRayTracer {
             if(cells[cellIndex[0],cellIndex[1],cellIndex[2]].geometries != null){
                 Intersectable.GeoPoint closestPoint =
                         findClosestIntersection(ray,cells[cellIndex[0],cellIndex[1],cellIndex[2]]);
-                if(closestPoint != null )//todo : && closestPoint.point.distance())
+                if(closestPoint != null ) //todo : && closestPoint.point.distance())
                     return calcColor(closestPoint, ray);
             }
             if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0

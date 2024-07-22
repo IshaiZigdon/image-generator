@@ -10,23 +10,42 @@ import static java.lang.Math.floor;
 
 public class RegularGrid extends SimpleRayTracer {
 
-    class Cell{
+    class Voxel{
         private Geometries geometries;
     }
 
+    private Voxel[][][] cells;
+
     private final double[] gridMax;
     private final double[] gridMin;
-
-    private Cell[][][] cells;
 
     private double nX;
     private double nY;
     private double nZ;
 
+    private double[] cellSize;
+
 
     private RegularGrid(Scene s) {
 
+        double lambda = 3; // example value, replace with your actual value
+        double N = 100.0; // replace with size of geometries in the scene
 
+        double dx = gridMax[0] - gridMin[0];
+        double dy = gridMax[1] - gridMin[1];
+        double dz = gridMax[2] - gridMin[2];
+
+        double V = dx*dy*dz;
+
+         nX = dx * Math.cbrt((lambda * N) / V);
+         nY = dy * Math.cbrt((lambda * N) / V);
+         nZ = dz * Math.cbrt((lambda * N) / V);
+
+        cellSize = {
+                dx / nX,
+                dy / nY,
+                dz / nZ
+        };
         super(s);
     }
 
@@ -34,7 +53,6 @@ public class RegularGrid extends SimpleRayTracer {
     public Color traceRay(Ray ray) {
         Vector v = ray.getDirection();
         Point p = ray.getHead();
-        //todo: o should be the point of the first intersection with the grid
         Vector o = p.subtract(Point.ZERO);
         double rX = v.dotProduct(Vector.X);
         double rY = v.dotProduct(Vector.Y);
@@ -42,29 +60,29 @@ public class RegularGrid extends SimpleRayTracer {
         double oX = o.dotProduct(Vector.X);
         double oY = o.dotProduct(Vector.Y);
         double oZ = o.dotProduct(Vector.Z);
-        double[] cellDimension = {
-                (gridMax[0] - gridMin[0]) / nX,
-                (gridMax[1] - gridMin[1]) / nY,
-                (gridMax[2] - gridMin[2]) / nZ
-        };
+
         double[] rayOrigGrid = {
                 oX - gridMin[0],
                 oY - gridMin[1],
                 oZ - gridMin[2],
         };
         double[] deltaT = {
-                nX / (rX < 0 ? -rX : rX),
-                nY / (rY < 0 ? -rY : rY),
-                nZ / (rZ < 0 ? -rZ : rZ)
+                cellSize[0] / (rX < 0 ? -rX : rX),
+                cellSize[1] / (rY < 0 ? -rY : rY),
+                cellSize[2] / (rZ < 0 ? -rZ : rZ)
         };
-        double t_x = ((floor(rayOrigGrid[0] / cellDimension[0]) + rX < 0 ? 0 : 1)
-                * cellDimension[0] - rayOrigGrid[0]) / rX;
-        double t_y = ((floor(rayOrigGrid[1] / cellDimension[1]) + rY < 0 ? 0 : 1)
-                * cellDimension[1] - rayOrigGrid[1]) / rY;
-        double t_z = ((floor(rayOrigGrid[2] / cellDimension[2]) + rZ < 0 ? 0 : 1)
-                * cellDimension[2] - rayOrigGrid[2]) / rZ;
+
+        double t_x = ((floor(rayOrigGrid[0] / cellSize[0]) + rX < 0 ? 0 : 1)
+                * cellSize[0] - rayOrigGrid[0]) / rX;
+        double t_y = ((floor(rayOrigGrid[1] / cellSize[1]) + rY < 0 ? 0 : 1)
+                * cellSize[1] - rayOrigGrid[1]) / rY;
+        double t_z = ((floor(rayOrigGrid[2] / cellSize[2]) + rZ < 0 ? 0 : 1)
+                * cellSize[2] - rayOrigGrid[2]) / rZ;
+
         double tNextCrossing = 0;
-        int[] cellIndex = {(int)(oX), (int)(oY), (int)(oZ)};
+        //todo: the first voxel that the ray intersects
+        int[] cellIndex = {...};
+
         while (true) {
             if (t_x <= t_y && t_x <= t_z) {
                 tNextCrossing = t_x;
@@ -100,7 +118,7 @@ public class RegularGrid extends SimpleRayTracer {
         }
     }
 
-    private Intersectable.GeoPoint findClosestIntersection(Ray ray, Cell cell) {
+    private Intersectable.GeoPoint findClosestIntersection(Ray ray, Voxel cell) {
         var gp = cell.geometries.findGeoIntersections(ray);
         return ray.findClosestGeoPoint(gp);
     }

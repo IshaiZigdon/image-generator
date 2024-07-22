@@ -5,7 +5,7 @@ import geometries.Polygon;
 import lighting.PointLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
-import primitives.BlackBoard;
+import renderer.BlackBoard;
 import renderer.Camera;
 import renderer.SimpleRayTracer;
 import scene.Scene;

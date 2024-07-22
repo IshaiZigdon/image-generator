@@ -15,6 +15,8 @@ public class Geometries extends Intersectable {
      */
     private final List<Intersectable> intersectables = new LinkedList<>();
 
+    private int size = 0;
+
     /**
      * empty constructor for now
      */
@@ -31,6 +33,14 @@ public class Geometries extends Intersectable {
             this.add(geometries);
     }
 
+    public List<Intersectable> getIntersectables() {
+        return intersectables;
+    }
+
+    public int getSize(){
+        return size;
+    }
+
     /**
      * the function that adds the geometries given
      *
@@ -38,6 +48,7 @@ public class Geometries extends Intersectable {
      */
     public void add(Intersectable... geometries) {
         intersectables.addAll(Arrays.asList(geometries));
+        size += Arrays.asList(geometries).size();
     }
 
     @Override

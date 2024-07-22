@@ -1,5 +1,6 @@
 package geometries;
 
+import primitives.Double3;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -31,6 +32,15 @@ public class Sphere extends RadialGeometry {
     public Sphere(Point p, double radius) {
         super(radius);
         center = p;
+        Vector radiusVector = new Vector(new Double3(radius));
+        Vector maxP = (Vector)(p.add(radiusVector));
+        max[0] =  maxP.dotProduct(Vector.X);
+        max[1] =  maxP.dotProduct(Vector.Y);
+        max[2] =  maxP.dotProduct(Vector.Z);
+        Vector minP = p.subtract(radiusVector);
+        min[0] =  minP.dotProduct(Vector.X);
+        min[1] =  minP.dotProduct(Vector.Y);
+        min[2] =  minP.dotProduct(Vector.Z);
     }
 
     @Override

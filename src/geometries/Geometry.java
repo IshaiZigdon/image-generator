@@ -22,6 +22,9 @@ public abstract class Geometry extends Intersectable {
      */
     private Material material = new Material();
 
+    public double[] max;
+    public double[] min;
+
     /**
      * get function for emission
      *

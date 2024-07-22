@@ -52,7 +52,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param ray      the ray from the camera
      * @return the color of geoPoint
      */
-    private Color calcColor(GeoPoint geoPoint, Ray ray) {
+    protected Color calcColor(GeoPoint geoPoint, Ray ray) {
         return calcColor(geoPoint, ray, MAX_CALC_COLOR_LEVEL, Double3.ONE)
                 .add(scene.ambientLight.getIntensity());
     }

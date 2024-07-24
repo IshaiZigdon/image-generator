@@ -3,6 +3,7 @@ package renderer;
 import geometries.Geometries;
 import geometries.Geometry;
 import geometries.Intersectable;
+import geometries.Polygon;
 import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
@@ -15,8 +16,20 @@ public class RegularGrid extends SimpleRayTracer {
 
     class Voxel {
         private Geometries geometries;
-        private double[] max;
-        private double[] min;
+        private double[] max = new double[3];
+        private double[] min = new double[3];
+
+        private boolean inside(double[] value) {
+            return value[0] <= max[0] && value[0] >= min[0]
+                    && value[1] <= max[1] && value[1] >= min[1]
+                    && value[2] <= max[2] && value[2] >= min[2];
+        }
+
+        private boolean between(double[] maxValue, double[] minValue) {
+            return inside((maxValue)) || inside(minValue) ||
+                    maxValue[0] > max[0] && maxValue[1] > max[1] && maxValue[2] > max[2] &&
+                            minValue[0] < min[0] && minValue[1] < min[1] && minValue[2] < min[2];
+        }
     }
 
     private Voxel[][][] cells;
@@ -24,52 +37,60 @@ public class RegularGrid extends SimpleRayTracer {
     private final double[] gridMax = {-Double.POSITIVE_INFINITY, -Double.POSITIVE_INFINITY, -Double.POSITIVE_INFINITY};
     private final double[] gridMin = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY};
 
-    private double nX;
-    private double nY;
-    private double nZ;
+    private int nX;
+    private int nY;
+    private int nZ;
 
-    private double[] cellSize;
+    private double[] cellSize = new double[3];
 
-    private RegularGrid(Scene s) {
+    private Geometries gridLimits;
+
+    public RegularGrid(Scene s) {
         super(s);
 
+        //max min of grid
         for (Intersectable i : s.geometries.getIntersectables()) {
             if (((Geometry) i).max[0] > gridMax[0])
                 gridMax[0] = ((Geometry) i).max[0];
-            else if (((Geometry) i).min[0] < gridMin[0])
+            if (((Geometry) i).min[0] < gridMin[0])
                 gridMin[0] = ((Geometry) i).min[0];
 
             if (((Geometry) i).max[1] > gridMax[1])
                 gridMax[1] = ((Geometry) i).max[1];
-            else if (((Geometry) i).min[1] < gridMin[1])
+            if (((Geometry) i).min[1] < gridMin[1])
                 gridMin[1] = ((Geometry) i).min[1];
 
             if (((Geometry) i).max[2] > gridMax[2])
                 gridMax[2] = ((Geometry) i).max[2];
-            else if (((Geometry) i).min[2] < gridMin[2])
+            if (((Geometry) i).min[2] < gridMin[2])
                 gridMin[2] = ((Geometry) i).min[2];
         }
 
         double lambda = 3; // example value, replace with your actual value
-        int N = s.geometries.getSize(); // replace with size of geometries in the scene
+        int n = s.geometries.getSize(); // replace with size of geometries in the scene
 
+        //grid size
         double dx = gridMax[0] - gridMin[0];
         double dy = gridMax[1] - gridMin[1];
         double dz = gridMax[2] - gridMin[2];
 
-        double V = dx * dy * dz;
+        double v = dx * dy * dz;
 
-        nX = dx * Math.cbrt((lambda * N) / V);
-        nY = dy * Math.cbrt((lambda * N) / V);
-        nZ = dz * Math.cbrt((lambda * N) / V);
+        //grid resolution
+        nX = (int)(dx * Math.cbrt((lambda * n) / v));
+        nY = (int)(dy * Math.cbrt((lambda * n) / v));
+        nZ = (int)(dz * Math.cbrt((lambda * n) / v));
 
         cellSize[0] = dx / nX;
         cellSize[1] = dy / nY;
         cellSize[2] = dz / nZ;
 
-        for (int i = 0; i <= nX; i++) {
-            for (int j = 0; j <= nY; j++) {
-                for (int k = 0; k <= nZ; k++) {
+        //initialize all the voxels max min
+        cells = new Voxel[nX][nY][nZ];
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                for (int k = 0; k < nZ; k++) {
+                    cells[i][j][k] = new Voxel();
                     cells[i][j][k].min[0] = gridMin[0] + i * cellSize[0] + j * cellSize[1] + k * cellSize[2];
                     cells[i][j][k].min[1] = gridMin[1] + i * cellSize[0] + j * cellSize[1] + k * cellSize[2];
                     cells[i][j][k].min[2] = gridMin[2] + i * cellSize[0] + j * cellSize[1] + k * cellSize[2];
@@ -81,17 +102,27 @@ public class RegularGrid extends SimpleRayTracer {
             }
         }
 
-        //todo: insert geometries to voxels
+        //insert geometries to voxels
         for (Intersectable i : s.geometries.getIntersectables()) {
             insert(i);
         }
+
+        buildBox();
     }
 
     @Override
     public Color traceRay(Ray ray) {
+        //if rey intersect the grid
+        var intersection = gridLimits.findIntersections(ray);
+        if (intersection == null) return scene.background;
+
+        //todo: problem
+        //if intersection.size() == 2 it means the ray is outside the grid,else ray head is inside
+        Point p = intersection.size() == 2 ? intersection.getFirst() : ray.getHead();
         Vector v = ray.getDirection();
-        Point p = ray.getHead();
         Vector o = p.subtract(Point.ZERO);
+
+        //we want to separate the coordinates
         double rX = v.dotProduct(Vector.X);
         double rY = v.dotProduct(Vector.Y);
         double rZ = v.dotProduct(Vector.Z);
@@ -118,8 +149,8 @@ public class RegularGrid extends SimpleRayTracer {
                 * cellSize[2] - rayOrigGrid[2]) / rZ;
 
         double tNextCrossing = 0;
-        //todo: the first voxel that the ray intersects
-        int[] cellIndex = {0, 0, 0};
+        //the first voxel that the ray intersects
+        int[] cellIndex = findVoxel(oX,oY,oZ);
 
         while (true) {
             if (t_x <= t_y && t_x <= t_z) {
@@ -144,15 +175,22 @@ public class RegularGrid extends SimpleRayTracer {
                 else
                     cellIndex[2]++;
             }
-            if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
-                Intersectable.GeoPoint closestPoint =
-                        findClosestIntersection(ray, cells[cellIndex[0]][cellIndex[1]][cellIndex[2]]);
-                if (closestPoint != null)  //todo : && closestPoint.point.distance())
-                    return calcColor(closestPoint, ray);
-            }
+
             if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0
                     || cellIndex[0] > nX - 1 || cellIndex[1] > nY - 1 || cellIndex[2] > nZ - 1)
                 return scene.background;
+
+            if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
+                Intersectable.GeoPoint closestPoint =
+                        findClosestIntersection(ray, cells[cellIndex[0]][cellIndex[1]][cellIndex[2]]);
+                //todo
+                Vector nextCrossing = closestPoint.point.subtract(Point.ZERO);
+                double cX = nextCrossing.dotProduct(Vector.X);
+                double cY = nextCrossing.dotProduct(Vector.Y);
+                double cZ = nextCrossing.dotProduct(Vector.Z);
+                if (closestPoint != null && cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(new double[]{cX,cY,cZ}))
+                    return calcColor(closestPoint, ray);
+            }
         }
     }
 
@@ -161,22 +199,50 @@ public class RegularGrid extends SimpleRayTracer {
         return ray.findClosestGeoPoint(gp);
     }
 
-    public void insert(Intersectable shape) {
-        for (int i = 0; i <= nX; i++) {
-            for (int j = 0; j <= nY; j++) {
-                for (int k = 0; k <= nZ; k++) {
-                    double start = cells[i][j][k].min[0];
-                    double end = cells[i][j][k].max[0];
-                    if (inside(((Geometry) shape).max[0], ((Geometry) shape).min[0], start, end)
-                            && inside(((Geometry) shape).max[1], ((Geometry) shape).min[1], start, end)
-                            && inside(((Geometry) shape).max[2], ((Geometry) shape).min[2], start, end))
+    private void insert(Intersectable shape) {
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                for (int k = 0; k < nZ; k++) {
+                    if (cells[i][j][k].between(((Geometry) shape).max,((Geometry) shape).min)) {
+                        if (cells[i][j][k].geometries == null) cells[i][j][k].geometries = new Geometries();
                         cells[i][j][k].geometries.add(shape);
+                    }
                 }
             }
         }
     }
 
-    private boolean inside(double value1, double value2, double start, double end) {
-        return value1 <= end && value1 >= start || value2 <= end && value2 >= start;
+    private void buildBox(){
+        Point minminmin = new Point(gridMin[0],gridMin[1],gridMin[2]);
+        Point minminmax = new Point(gridMin[0],gridMin[1],gridMax[2]);
+        Point minmaxmin = new Point(gridMin[0],gridMax[1],gridMin[2]);
+        Point minmaxmax = new Point(gridMin[0],gridMax[1],gridMax[2]);
+        Point maxminmin = new Point(gridMax[0],gridMin[1],gridMin[2]);
+        Point maxminmax = new Point(gridMax[0],gridMin[1],gridMax[2]);
+        Point maxmaxmin = new Point(gridMax[0],gridMax[1],gridMin[2]);
+        Point maxmaxmax = new Point(gridMax[0],gridMax[1],gridMax[2]);
+        gridLimits = new Geometries();
+        gridLimits.add(
+                new Polygon(minminmin,minmaxmin,maxmaxmin,maxminmin),
+                new Polygon(minminmin,minmaxmin,minmaxmax,minminmax),
+                new Polygon(maxminmin,maxmaxmin,maxmaxmax,maxminmax),
+                new Polygon(minmaxmax,maxmaxmax,maxminmax,minminmax),
+                new Polygon(minmaxmax,maxmaxmax,maxmaxmin,minmaxmin),
+                new Polygon(minminmin,minminmax,maxminmax,maxminmin)
+        );
+    }
+
+    private int[] findVoxel(double x,double y,double z) {
+        double[] point = {x, y, z};
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                for (int k = 0; k < nZ; k++) {
+                    if (cells[i][j][k].inside(point)) {
+                        return new int[]{i, j, k};
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

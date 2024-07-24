@@ -68,7 +68,6 @@ public class LightsTests {
      * Second camera builder for some of tests
      */
     private final Camera.Builder camera2 = Camera.getBuilder()
-            .setRayTracer(new SimpleRayTracer(scene2))
             .setLocation(new Point(0, 0, 1000))
             .setMultithreading(0)
             .setDebugPrint(0.1)
@@ -151,6 +150,7 @@ public class LightsTests {
         scene1.lights.add(new DirectionalLight(sphereLightColor, sphereLightDirection));
 
         camera1.setImageWriter(new ImageWriter("lightSphereDirectional", 500, 500))
+                .setRayTracer(new RegularGrid(scene1))
                 .build()
                 .renderImage()
                 .writeToImage();

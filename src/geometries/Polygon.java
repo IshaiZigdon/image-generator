@@ -61,31 +61,49 @@ public class Polygon extends Geometry {
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon
         plane = new Plane(vertices[0], vertices[1], vertices[2]);
-        if (size == 3) return; // no need for more tests for a Triangle
+        if (size != 3) {//return; // no need for more tests for a Triangle
 
-        Vector n = plane.getNormal();
-        // Subtracting any subsequent points will throw an IllegalArgumentException
-        // because of Zero Vector if they are in the same point
-        Vector edge1 = vertices[vertices.length - 1].subtract(vertices[vertices.length - 2]);
-        Vector edge2 = vertices[0].subtract(vertices[vertices.length - 1]);
+            Vector n = plane.getNormal();
+            // Subtracting any subsequent points will throw an IllegalArgumentException
+            // because of Zero Vector if they are in the same point
+            Vector edge1 = vertices[vertices.length - 1].subtract(vertices[vertices.length - 2]);
+            Vector edge2 = vertices[0].subtract(vertices[vertices.length - 1]);
 
-        // Cross Product of any subsequent edges will throw an IllegalArgumentException
-        // because of Zero Vector if they connect three vertices that lay in the same
-        // line.
-        // Generate the direction of the polygon according to the angle between last and
-        // first edge being less than 180 deg. It is hold by the sign of its dot product
-        // with the normal. If all the rest consequent edges will generate the same sign
-        // - the polygon is convex ("kamur" in Hebrew).
-        boolean positive = edge1.crossProduct(edge2).dotProduct(n) > 0;
+            // Cross Product of any subsequent edges will throw an IllegalArgumentException
+            // because of Zero Vector if they connect three vertices that lay in the same
+            // line.
+            // Generate the direction of the polygon according to the angle between last and
+            // first edge being less than 180 deg. It is hold by the sign of its dot product
+            // with the normal. If all the rest consequent edges will generate the same sign
+            // - the polygon is convex ("kamur" in Hebrew).
+            boolean positive = edge1.crossProduct(edge2).dotProduct(n) > 0;
+            for (var i = 1; i < vertices.length; ++i) {
+                // Test that the point is in the same plane as calculated originally
+                if (!isZero(vertices[i].subtract(vertices[0]).dotProduct(n)))
+                    throw new IllegalArgumentException("All vertices of a polygon must lay in the same plane");
+                // Test the consequent edges have
+                edge1 = edge2;
+                edge2 = vertices[i].subtract(vertices[i - 1]);
+                if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
+                    throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
+            }
+        }
+
+        //min max find
         for (var i = 1; i < vertices.length; ++i) {
-            // Test that the point is in the same plane as calculated originally
-            if (!isZero(vertices[i].subtract(vertices[0]).dotProduct(n)))
-                throw new IllegalArgumentException("All vertices of a polygon must lay in the same plane");
-            // Test the consequent edges have
-            edge1 = edge2;
-            edge2 = vertices[i].subtract(vertices[i - 1]);
-            if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
-                throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
+            Vector v = vertices[i].subtract(Point.ZERO);
+            double x = v.dotProduct(Vector.X);
+            double y = v.dotProduct(Vector.Y);
+            double z = v.dotProduct(Vector.Z);
+
+            if (x > max[0]) max[0] = x;
+            if (x < min[0]) min[0] = x;
+
+            if (y > max[1]) max[1] = y;
+            if (y < min[1]) min[1] = y;
+
+            if (z > max[2]) max[2] = z;
+            if (z < min[2]) min[2] = z;
         }
     }
 

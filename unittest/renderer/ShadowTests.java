@@ -33,8 +33,7 @@ public class ShadowTests {
             .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
             .setMultithreading(0)
             .setDebugPrint(0.1)
-            .setVpSize(200, 200)
-            .setRayTracer(new SimpleRayTracer(scene, blackBoard));
+            .setVpSize(200, 200);
 
     /**
      * The sphere in the tests
@@ -60,6 +59,7 @@ public class ShadowTests {
                 new SpotLight(new Color(400, 240, 0), spotLocation, new Vector(1, 1, -3)) //
                         .setKl(1E-5).setKq(1.5E-7));
         camera.setImageWriter(new ImageWriter(pictName, 1024, 1024))
+                .setRayTracer(new RegularGrid(scene))
                 .build()
                 .renderImage() //
                 .writeToImage();

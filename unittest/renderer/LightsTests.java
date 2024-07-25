@@ -58,7 +58,6 @@ public class LightsTests {
      * First camera builder for some of tests
      */
     private final Camera.Builder camera1 = Camera.getBuilder()
-            .setRayTracer(new SimpleRayTracer(scene1))
             .setLocation(new Point(0, 0, 1000))
             .setMultithreading(0)
             .setDebugPrint(0.1)
@@ -166,6 +165,7 @@ public class LightsTests {
                 .setKl(0.001).setKq(0.0002));
 
         camera1.setImageWriter(new ImageWriter("lightSpherePoint", 500, 500))
+                .setRayTracer(new RegularGrid(scene1))
                 .build()
                 .renderImage()
                 .writeToImage();
@@ -181,6 +181,7 @@ public class LightsTests {
                 .setKl(0.001).setKq(0.0001));
 
         camera1.setImageWriter(new ImageWriter("lightSphereSpot", 500, 500))
+                .setRayTracer(new RegularGrid(scene1))
                 .build()
                 .renderImage()
                 .writeToImage();
@@ -195,6 +196,7 @@ public class LightsTests {
         scene2.lights.add(new DirectionalLight(trianglesLightColor, trianglesLightDirection));
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesDirectional", 500, 500)) //
+                .setRayTracer(new RegularGrid(scene2))
                 .build()
                 .renderImage()
                 .writeToImage();
@@ -210,6 +212,7 @@ public class LightsTests {
                 .setKl(0.001).setKq(0.0002));
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesPoint", 500, 500)) //
+                .setRayTracer(new RegularGrid(scene2))
                 .build() //
                 .renderImage()
                 .writeToImage();
@@ -225,6 +228,7 @@ public class LightsTests {
                 .setKl(0.001).setKq(0.0001));
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesSpot", 500, 500))
+                .setRayTracer(new RegularGrid(scene2))
                 .build()
                 .renderImage()
                 .writeToImage();
@@ -241,6 +245,7 @@ public class LightsTests {
                         .setKl(0.001).setKq(0.00004).setNarrowBeam(10));
 
         camera1.setImageWriter(new ImageWriter("lightSphereSpotSharp", 500, 500))
+                .setRayTracer(new RegularGrid(scene1))
                 .build()
                 .renderImage()
                 .writeToImage();
@@ -256,6 +261,7 @@ public class LightsTests {
                 .setKl(0.001).setKq(0.00004).setNarrowBeam(10));
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesSpotSharp", 500, 500))
+                .setRayTracer(new RegularGrid(scene2))
                 .build()
                 .renderImage()
                 .writeToImage();

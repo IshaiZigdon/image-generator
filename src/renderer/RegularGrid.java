@@ -34,7 +34,7 @@ public class RegularGrid extends SimpleRayTracer {
 
     private Voxel[][][] cells;
 
-    private final double[] gridMax = {-Double.POSITIVE_INFINITY, -Double.POSITIVE_INFINITY, -Double.POSITIVE_INFINITY};
+    private final double[] gridMax = {Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY};
     private final double[] gridMin = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY};
 
     private int nX;
@@ -91,9 +91,9 @@ public class RegularGrid extends SimpleRayTracer {
             for (int j = 0; j < nY; j++) {
                 for (int k = 0; k < nZ; k++) {
                     cells[i][j][k] = new Voxel();
-                    cells[i][j][k].min[0] = gridMin[0] + i * cellSize[0] + j * cellSize[1] + k * cellSize[2];
-                    cells[i][j][k].min[1] = gridMin[1] + i * cellSize[0] + j * cellSize[1] + k * cellSize[2];
-                    cells[i][j][k].min[2] = gridMin[2] + i * cellSize[0] + j * cellSize[1] + k * cellSize[2];
+                    cells[i][j][k].min[0] = gridMin[0] + i * cellSize[0];
+                    cells[i][j][k].min[1] = gridMin[1] + j * cellSize[1];
+                    cells[i][j][k].min[2] = gridMin[2] + k * cellSize[2];
 
                     cells[i][j][k].max[0] = cells[i][j][k].min[0] + cellSize[0];
                     cells[i][j][k].max[1] = cells[i][j][k].min[1] + cellSize[1];
@@ -151,8 +151,21 @@ public class RegularGrid extends SimpleRayTracer {
         double tNextCrossing = 0;
         //the first voxel that the ray intersects
         int[] cellIndex = findVoxel(oX,oY,oZ);
+        if(cellIndex == null) return scene.background;
 
         while (true) {
+            if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
+                Intersectable.GeoPoint closestPoint =
+                        findClosestIntersection(ray, cells[cellIndex[0]][cellIndex[1]][cellIndex[2]]);
+                //todo
+//                Vector nextCrossing = closestPoint.point.subtract(Point.ZERO);
+//                double cX = nextCrossing.dotProduct(Vector.X);
+//                double cY = nextCrossing.dotProduct(Vector.Y);
+//                double cZ = nextCrossing.dotProduct(Vector.Z);
+                if (closestPoint != null) //&& cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(new double[]{cX,cY,cZ}))
+                    return calcColor(closestPoint, ray);
+            }
+
             if (t_x <= t_y && t_x <= t_z) {
                 tNextCrossing = t_x;
                 t_x += deltaT[0];
@@ -179,18 +192,6 @@ public class RegularGrid extends SimpleRayTracer {
             if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0
                     || cellIndex[0] > nX - 1 || cellIndex[1] > nY - 1 || cellIndex[2] > nZ - 1)
                 return scene.background;
-
-            if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
-                Intersectable.GeoPoint closestPoint =
-                        findClosestIntersection(ray, cells[cellIndex[0]][cellIndex[1]][cellIndex[2]]);
-                //todo
-                Vector nextCrossing = closestPoint.point.subtract(Point.ZERO);
-                double cX = nextCrossing.dotProduct(Vector.X);
-                double cY = nextCrossing.dotProduct(Vector.Y);
-                double cZ = nextCrossing.dotProduct(Vector.Z);
-                if (closestPoint != null && cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(new double[]{cX,cY,cZ}))
-                    return calcColor(closestPoint, ray);
-            }
         }
     }
 

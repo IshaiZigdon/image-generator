@@ -27,9 +27,8 @@ public class RenderTests {
      * Camera builder of the tests
      */
     private final Camera.Builder camera = Camera.getBuilder()
-            .setRayTracer(new SimpleRayTracer(scene))
             .setLocation(Point.ZERO).setDirection(new Point(0, 0, -1), Vector.Y)
-            .setMultithreading(-1)
+            .setMultithreading(0)
             .setDebugPrint(0.1)
             .setVpDistance(100)
             .setVpSize(500, 500);
@@ -59,6 +58,7 @@ public class RenderTests {
         // right
         camera
                 .setImageWriter(new ImageWriter("base render test", 1000, 1000))
+                .setRayTracer(new RegularGrid(scene))
                 .build()
                 .renderImage()
                 .printGrid(100, new Color(YELLOW))
@@ -88,27 +88,28 @@ public class RenderTests {
 
         camera
                 .setImageWriter(new ImageWriter("color render test", 1000, 1000))
+                .setRayTracer(new RegularGrid(scene))
                 .build()
                 .renderImage()
                 .printGrid(100, new Color(WHITE))
                 .writeToImage();
     }
 
-    /**
-     * Test for XML based scene - for bonus
-     */
-    @Test
-    public void basicRenderXml() {
-        // enter XML file name and parse from XML file into scene object
-        // using the code you added in appropriate packages
-        // ...
-        // NB: unit tests is not the correct place to put XML parsing code
-
-        camera
-                .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
-                .build()
-                .renderImage()
-                .printGrid(100, new Color(YELLOW))
-                .writeToImage();
-    }
+//    /**
+//     * Test for XML based scene - for bonus
+//     */
+//    @Test
+//    public void basicRenderXml() {
+//        // enter XML file name and parse from XML file into scene object
+//        // using the code you added in appropriate packages
+//        // ...
+//        // NB: unit tests is not the correct place to put XML parsing code
+//
+//        camera
+//                .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
+//                .build()
+//                .renderImage()
+//                .printGrid(100, new Color(YELLOW))
+//                .writeToImage();
+//    }
 }

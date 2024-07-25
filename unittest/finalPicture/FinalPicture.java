@@ -5,9 +5,7 @@ import geometries.Polygon;
 import lighting.PointLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
-import renderer.BlackBoard;
-import renderer.Camera;
-import renderer.SimpleRayTracer;
+import renderer.*;
 import scene.Scene;
 
 import static java.awt.Color.*;
@@ -25,9 +23,8 @@ public class FinalPicture {
      */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             .setDirection(Point.ZERO, Vector.Y)
-            .setMultithreading(-1)
-            .setDebugPrint(0.1)
-            .setRayTracer(new SimpleRayTracer(scene, new BlackBoard()));
+            .setMultithreading(0)
+            .setDebugPrint(0.1);
 
     /**
      * test for the final picture
@@ -131,13 +128,14 @@ public class FinalPicture {
                         .setKl(0.0004).setKq(0.0000006)
         );
 
-//        cameraBuilder.setLocation(new Point(0, 1200, 4200))
-//                .setVpDistance(2200)
-//                .setVpSize(900, 500)
-//                .setDirection(new Point(0, 0, -160), new Vector(0, 1, -120 / 436d))
-//                .setImageWriter(new ImageWriter("FinalPicture", 900, 500))
-//                .build()
-//                .renderImage()
-//                .writeToImage();
+        cameraBuilder.setLocation(new Point(0, 1200, 4200))
+                .setVpDistance(2200)
+                .setVpSize(900, 500)
+                .setDirection(new Point(0, 0, -160), new Vector(0, 1, -120 / 436d))
+                .setImageWriter(new ImageWriter("FinalPicture", 900, 500))
+                .setRayTracer(new RegularGrid(scene))
+                .build()
+                .renderImage()
+                .writeToImage();
     }
 }

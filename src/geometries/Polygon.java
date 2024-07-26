@@ -90,7 +90,7 @@ public class Polygon extends Geometry {
         }
 
         //min max find
-        for (var i = 1; i < vertices.length; ++i) {
+        for (var i = 0; i < vertices.length; ++i) {
             Vector v = vertices[i].subtract(Point.ZERO);
             double x = v.dotProduct(Vector.X);
             double y = v.dotProduct(Vector.Y);

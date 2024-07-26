@@ -110,6 +110,7 @@ public class ReflectionRefractionTests {
         cameraBuilder.setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
                 .setVpSize(200, 200)
                 .setImageWriter(new ImageWriter("refractionShadow", 600, 600))
+                .setRayTracer(new RegularGrid(scene))
                 .build()
                 .renderImage()
                 .writeToImage();

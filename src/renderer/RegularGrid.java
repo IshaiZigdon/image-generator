@@ -26,9 +26,12 @@ public class RegularGrid extends SimpleRayTracer {
         }
 
         private boolean between(double[] maxValue, double[] minValue) {
-            return inside((maxValue)) || inside(minValue) ||
-                    maxValue[0] > max[0] && maxValue[1] > max[1] && maxValue[2] > max[2] &&
-                            minValue[0] < min[0] && minValue[1] < min[1] && minValue[2] < min[2];
+            return ((maxValue[0] > max[0] && minValue[0] < min[0]) || (maxValue[0] <= max[0] && maxValue[0] >= min[0])
+                    || (minValue[0] <= max[0] && minValue[0] >= min[0])) &&
+                    ((maxValue[1] > max[1] && minValue[1] < min[1]) || (maxValue[1] <= max[1] && maxValue[1] >= min[1])
+                            || (minValue[1] <= max[1] && minValue[1] >= min[1])) &&
+                    ((maxValue[2] > max[2] && minValue[2] < min[2]) || (maxValue[2] <= max[2] && maxValue[2] >= min[2])
+                            || (minValue[2] <= max[2] && minValue[2] >= min[2]));
         }
     }
 
@@ -67,7 +70,7 @@ public class RegularGrid extends SimpleRayTracer {
         }
 
         double lambda = 3; // example value, replace with your actual value
-        int n = s.geometries.getSize(); // replace with size of geometries in the scene
+        int n = s.geometries.getSize();
 
         //grid size
         double dx = gridMax[0] - gridMin[0];
@@ -77,9 +80,9 @@ public class RegularGrid extends SimpleRayTracer {
         double v = dx * dy * dz;
 
         //grid resolution
-        nX = (int)(dx * Math.cbrt((lambda * n) / v));
-        nY = (int)(dy * Math.cbrt((lambda * n) / v));
-        nZ = (int)(dz * Math.cbrt((lambda * n) / v));
+        nX = (int) (dx * Math.cbrt((lambda * n) / v));
+        nY = (int) (dy * Math.cbrt((lambda * n) / v));
+        nZ = (int) (dz * Math.cbrt((lambda * n) / v));
 
         cellSize[0] = dx / nX;
         cellSize[1] = dy / nY;
@@ -130,6 +133,12 @@ public class RegularGrid extends SimpleRayTracer {
         double oY = o.dotProduct(Vector.Y);
         double oZ = o.dotProduct(Vector.Z);
 
+        double tNextCrossing = 0;
+        //the first voxel that the ray intersects
+        int[] cellIndex = findVoxel(oX, oY, oZ);
+        if (cellIndex == null) return scene.background;
+
+
         double[] rayOrigGrid = {
                 oX - gridMin[0],
                 oY - gridMin[1],
@@ -148,22 +157,20 @@ public class RegularGrid extends SimpleRayTracer {
         double t_z = ((floor(rayOrigGrid[2] / cellSize[2]) + rZ < 0 ? 0 : 1)
                 * cellSize[2] - rayOrigGrid[2]) / rZ;
 
-        double tNextCrossing = 0;
-        //the first voxel that the ray intersects
-        int[] cellIndex = findVoxel(oX,oY,oZ);
-        if(cellIndex == null) return scene.background;
-
         while (true) {
             if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
                 Intersectable.GeoPoint closestPoint =
                         findClosestIntersection(ray, cells[cellIndex[0]][cellIndex[1]][cellIndex[2]]);
-                //todo
-//                Vector nextCrossing = closestPoint.point.subtract(Point.ZERO);
-//                double cX = nextCrossing.dotProduct(Vector.X);
-//                double cY = nextCrossing.dotProduct(Vector.Y);
-//                double cZ = nextCrossing.dotProduct(Vector.Z);
-                if (closestPoint != null) //&& cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(new double[]{cX,cY,cZ}))
-                    return calcColor(closestPoint, ray);
+
+                if (closestPoint != null) {
+                    //todo
+                    Vector nextCrossing = closestPoint.point.subtract(Point.ZERO);
+                    double cX = nextCrossing.dotProduct(Vector.X);
+                    double cY = nextCrossing.dotProduct(Vector.Y);
+                    double cZ = nextCrossing.dotProduct(Vector.Z);
+                    if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(new double[]{cX, cY, cZ}))
+                        return calcColor(closestPoint, ray);
+                }
             }
 
             if (t_x <= t_y && t_x <= t_z) {
@@ -204,7 +211,7 @@ public class RegularGrid extends SimpleRayTracer {
         for (int i = 0; i < nX; i++) {
             for (int j = 0; j < nY; j++) {
                 for (int k = 0; k < nZ; k++) {
-                    if (cells[i][j][k].between(((Geometry) shape).max,((Geometry) shape).min)) {
+                    if (cells[i][j][k].between(((Geometry) shape).max, ((Geometry) shape).min)) {
                         if (cells[i][j][k].geometries == null) cells[i][j][k].geometries = new Geometries();
                         cells[i][j][k].geometries.add(shape);
                     }
@@ -213,27 +220,27 @@ public class RegularGrid extends SimpleRayTracer {
         }
     }
 
-    private void buildBox(){
-        Point minminmin = new Point(gridMin[0],gridMin[1],gridMin[2]);
-        Point minminmax = new Point(gridMin[0],gridMin[1],gridMax[2]);
-        Point minmaxmin = new Point(gridMin[0],gridMax[1],gridMin[2]);
-        Point minmaxmax = new Point(gridMin[0],gridMax[1],gridMax[2]);
-        Point maxminmin = new Point(gridMax[0],gridMin[1],gridMin[2]);
-        Point maxminmax = new Point(gridMax[0],gridMin[1],gridMax[2]);
-        Point maxmaxmin = new Point(gridMax[0],gridMax[1],gridMin[2]);
-        Point maxmaxmax = new Point(gridMax[0],gridMax[1],gridMax[2]);
+    private void buildBox() {
+        Point minminmin = new Point(gridMin[0], gridMin[1], gridMin[2]);
+        Point minminmax = new Point(gridMin[0], gridMin[1], gridMax[2]);
+        Point minmaxmin = new Point(gridMin[0], gridMax[1], gridMin[2]);
+        Point minmaxmax = new Point(gridMin[0], gridMax[1], gridMax[2]);
+        Point maxminmin = new Point(gridMax[0], gridMin[1], gridMin[2]);
+        Point maxminmax = new Point(gridMax[0], gridMin[1], gridMax[2]);
+        Point maxmaxmin = new Point(gridMax[0], gridMax[1], gridMin[2]);
+        Point maxmaxmax = new Point(gridMax[0], gridMax[1], gridMax[2]);
         gridLimits = new Geometries();
         gridLimits.add(
-                new Polygon(minminmin,minmaxmin,maxmaxmin,maxminmin),
-                new Polygon(minminmin,minmaxmin,minmaxmax,minminmax),
-                new Polygon(maxminmin,maxmaxmin,maxmaxmax,maxminmax),
-                new Polygon(minmaxmax,maxmaxmax,maxminmax,minminmax),
-                new Polygon(minmaxmax,maxmaxmax,maxmaxmin,minmaxmin),
-                new Polygon(minminmin,minminmax,maxminmax,maxminmin)
+                new Polygon(minminmin, minmaxmin, maxmaxmin, maxminmin),
+                new Polygon(minminmin, minmaxmin, minmaxmax, minminmax),
+                new Polygon(maxminmin, maxmaxmin, maxmaxmax, maxminmax),
+                new Polygon(minmaxmax, maxmaxmax, maxminmax, minminmax),
+                new Polygon(minmaxmax, maxmaxmax, maxmaxmin, minmaxmin),
+                new Polygon(minminmin, minminmax, maxminmax, maxminmin)
         );
     }
 
-    private int[] findVoxel(double x,double y,double z) {
+    private int[] findVoxel(double x, double y, double z) {
         double[] point = {x, y, z};
         for (int i = 0; i < nX; i++) {
             for (int j = 0; j < nY; j++) {

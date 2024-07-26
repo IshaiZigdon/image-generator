@@ -10,6 +10,7 @@ import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.floor;
 
 public class RegularGrid extends SimpleRayTracer {
@@ -145,9 +146,9 @@ public class RegularGrid extends SimpleRayTracer {
                 oZ - gridMin[2],
         };
         double[] deltaT = {
-                cellSize[0] / (rX < 0 ? -rX : rX),
-                cellSize[1] / (rY < 0 ? -rY : rY),
-                cellSize[2] / (rZ < 0 ? -rZ : rZ)
+                cellSize[0] / abs(rX),
+                cellSize[1] / abs(rY),
+                cellSize[2] / abs(rZ),
         };
 
         double t_x = ((floor(rayOrigGrid[0] / cellSize[0]) + rX < 0 ? 0 : 1)
@@ -196,8 +197,8 @@ public class RegularGrid extends SimpleRayTracer {
                     cellIndex[2]++;
             }
 
-            if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0
-                    || cellIndex[0] > nX - 1 || cellIndex[1] > nY - 1 || cellIndex[2] > nZ - 1)
+            if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0 ||
+                    cellIndex[0] >= nX || cellIndex[1] >= nY || cellIndex[2] >= nZ)
                 return scene.background;
         }
     }

@@ -82,6 +82,7 @@ public class ReflectionRefractionTests {
         cameraBuilder.setLocation(new Point(0, 0, 10000)).setVpDistance(10000)
                 .setVpSize(2500, 2500)
                 .setImageWriter(new ImageWriter("reflectionTwoSpheresMirrored", 500, 500))
+                .setRayTracer(new RegularGrid(scene))
                 .build()
                 .renderImage()
                 .writeToImage();

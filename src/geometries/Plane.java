@@ -52,6 +52,12 @@ public class Plane extends Geometry {
     }
 
     @Override
+    public void setMinMax(){
+        min = null;
+        max = null;
+    }
+
+    @Override
     public Vector getNormal(Point p) {
         return normal;
     }

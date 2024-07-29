@@ -88,22 +88,29 @@ public class Polygon extends Geometry {
                     throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
             }
         }
+    }
 
-        //min max find
-        for (var i = 0; i < vertices.length; ++i) {
-            Vector v = vertices[i].subtract(Point.ZERO);
-            double x = v.dotProduct(Vector.X);
-            double y = v.dotProduct(Vector.Y);
-            double z = v.dotProduct(Vector.Z);
+    @Override
+    public void setMinMax(){
+        for (var i: vertices) {
+            double x = i.getX();
+            double y = i.getY();
+            double z = i.getZ();
 
-            if (x > max[0]) max[0] = x;
-            if (x < min[0]) min[0] = x;
+            if (x > max.getX())
+                max = new Point(x, max.getY(), max.getZ());
+            if (x < min.getX())
+                min = new Point(x, min.getY(), min.getZ());
 
-            if (y > max[1]) max[1] = y;
-            if (y < min[1]) min[1] = y;
+            if (y > max.getY())
+                max = new Point(max.getX(), y, max.getZ());
+            if (y < min.getY())
+                min = new Point(min.getX(), y, min.getZ());
 
-            if (z > max[2]) max[2] = z;
-            if (z < min[2]) min[2] = z;
+            if (z > max.getZ())
+                max = new Point(max.getX(), max.getY(), z);
+            if (z < min.getZ())
+                min = new Point(min.getX(), min.getY(), z);
         }
     }
 

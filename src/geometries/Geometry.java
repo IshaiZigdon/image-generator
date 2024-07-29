@@ -22,10 +22,6 @@ public abstract class Geometry extends Intersectable {
      */
     private Material material = new Material();
 
-    public double[] max = new double[]{Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY};
-
-    public double[] min =new double[]{Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY};
-
     /**
      * get function for emission
      *

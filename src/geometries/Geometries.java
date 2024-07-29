@@ -1,5 +1,6 @@
 package geometries;
 
+import primitives.Point;
 import primitives.Ray;
 
 import java.util.Arrays;
@@ -31,6 +32,7 @@ public class Geometries extends Intersectable {
     public Geometries(Intersectable... geometries) {
         if (geometries != null)
             this.add(geometries);
+        size += Arrays.asList(geometries).size();
     }
 
     public List<Intersectable> getIntersectables() {
@@ -39,6 +41,27 @@ public class Geometries extends Intersectable {
 
     public int getSize(){
         return size;
+    }
+
+    @Override
+    public void setMinMax(){
+        for (Intersectable i : intersectables) {
+            i.setMinMax();
+            if (i.max.getX() > max.getX())
+                max = new Point(i.max.getX() , max.getY(), max.getZ());
+            if (i.min.getX()  < min.getX())
+                min = new Point(i.min.getX() , min.getY(), min.getZ());
+
+            if (i.max.getY() > max.getY())
+                max = new Point(max.getX(), i.max.getY(), max.getZ());
+            if (i.min.getY() < min.getY())
+                min = new Point(min.getX(), i.min.getY(), min.getZ());
+
+            if (i.max.getZ() > max.getZ())
+                max = new Point(max.getX(), max.getY(), i.max.getZ());
+            if (i.min.getZ() < min.getZ())
+                min = new Point(min.getX(), min.getY(), i.min.getZ());
+        }
     }
 
     /**

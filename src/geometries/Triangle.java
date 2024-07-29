@@ -29,6 +29,11 @@ public class Triangle extends Polygon {
     }
 
     @Override
+    public void setMinMax(){
+        super.setMinMax();
+    }
+
+    @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> lst = plane.findGeoIntersections(ray, maxDistance);
         if (lst == null)

@@ -3,7 +3,10 @@
  */
 package renderer;
 
-import geometries.*;
+import geometries.Cylinder;
+import geometries.Polygon;
+import geometries.Sphere;
+import geometries.Triangle;
 import lighting.AmbientLight;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
@@ -124,7 +127,7 @@ public class ReflectionRefractionTests {
     public void Panda() {
         scene.geometries.add(
                 //Large reflective floor
-                new Plane(new Point(0, -40, 0), new Vector(0, 1, 0))
+                new Polygon(new Point(-200, -40, 200), new Point(200, -40, 200), new Point(200, -40, -200), new Point(-200, -40, -200))
                         .setEmission(new Color(255, 218, 185))
                         .setMaterial(new Material().setKd(0.6).setKs(0.3).setShininess(100)),
                 //head
@@ -247,6 +250,7 @@ public class ReflectionRefractionTests {
                 .setVpSize(500, 500)
                 .setDirection(new Vector(0.15, 0, -1), new Vector(0, 1, 0))
                 .setImageWriter(new ImageWriter("panda", 1024, 1024))
+                .setRayTracer(new RegularGrid(scene))
                 .build()
                 .renderImage()
                 .writeToImage();

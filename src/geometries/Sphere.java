@@ -32,16 +32,15 @@ public class Sphere extends RadialGeometry {
     public Sphere(Point p, double radius) {
         super(radius);
         center = p;
-        Vector radiusVector = new Vector(new Double3(radius));
-        Point maxP = p.add(radiusVector);
-        Vector v = maxP.subtract(Point.ZERO);
-        max[0] =  v.dotProduct(Vector.X);
-        max[1] =  v.dotProduct(Vector.Y);
-        max[2] =  v.dotProduct(Vector.Z);
-        Vector minP = p.subtract(radiusVector);
-        min[0] =  minP.dotProduct(Vector.X);
-        min[1] =  minP.dotProduct(Vector.Y);
-        min[2] =  minP.dotProduct(Vector.Z);
+    }
+
+    @Override
+    public void setMinMax(){
+        double x = center.getX();
+        double y = center.getY();
+        double z = center.getZ();
+        max = new Point( x + radius, y + radius,z + radius);
+        min = new Point( x - radius, y - radius,z - radius);
     }
 
     @Override

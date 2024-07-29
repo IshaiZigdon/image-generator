@@ -34,6 +34,12 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
+    public void setMinMax(){
+        min = null;
+        max = null;
+    }
+
+    @Override
     public Vector getNormal(Point p) {
         //t = v * (p-p0)
         double t = axis.getDirection().dotProduct(p.subtract(axis.getHead()));

@@ -38,6 +38,30 @@ public class Cylinder extends Tube {
     }
 
     @Override
+    public void setMinMax() {
+        double x = axis.getHead().getX();
+        double y = axis.getHead().getY();
+        double z = axis.getHead().getZ();
+
+        Point secondBase = axis.getPoint(height);
+        double x1 = secondBase.getX();
+        double y1 = secondBase.getY();
+        double z1 = secondBase.getZ();
+
+        int[] xMinMax = minMax(x,x1);
+        int[] yMinMax = minMax(y,y1);
+        int[] zMinMax = minMax(z,z1);
+
+        min = new Point(xMinMax[0],yMinMax[0],zMinMax[0]);
+        max = new Point(xMinMax[1],yMinMax[1],zMinMax[1]);
+    }
+
+    private int[] minMax(double x,double y){
+        return x < y? new int[]{(int)Math.floor(x-radius),(int)Math.ceil(y+radius)}:
+                new int[]{(int)Math.floor(y-radius),(int)Math.ceil(x+radius)};
+    }
+
+    @Override
     public Vector getNormal(Point p) {
         //if p is the same as p0, meaning p is in the middle of the base
         if (p.equals(axis.getHead()))

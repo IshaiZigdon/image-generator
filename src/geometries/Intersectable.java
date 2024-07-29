@@ -14,6 +14,13 @@ import java.util.List;
  */
 public abstract class Intersectable {
 
+    public Point max = new Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+
+    public Point min =new Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+    public abstract void setMinMax();
+
+
     /**
      * calculates where are the intersecting GeoPoints of the
      * shapes with the given ray

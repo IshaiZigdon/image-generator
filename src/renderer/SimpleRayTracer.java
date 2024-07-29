@@ -19,7 +19,7 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Maximum recursion level for calculating global effects (reflection and refraction)
      */
-    private static final int MAX_CALC_COLOR_LEVEL = 10;
+    protected static final int MAX_CALC_COLOR_LEVEL = 10;
     /**
      * Minimum factor to stop recursion for global effects
      */

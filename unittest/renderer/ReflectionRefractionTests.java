@@ -33,9 +33,9 @@ public class ReflectionRefractionTests {
      */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             .setDirection(Point.ZERO, Vector.Y)
-            .setMultithreading(-1)
-            .setDebugPrint(0.1)
-            .setRayTracer(new SimpleRayTracer(scene, new BlackBoard()));
+            .setMultithreading(0)
+            .setDebugPrint(0.1);
+            //.setRayTracer(new SimpleRayTracer(scene, new BlackBoard()));
 
     /**
      * Produce a picture of a sphere lighted by a spotlight
@@ -54,6 +54,7 @@ public class ReflectionRefractionTests {
         cameraBuilder.setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
                 .setVpSize(150, 150)
                 .setImageWriter(new ImageWriter("refractionTwoSpheres", 500, 500))
+                .setRayTracer(new RegularGrid(scene))
                 .build()
                 .renderImage()
                 .writeToImage();

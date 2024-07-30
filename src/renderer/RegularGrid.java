@@ -4,13 +4,11 @@ import geometries.Geometries;
 import geometries.Intersectable;
 import geometries.Intersectable.GeoPoint;
 import geometries.Polygon;
-import lighting.*;
-import primitives.*;
+import primitives.Color;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 import scene.Scene;
-
-import java.util.List;
-
-import static primitives.Util.alignZero;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
@@ -40,9 +38,9 @@ public class RegularGrid extends SimpleRayTracer {
         }
 
         private boolean overlap(double maxX, double minX, double max, double min) {
-            return (maxX > max && minX < min) ||
-                    (maxX <= max && maxX >= min) ||
-                    (minX <= max && minX >= min);
+            return (maxX > max - DELTA && minX < min + DELTA) ||
+                    (maxX <= max + DELTA && maxX >= min - DELTA) ||
+                    (minX <= max + DELTA && minX >= min - DELTA);
         }
     }
 
@@ -84,12 +82,17 @@ public class RegularGrid extends SimpleRayTracer {
         int dz = gridMax[2] - gridMin[2];
 
         int v = dx * dy * dz;
-        double fermula = Math.cbrt((lambda * n) / v);
+        double formula = Math.cbrt((lambda * n) / v);
 
-        //grid resolution
-        nX = (int) (dx * fermula);
-        nY = (int) (dy * fermula);
-        nZ = (int) (dz * fermula);
+        //Calculate initial grid resolution
+        int nXt = (int) Math.round(dx * formula);
+        int nYt = (int) Math.round(dy * formula);
+        int nZt = (int) Math.round(dz * formula);
+
+        // Adjust nX, nY, nZ to closest values
+        nX = closestDivisor(dx, nXt);
+        nY = closestDivisor(dy, nYt);
+        nZ = closestDivisor(dz, nZt);
 
         cellSize[0] = dx / nX;
         cellSize[1] = dy / nY;
@@ -132,9 +135,13 @@ public class RegularGrid extends SimpleRayTracer {
         var intersection = gridLimits.findIntersections(ray);
         if (intersection == null) return null;
 
-        //todo: problem
-        //if intersection.size() == 2 it means the ray is outside the grid,else ray head is inside
-        Point p = intersection.size() == 2 ? intersection.getFirst() : ray.getHead();
+        //the first voxel that the ray intersects
+        Point p = ray.getHead();
+        int[] cellIndex = findVoxel(p);
+        if (cellIndex == null) {
+            p = intersection.getFirst();
+            cellIndex = findVoxel(p);
+        }
         Vector v = ray.getDirection();
 
         //we want to separate the coordinates
@@ -144,11 +151,6 @@ public class RegularGrid extends SimpleRayTracer {
         double oX = p.getX();
         double oY = p.getY();
         double oZ = p.getZ();
-
-        //the first voxel that the ray intersects
-        int[] cellIndex = findVoxel(p);
-        if (cellIndex == null) return null;
-
 
         double[] rayOrigGrid = {
                 oX - gridMin[0],
@@ -174,8 +176,8 @@ public class RegularGrid extends SimpleRayTracer {
                         findClosestIntersection(ray, cells[cellIndex[0]][cellIndex[1]][cellIndex[2]]);
 
                 if (closestPoint != null) {
-                    if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(closestPoint.point))
-                        return closestPoint;
+                    //if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(closestPoint.point))
+                    return closestPoint;
                 }
             }
 
@@ -254,5 +256,22 @@ public class RegularGrid extends SimpleRayTracer {
             }
         }
         return null;
+    }
+
+    // Function to find the closest integer that divides the size without a remainder
+    int closestDivisor(int size, int estimate) {
+        int lower = estimate;
+        int upper = estimate;
+
+        while (lower > 0 && size % lower != 0) {
+            lower--;
+        }
+
+        while (size % upper != 0) {
+            upper++;
+        }
+
+        if (lower == 0) return upper;
+        return (estimate - lower <= upper - estimate) ? lower : upper;
     }
 }

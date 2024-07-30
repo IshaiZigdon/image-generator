@@ -38,9 +38,9 @@ public class RegularGrid extends SimpleRayTracer {
         }
 
         private boolean overlap(double maxX, double minX, double max, double min) {
-            return (maxX > max - DELTA && minX < min + DELTA) ||
-                    (maxX <= max + DELTA && maxX >= min - DELTA) ||
-                    (minX <= max + DELTA && minX >= min - DELTA);
+            return (maxX > max && minX < min) ||
+                    (maxX <= max && maxX >= min) ||
+                    (minX <= max && minX >= min);
         }
     }
 
@@ -163,23 +163,26 @@ public class RegularGrid extends SimpleRayTracer {
                 abs(cellSize[2] / rZ),
         };
 
-        double t_x = ((floor(rayOrigGrid[0] / cellSize[0]) + rX < 0 ? 0 : 1)
-                * cellSize[0] - rayOrigGrid[0]) / rX;
-        double t_y = ((floor(rayOrigGrid[1] / cellSize[1]) + rY < 0 ? 0 : 1)
-                * cellSize[1] - rayOrigGrid[1]) / rY;
-        double t_z = ((floor(rayOrigGrid[2] / cellSize[2]) + rZ < 0 ? 0 : 1)
-                * cellSize[2] - rayOrigGrid[2]) / rZ;
+        double t_x = rX < 0 ? abs((gridMin[0] + (floor(rayOrigGrid[0] / cellSize[0]) + 1) * cellSize[0] - oX) / rX)
+                : abs((oX - (gridMin[0] + floor(rayOrigGrid[0] / cellSize[0]) * cellSize[0])) / rX);
+        double t_y = rY < 0 ? abs((gridMin[1] + (floor(rayOrigGrid[1] / cellSize[1]) + 1) * cellSize[1] - oY) / rY)
+                : abs((oY - (gridMin[1] + floor(rayOrigGrid[1] / cellSize[1]) * cellSize[1])) / rY);
+        double t_z = rZ < 0 ? abs((gridMin[2] + (floor(rayOrigGrid[2] / cellSize[2]) + 1) * cellSize[2] - oZ) / rZ)
+                : abs((oZ - (gridMin[2] + floor(rayOrigGrid[2] / cellSize[2]) * cellSize[0])) / rZ);
+
+        GeoPoint firstIntersection = null;
+        if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
+            GeoPoint closestPoint =
+                    findClosestIntersection(ray, cells[cellIndex[0]][cellIndex[1]][cellIndex[2]]);
+
+            if (closestPoint != null) {
+                if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(closestPoint.point))
+                    return closestPoint;
+                firstIntersection = closestPoint;
+            }
+        }
 
         while (true) {
-            if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
-                GeoPoint closestPoint =
-                        findClosestIntersection(ray, cells[cellIndex[0]][cellIndex[1]][cellIndex[2]]);
-
-                if (closestPoint != null) {
-                    //if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(closestPoint.point))
-                    return closestPoint;
-                }
-            }
 
             if (t_x <= t_y && t_x <= t_z) {
                 t_x += deltaT[0];
@@ -204,6 +207,34 @@ public class RegularGrid extends SimpleRayTracer {
             if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0 ||
                     cellIndex[0] >= nX || cellIndex[1] >= nY || cellIndex[2] >= nZ)
                 return null;
+
+            if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
+                if (firstIntersection != null && cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(firstIntersection.point)) {
+                    GeoPoint closestPoint =
+                            findClosestIntersection(ray, cells[cellIndex[0]][cellIndex[1]][cellIndex[2]]);
+
+                    if (closestPoint != null) {
+                        if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(closestPoint.point)) {
+                            if (ray.getHead().distance(closestPoint.point) <= ray.getHead().distance(firstIntersection.point))
+                                return closestPoint;
+                        }
+                    }
+                    return firstIntersection;
+
+                } else {
+                    GeoPoint closestPoint =
+                            findClosestIntersection(ray, cells[cellIndex[0]][cellIndex[1]][cellIndex[2]]);
+                    if (closestPoint != null) {
+                        if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].inside(closestPoint.point)) {
+                            return closestPoint;
+                        } else {
+                            if (firstIntersection == null ||
+                                    ray.getHead().distance(closestPoint.point) <= ray.getHead().distance(firstIntersection.point))
+                                firstIntersection = closestPoint;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -259,7 +290,7 @@ public class RegularGrid extends SimpleRayTracer {
     }
 
     // Function to find the closest integer that divides the size without a remainder
-    int closestDivisor(int size, int estimate) {
+    private int closestDivisor(int size, int estimate) {
         int lower = estimate;
         int upper = estimate;
 

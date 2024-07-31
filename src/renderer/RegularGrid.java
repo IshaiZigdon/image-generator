@@ -139,7 +139,12 @@ public class RegularGrid extends SimpleRayTracer {
         Point p = ray.getHead();
         int[] cellIndex = findVoxel(p);
         if (cellIndex == null) {
-            p = intersection.getFirst();
+            if(intersection.size()==2){
+                p = intersection.getFirst().distance(p) <  intersection.get(1).distance(p) ?
+                        intersection.getFirst() : intersection.get(1);
+            }
+            else
+                p = intersection.getFirst();
             cellIndex = findVoxel(p);
         }
         Vector v = ray.getDirection();

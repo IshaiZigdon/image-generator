@@ -12,6 +12,7 @@ import scene.Scene;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
+import static primitives.Util.isZero;
 
 public class RegularGrid extends SimpleRayTracer {
 
@@ -26,9 +27,9 @@ public class RegularGrid extends SimpleRayTracer {
         private double[] min = new double[3];
 
         private boolean inside(Point value) {
-            return value.getX() <= max[0] + DELTA && value.getX() >= min[0] - DELTA
-                    && value.getY() <= max[1] + DELTA && value.getY() >= min[1] - DELTA
-                    && value.getZ() <= max[2] + DELTA && value.getZ() >= min[2] - DELTA;
+            return value.getX() <= max[0]  && value.getX() >= min[0]
+                    && value.getY() <= max[1]  && value.getY() >= min[1]
+                    && value.getZ() <= max[2]  && value.getZ() >= min[2];
         }
 
         private boolean between(Point maxValue, Point minValue) {
@@ -136,15 +137,15 @@ public class RegularGrid extends SimpleRayTracer {
         if (intersection == null) return null;
 
         //the first voxel that the ray intersects
-        Point p = ray.getHead();
+        Point p = fixPoint(ray.getHead());
         int[] cellIndex = findVoxel(p);
         if (cellIndex == null) {
-            if(intersection.size()==2){
-                p = intersection.getFirst().distance(p) <  intersection.get(1).distance(p) ?
+            if (intersection.size() == 2) {
+                p = intersection.getFirst().distance(p) < intersection.get(1).distance(p) ?
                         intersection.getFirst() : intersection.get(1);
-            }
-            else
+            } else
                 p = intersection.getFirst();
+            p = fixPoint(p);
             cellIndex = findVoxel(p);
         }
         Vector v = ray.getDirection();
@@ -282,20 +283,41 @@ public class RegularGrid extends SimpleRayTracer {
     }
 
     private int[] findVoxel(Point point) {
-        for (int i = 0; i < nX; i++) {
-            for (int j = 0; j < nY; j++) {
-                for (int k = 0; k < nZ; k++) {
-                    if (cells[i][j][k].inside(point)) {
-                        return new int[]{i, j, k};
-                    }
-                }
-            }
+//        if(point.getX() < gridMin[0] || point.getY() < gridMin[1] || point.getZ() < gridMin[2]
+//        || point.getX() > gridMax[0] || point.getY() > gridMax[1] || point.getZ() > gridMax[2])
+//            return null;
+
+        boolean flag = (point.getX() - gridMin[0]) % cellSize[0] == 0;
+        int i = (int) ((point.getX() - gridMin[0]) / cellSize[0]);
+        if (i < 0 || i >= nX) {
+            if(i == nX && flag)
+                i -=1;
+            else return null;
         }
-        return null;
+
+        flag = (point.getY() - gridMin[1]) % cellSize[1] == 0;
+        int j = (int) ((point.getY() - gridMin[1]) / cellSize[1]);
+        if (j < 0 || j >= nY) {
+            if(j == nY && flag)
+                j -=1;
+            else return null;
+        }
+
+        flag = (point.getZ() - gridMin[2]) % cellSize[2] == 0;
+        int k = (int) ((point.getZ() - gridMin[2]) / cellSize[2]);
+        if (k < 0 || k >= nZ) {
+            if(k == nZ && flag)
+                k -=1;
+            else return null;
+        }
+
+        return new int[]{i, j, k};
     }
 
     // Function to find the closest integer that divides the size without a remainder
     private int closestDivisor(int size, int estimate) {
+        if(estimate == 0) return 1;
+
         int lower = estimate;
         int upper = estimate;
 
@@ -309,5 +331,27 @@ public class RegularGrid extends SimpleRayTracer {
 
         if (lower == 0) return upper;
         return (estimate - lower <= upper - estimate) ? lower : upper;
+    }
+
+    private Point fixPoint(Point p) {
+        if (isZero((p.getX() - gridMin[0]))) {
+            p = p.add(Vector.X.scale(DELTA));
+        }
+        if (isZero((p.getX() - gridMax[0]))) {
+            p = p.add(Vector.X.scale(-DELTA));
+        }
+        if (isZero((p.getY() - gridMin[1]))) {
+            p = p.add(Vector.Y.scale(DELTA));
+        }
+        if (isZero((p.getY() - gridMax[1]))) {
+            p = p.add(Vector.Y.scale(-DELTA));
+        }
+        if (isZero((p.getZ() - gridMin[2]))) {
+            p = p.add(Vector.Z.scale(DELTA));
+        }
+        if (isZero((p.getZ() - gridMax[2]))) {
+            p = p.add(Vector.Z.scale(-DELTA));
+        }
+        return p;
     }
 }

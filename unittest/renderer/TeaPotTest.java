@@ -27,7 +27,7 @@ public class TeaPotTest {
             .setVpDistance(1000)
             .setVpSize(200, 200) //
             .setImageWriter(imageWriter) //
-            .setMultithreading(-1).setDebugPrint(0.1);
+            .setMultithreading(0).setDebugPrint(0.1);
 
     private final Scene scene = new Scene("Test scene");
 
@@ -1568,7 +1568,7 @@ public class TeaPotTest {
         );
         scene.lights.add(new PointLight(new Color(500, 500, 500), new Point(100, 0, -100)).setKq(0.000001));
 
-        cameraBuilder.setRayTracer(new RegularGrid(scene))
+        cameraBuilder.setRayTracer(new RegularGrid(scene,new BlackBoard()))
                 .build()
                 .renderImage()
                 .printGrid(50, new Color(YELLOW))

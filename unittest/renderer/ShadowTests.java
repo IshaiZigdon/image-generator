@@ -31,7 +31,7 @@ public class ShadowTests {
     private final Camera.Builder camera = Camera.getBuilder()
             .setDirection(Point.ZERO, Vector.Y)
             .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
-            .setMultithreading(0)
+            .setMultithreading(-1)
             .setDebugPrint(0.1)
             .setVpSize(200, 200);
 
@@ -151,7 +151,8 @@ public class ShadowTests {
         // Adding a plane and other geometries to the scene
         scene.geometries.add(
                 // Large reflective floor
-                new Plane(new Point(0, -40, 0), new Vector(0, 1, 0))
+                new Polygon(new Point(-1700, -40, 1700), new Point(1700, -40, 1700),
+                        new Point(1700, -40, -1700), new Point(-1700, -40, -1700))
                         .setEmission(new Color(GRAY))
                         .setMaterial(new Material().setKd(0.6).setKs(0.3)),
 
@@ -178,6 +179,7 @@ public class ShadowTests {
 
         // Setting ambient light
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
+        scene.setBackground(new Color(GRAY));
 
         // Adding a spotlight to the scene, positioned to cast shadows effectively
         scene.lights.add(
@@ -191,6 +193,7 @@ public class ShadowTests {
                 .setVpSize(500, 500)
                 .setDirection(Point.ZERO, new Vector(0, 1, -1 / 17d))
                 .setImageWriter(new ImageWriter("softShadow", 1024, 1024))
+                .setRayTracer(new RegularGrid(scene, new BlackBoard()))
                 .build()
                 .renderImage()
                 .writeToImage();

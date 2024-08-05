@@ -133,7 +133,7 @@ public class FinalPicture {
                 .setVpSize(900, 500)
                 .setDirection(new Point(0, 0, -160), new Vector(0, 1, -120 / 436d))
                 .setImageWriter(new ImageWriter("FinalPicture", 900, 500))
-                .setRayTracer(new RegularGrid(scene))
+                .setRayTracer(new SimpleRayTracer(scene))
                 .build()
                 .renderImage()
                 .writeToImage();

@@ -19,11 +19,11 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Maximum recursion level for calculating global effects (reflection and refraction)
      */
-    protected static final int MAX_CALC_COLOR_LEVEL = 10;
+    private static final int MAX_CALC_COLOR_LEVEL = 10;
     /**
      * Minimum factor to stop recursion for global effects
      */
-    private static final Double3 MIN_CALC_COLOR_K = new Double3(0.001);
+    protected static final Double3 MIN_CALC_COLOR_K = new Double3(0.001);
 
     /**
      * ctor with given scene
@@ -66,7 +66,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param k        the attenuation factor
      * @return the color of geoPoint
      */
-    private Color calcColor(GeoPoint geoPoint, Ray ray, int level, Double3 k) {
+    protected Color calcColor(GeoPoint geoPoint, Ray ray, int level, Double3 k) {
         Color color = calcLocalEffects(geoPoint, ray, k);
         return 1 == level ? color
                 : color.add(calcGlobalEffects(geoPoint, ray, level, k));
@@ -166,7 +166,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param k     the attenuation factor
      * @return the color due to the global effect
      */
-    private Color calcGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
+    protected Color calcGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
         Double3 kkx = kx.product(k);
         if (kkx.lowerThan(MIN_CALC_COLOR_K)) return Color.BLACK;
         GeoPoint gp = findClosestIntersection(ray);
@@ -205,7 +205,7 @@ public class SimpleRayTracer extends RayTracerBase {
      *
      * @return the transparency factor
      */
-    private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
+    protected Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
         Ray ray = new Ray(gp.point, l.scale(-1), n);
         var intersections = scene.geometries.findGeoIntersections(ray, light.getDistance(gp.point));
         if (intersections == null) return Double3.ONE;

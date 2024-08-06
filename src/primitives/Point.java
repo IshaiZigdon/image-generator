@@ -83,14 +83,26 @@ public class Point {
         return Math.sqrt(distanceSquared(p));
     }
 
+    /**
+     * get function for the x coordinate
+     * @return the x coordinate
+     */
     public double getX(){
         return this.xyz.d1;
     }
 
+    /**
+     * get function for the y coordinate
+     * @return the y coordinate
+     */
     public double getY(){
         return this.xyz.d2;
     }
 
+    /**
+     * get function for the z coordinate
+     * @return the z coordinate
+     */
     public double getZ(){
         return this.xyz.d3;
     }

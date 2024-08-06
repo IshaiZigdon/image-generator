@@ -14,10 +14,19 @@ import java.util.List;
  */
 public abstract class Intersectable {
 
+    /**
+     * the max x,y,z values of the shape
+     */
     public Point max = new Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 
+    /**
+     * the min x,y,z values of the shape
+     */
     public Point min =new Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 
+    /**
+     * setting the max and min values
+     */
     public abstract void setMinMax();
 
 

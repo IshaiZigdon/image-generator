@@ -16,8 +16,6 @@ public class Geometries extends Intersectable {
      */
     private final List<Intersectable> intersectables = new LinkedList<>();
 
-    private int size = 0;
-
     /**
      * empty constructor for now
      */
@@ -32,21 +30,29 @@ public class Geometries extends Intersectable {
     public Geometries(Intersectable... geometries) {
         if (geometries != null)
             this.add(geometries);
-        size += Arrays.asList(geometries).size();
     }
 
+    /**
+     * get function for intersectables
+     * @return intersectables
+     */
     public List<Intersectable> getIntersectables() {
         return intersectables;
     }
 
-    public int getSize(){
-        return size;
-    }
 
     @Override
     public void setMinMax(){
         for (Intersectable i : intersectables) {
             i.setMinMax();
+
+            //checking if i is an infinite shape
+            if(i.max == null || i.min == null){
+                max = null;
+                min = null;
+                return;
+            }
+
             if (i.max.getX() > max.getX())
                 max = new Point(i.max.getX() , max.getY(), max.getZ());
             if (i.min.getX()  < min.getX())
@@ -71,7 +77,6 @@ public class Geometries extends Intersectable {
      */
     public void add(Intersectable... geometries) {
         intersectables.addAll(Arrays.asList(geometries));
-        size += Arrays.asList(geometries).size();
     }
 
     @Override

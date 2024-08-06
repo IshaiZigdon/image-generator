@@ -202,7 +202,10 @@ public class SimpleRayTracer extends RayTracerBase {
 
     /**
      * Calculates the transparency factor for a given point.
-     *
+     * @param gp the given geoPoint
+     * @param light the given light
+     * @param l the light direction
+     * @param n the normal from the shape
      * @return the transparency factor
      */
     protected Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {

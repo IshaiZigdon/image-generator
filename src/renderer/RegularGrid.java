@@ -8,7 +8,8 @@ import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
 
-import static java.lang.Math.*;
+import static java.lang.Math.abs;
+import static java.lang.Math.floor;
 import static primitives.Util.isZero;
 
 /**
@@ -152,15 +153,15 @@ public class RegularGrid extends SimpleRayTracer {
             throw new IllegalArgumentException("cannot use regular grid on infinite shapes");
 
         gridMax = new int[]{
-                (int) ceil(scene.geometries.max.getX()),
-                (int) ceil(scene.geometries.max.getY()),
-                (int) ceil(scene.geometries.max.getZ())
+                customRound(scene.geometries.max.getX()),
+                customRound(scene.geometries.max.getY()),
+                customRound(scene.geometries.max.getZ())
         };
 
         gridMin = new int[]{
-                (int) ceil(scene.geometries.min.getX()),
-                (int) ceil(scene.geometries.min.getY()),
-                (int) ceil(scene.geometries.min.getZ())
+                customRound(scene.geometries.min.getX()),
+                customRound(scene.geometries.min.getY()),
+                customRound(scene.geometries.min.getZ())
         };
 
         double lambda = 4; // adjusted variable
@@ -217,12 +218,23 @@ public class RegularGrid extends SimpleRayTracer {
     }
 
     /**
+     * finding the largest closest value for positive number
+     * and lowest closest value for negative number
+     * @param value the given value
+     * @return the result
+     */
+    private static int customRound(double value) {
+        return value >= 0 ? (int) Math.ceil(value) : (int) Math.floor(value);
+    }
+
+    /**
      * Function to find the closest integer that divides the size without a remainder
-     * @param size the divider
+     *
+     * @param size     the divider
      * @param estimate the given value
      * @return the closest value to estimate that is divisor of size
      */
-    private int closestDivisor(int size, int estimate) {
+    private static int closestDivisor(int size, int estimate) {
         if (estimate == 0) return 1;
 
         int lower = estimate;
@@ -242,6 +254,7 @@ public class RegularGrid extends SimpleRayTracer {
 
     /**
      * inserting the shape into the voxels
+     *
      * @param shape the given shape
      */
     private void insert(Intersectable shape) {
@@ -282,7 +295,8 @@ public class RegularGrid extends SimpleRayTracer {
 
     /**
      * finding the closest intersection with the geometries in the given voxel
-     * @param ray the given ray
+     *
+     * @param ray  the given ray
      * @param cell the given voxel
      * @return the closest intersection or null if there is no intersections
      */
@@ -293,6 +307,7 @@ public class RegularGrid extends SimpleRayTracer {
 
     /**
      * traversing the grid with a given ray
+     *
      * @param ray the given ray
      * @return the closest intersection point
      */
@@ -383,8 +398,11 @@ public class RegularGrid extends SimpleRayTracer {
 
             //checking if it is outside the grid boundaries
             if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0 ||
-                    cellIndex[0] >= nX || cellIndex[1] >= nY || cellIndex[2] >= nZ)
+                    cellIndex[0] >= nX || cellIndex[1] >= nY || cellIndex[2] >= nZ) {
+                if (firstIntersection != null)
+                    return firstIntersection;
                 return null;
+            }
 
             //checking intersection with the voxel's geometries
             if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
@@ -424,6 +442,7 @@ public class RegularGrid extends SimpleRayTracer {
 
     /**
      * finding all the geometries that are in the voxel in the path of the given ray
+     *
      * @param ray the given ray
      * @return the geometries in the path
      */
@@ -505,11 +524,12 @@ public class RegularGrid extends SimpleRayTracer {
             if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0 ||
                     cellIndex[0] >= nX || cellIndex[1] >= nY || cellIndex[2] >= nZ)
                 return geometries;
-            }
         }
+    }
 
     /**
      * finding the voxel that contain the given point
+     *
      * @param point the given point
      * @return the coordinates of the voxel
      */
@@ -529,6 +549,7 @@ public class RegularGrid extends SimpleRayTracer {
 
     /**
      * moving the given point slightly inside the grid if it is on the edge
+     *
      * @param p the given point
      * @return the fixed point
      */

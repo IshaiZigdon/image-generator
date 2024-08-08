@@ -8,6 +8,8 @@ import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
 
+import java.util.List;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.floor;
 import static primitives.Util.isZero;
@@ -220,6 +222,7 @@ public class RegularGrid extends SimpleRayTracer {
     /**
      * finding the largest closest value for positive number
      * and lowest closest value for negative number
+     *
      * @param value the given value
      * @return the result
      */
@@ -317,46 +320,32 @@ public class RegularGrid extends SimpleRayTracer {
         if (intersection == null) return null;
 
         //finding the first voxel that the ray intersects
-        Point p = fixPoint(ray.getHead());
+        Point p = beginningPoint(ray.getHead(), intersection);
         int[] cellIndex = findVoxel(p);
-        //if cellIndex = null, the ray head is outside the grid
-        if (cellIndex == null) {
-            //finding the intersection point that is closest to the ray head
-            if (intersection.size() == 2) {
-                p = intersection.getFirst().distance(p) < intersection.get(1).distance(p) ?
-                        intersection.getFirst() : intersection.get(1);
-            } else
-                p = intersection.getFirst();
-            p = fixPoint(p);
-            cellIndex = findVoxel(p);
-        }
+
         Vector v = ray.getDirection();
 
         //we want to separate the coordinates
-        double rX = v.getX();
-        double rY = v.getY();
-        double rZ = v.getZ();
-        double oX = p.getX();
-        double oY = p.getY();
-        double oZ = p.getZ();
-
+        double[] r = {
+                v.getX(),
+                v.getY(),
+                v.getZ()
+        };
         double[] rayOrigGrid = {
-                oX - gridMin[0],
-                oY - gridMin[1],
-                oZ - gridMin[2],
+                p.getX() - gridMin[0],
+                p.getY() - gridMin[1],
+                p.getZ() - gridMin[2]
         };
         double[] deltaT = {
-                abs(cellSize[0] / rX),
-                abs(cellSize[1] / rY),
-                abs(cellSize[2] / rZ),
+                abs(cellSize[0] / r[0]),
+                abs(cellSize[1] / r[1]),
+                abs(cellSize[2] / r[2])
         };
-
-        double t_x = rX < 0 ? (floor(rayOrigGrid[0] / cellSize[0]) * cellSize[0] - rayOrigGrid[0]) / rX
-                : ((floor(rayOrigGrid[0] / cellSize[0]) + 1) * cellSize[0] - rayOrigGrid[0]) / rX;
-        double t_y = rY < 0 ? (floor(rayOrigGrid[1] / cellSize[1]) * cellSize[1] - rayOrigGrid[1]) / rY
-                : ((floor(rayOrigGrid[1] / cellSize[1]) + 1) * cellSize[1] - rayOrigGrid[1]) / rY;
-        double t_z = rZ < 0 ? (floor(rayOrigGrid[2] / cellSize[2]) * cellSize[2] - rayOrigGrid[2]) / rZ
-                : ((floor(rayOrigGrid[2] / cellSize[2]) + 1) * cellSize[2] - rayOrigGrid[2]) / rZ;
+        double[] t = {
+                calculateT(rayOrigGrid[0], r[0], cellSize[0]),
+                calculateT(rayOrigGrid[1], r[1], cellSize[1]),
+                calculateT(rayOrigGrid[2], r[2], cellSize[2])
+        };
 
         GeoPoint firstIntersection = null;
         //checking intersection with the voxel's geometries
@@ -374,35 +363,11 @@ public class RegularGrid extends SimpleRayTracer {
         }
 
         while (true) {
-
             //moving to the next voxel
-            if (t_x <= t_y && t_x <= t_z) {
-                t_x += deltaT[0];
-                if (rX < 0)
-                    cellIndex[0]--;
-                else
-                    cellIndex[0]++;
-            } else if (t_y <= t_z) {
-                t_y += deltaT[1];
-                if (rY < 0)
-                    cellIndex[1]--;
-                else
-                    cellIndex[1]++;
-            } else {
-                t_z += deltaT[2];
-                if (rZ < 0)
-                    cellIndex[2]--;
-                else
-                    cellIndex[2]++;
-            }
-
-            //checking if it is outside the grid boundaries
-            if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0 ||
-                    cellIndex[0] >= nX || cellIndex[1] >= nY || cellIndex[2] >= nZ) {
-                if (firstIntersection != null)
-                    return firstIntersection;
+            cellIndex = nextCell(t, deltaT, r, cellIndex);
+            if (cellIndex == null)
+                //it is the end of the grid
                 return null;
-            }
 
             //checking intersection with the voxel's geometries
             if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
@@ -441,6 +406,79 @@ public class RegularGrid extends SimpleRayTracer {
     }
 
     /**
+     * finding the beginning point of the traversing
+     * @param p the ray head
+     * @param intersection the intersection with the grid
+     * @return p if the ray head is inside, otherwise the first intersection with the grid
+     */
+    private Point beginningPoint(Point p, List<Point> intersection) {
+        //checking if the point is inside the grid
+        if (p.getX() >= gridMin[0] && p.getX() <= gridMax[0]
+                && p.getY() >= gridMin[1] && p.getY() <= gridMax[1]
+                && p.getZ() >= gridMin[2] && p.getZ() <= gridMax[2])
+            return fixPoint(p);
+
+        //finding the intersection point that is closest to the ray head
+        if (intersection.size() == 1)
+            return fixPoint(intersection.getFirst());
+
+        //finding the intersection point that is closest to the ray head
+        return intersection.getFirst().distance(p) < intersection.get(1).distance(p) ?
+                fixPoint(intersection.getFirst()) : fixPoint(intersection.get(1));
+    }
+
+    /**
+     * calculating the t value for given dimension
+     *
+     * @param oGrid    the point on te grid in relation of the grid min
+     * @param r        the direction of the ray in the given dimension
+     * @param cellSize the size of the cell in the given dimension
+     * @return the result
+     */
+    private double calculateT(double oGrid, double r, int cellSize) {
+        return r < 0 ? (floor(oGrid / cellSize) * cellSize - oGrid) / r
+                : ((floor(oGrid / cellSize) + 1) * cellSize - oGrid) / r;
+    }
+
+    /**
+     * calculating the next voxel the ray passes through
+     *
+     * @param t         the t values
+     * @param deltaT    the delta values
+     * @param r         the directions of the ray
+     * @param cellIndex the current cell
+     * @return the next cell if it is inside the grid, null otherwise
+     */
+    private int[] nextCell(double[] t, double[] deltaT, double[] r, int[] cellIndex) {
+        if (t[0] <= t[1] && t[0] <= t[2]) {
+            t[0] += deltaT[0];
+            if (r[0] < 0)
+                cellIndex[0]--;
+            else
+                cellIndex[0]++;
+        } else if (t[1] <= t[2]) {
+            t[1] += deltaT[1];
+            if (r[1] < 0)
+                cellIndex[1]--;
+            else
+                cellIndex[1]++;
+        } else {
+            t[2] += deltaT[2];
+            if (r[2] < 0)
+                cellIndex[2]--;
+            else
+                cellIndex[2]++;
+        }
+
+        //checking if the next cell is outside the grid
+        if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0 ||
+                cellIndex[0] >= nX || cellIndex[1] >= nY || cellIndex[2] >= nZ)
+            return null;
+
+        return cellIndex;
+    }
+
+    /**
      * finding all the geometries that are in the voxel in the path of the given ray
      *
      * @param ray the given ray
@@ -452,77 +490,44 @@ public class RegularGrid extends SimpleRayTracer {
         if (intersection == null) return null;
 
         //the first voxel that the ray intersects
-        Point p = fixPoint(ray.getHead());
+        Point p = beginningPoint(ray.getHead(),intersection);
         int[] cellIndex = findVoxel(p);
-        if (cellIndex == null) {
-            if (intersection.size() == 2) {
-                p = intersection.getFirst().distance(p) < intersection.get(1).distance(p) ?
-                        intersection.getFirst() : intersection.get(1);
-            } else
-                p = intersection.getFirst();
-            p = fixPoint(p);
-            cellIndex = findVoxel(p);
-        }
+
         Vector v = ray.getDirection();
 
         //we want to separate the coordinates
-        double rX = v.getX();
-        double rY = v.getY();
-        double rZ = v.getZ();
-        double oX = p.getX();
-        double oY = p.getY();
-        double oZ = p.getZ();
-
+        double[] r = {
+                v.getX(),
+                v.getY(),
+                v.getZ()
+        };
         double[] rayOrigGrid = {
-                oX - gridMin[0],
-                oY - gridMin[1],
-                oZ - gridMin[2],
+                p.getX() - gridMin[0],
+                p.getY() - gridMin[1],
+                p.getZ() - gridMin[2]
         };
         double[] deltaT = {
-                abs(cellSize[0] / rX),
-                abs(cellSize[1] / rY),
-                abs(cellSize[2] / rZ),
+                abs(cellSize[0] / r[0]),
+                abs(cellSize[1] / r[1]),
+                abs(cellSize[2] / r[2])
         };
-
-        double t_x = rX < 0 ? (floor(rayOrigGrid[0] / cellSize[0]) * cellSize[0] - rayOrigGrid[0]) / rX
-                : ((floor(rayOrigGrid[0] / cellSize[0]) + 1) * cellSize[0] - rayOrigGrid[0]) / rX;
-        double t_y = rY < 0 ? (floor(rayOrigGrid[1] / cellSize[1]) * cellSize[1] - rayOrigGrid[1]) / rY
-                : ((floor(rayOrigGrid[1] / cellSize[1]) + 1) * cellSize[1] - rayOrigGrid[1]) / rY;
-        double t_z = rZ < 0 ? (floor(rayOrigGrid[2] / cellSize[2]) * cellSize[2] - rayOrigGrid[2]) / rZ
-                : ((floor(rayOrigGrid[2] / cellSize[2]) + 1) * cellSize[2] - rayOrigGrid[2]) / rZ;
+        double[] t = {
+                calculateT(rayOrigGrid[0], r[0], cellSize[0]),
+                calculateT(rayOrigGrid[1], r[1], cellSize[1]),
+                calculateT(rayOrigGrid[2], r[2], cellSize[2])
+        };
 
         Geometries geometries = new Geometries();
 
         while (true) {
-
             //adding the geometries of the voxel
             if (cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries != null) {
                 for (Intersectable i : cells[cellIndex[0]][cellIndex[1]][cellIndex[2]].geometries.getIntersectables())
                     geometries.add(i);
             }
 
-            if (t_x <= t_y && t_x <= t_z) {
-                t_x += deltaT[0];
-                if (rX < 0)
-                    cellIndex[0]--;
-                else
-                    cellIndex[0]++;
-            } else if (t_y <= t_z) {
-                t_y += deltaT[1];
-                if (rY < 0)
-                    cellIndex[1]--;
-                else
-                    cellIndex[1]++;
-            } else {
-                t_z += deltaT[2];
-                if (rZ < 0)
-                    cellIndex[2]--;
-                else
-                    cellIndex[2]++;
-            }
-
-            if (cellIndex[0] < 0 || cellIndex[1] < 0 || cellIndex[2] < 0 ||
-                    cellIndex[0] >= nX || cellIndex[1] >= nY || cellIndex[2] >= nZ)
+            cellIndex = nextCell(t, deltaT, r, cellIndex);
+            if (cellIndex == null)
                 return geometries;
         }
     }
@@ -534,12 +539,6 @@ public class RegularGrid extends SimpleRayTracer {
      * @return the coordinates of the voxel
      */
     private int[] findVoxel(Point point) {
-        //checking if the point is outside the grid boundaries
-        if (point.getX() < gridMin[0] || point.getX() > gridMax[0]
-                || point.getY() < gridMin[1] || point.getY() > gridMax[1]
-                || point.getZ() < gridMin[2] || point.getZ() > gridMax[2])
-            return null;
-
         int i = (int) ((point.getX() - gridMin[0]) / cellSize[0]);
         int j = (int) ((point.getY() - gridMin[1]) / cellSize[1]);
         int k = (int) ((point.getZ() - gridMin[2]) / cellSize[2]);

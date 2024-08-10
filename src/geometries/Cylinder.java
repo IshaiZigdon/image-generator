@@ -48,17 +48,27 @@ public class Cylinder extends Tube {
         double y1 = secondBase.getY();
         double z1 = secondBase.getZ();
 
-        int[] xMinMax = minMax(x,x1);
-        int[] yMinMax = minMax(y,y1);
-        int[] zMinMax = minMax(z,z1);
+        int[] xMinMax = minMax(x, x1);
+        int[] yMinMax = minMax(y, y1);
+        int[] zMinMax = minMax(z, z1);
 
-        min = new Point(xMinMax[0],yMinMax[0],zMinMax[0]);
-        max = new Point(xMinMax[1],yMinMax[1],zMinMax[1]);
+        min = new Point(xMinMax[0], yMinMax[0], zMinMax[0]);
+        max = new Point(xMinMax[1], yMinMax[1], zMinMax[1]);
     }
 
-    private int[] minMax(double x,double y){
-        return x < y? new int[]{(int)Math.floor(x-radius),(int)Math.ceil(y+radius)}:
-                new int[]{(int)Math.floor(y-radius),(int)Math.ceil(x+radius)};
+    /**
+     * function for the creation of a minimum and maximum values
+     * between x and y
+     * minimum will be in index 0
+     * maximum will be in index 1
+     *
+     * @param x first value
+     * @param y second value
+     * @return an array with minimum and maximum values
+     */
+    private int[] minMax(double x, double y) {
+        return x < y ? new int[]{(int) Math.floor(x - radius), (int) Math.ceil(y + radius)} :
+                new int[]{(int) Math.floor(y - radius), (int) Math.ceil(x + radius)};
     }
 
     @Override

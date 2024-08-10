@@ -61,8 +61,17 @@ public class Camera implements Cloneable {
      */
     private RayTracerBase rayTracer;
 
+    /**
+     * thread counter
+     */
     private int threadsCount = 0; // -2 auto, -1 range/stream, 0 no threads, 1+ number of threads
+    /**
+     * boundary to the threads
+     */
     private final int SPARE_THREADS = 2; // Spare threads if trying to use all the cores
+    /**
+     * the percent of the project in the run
+     */
     private double printInterval = 0;
 
     /**
@@ -191,7 +200,7 @@ public class Camera implements Cloneable {
             while (count-- > 0) {
                 threads.add(new Thread(() -> {
                     Pixel pixel;
-                    while ((pixel  = Pixel.nextPixel()) != null) {
+                    while ((pixel = Pixel.nextPixel()) != null) {
                         castRay(nX, nY, pixel.col(), pixel.row());
                     }
                 }));
@@ -265,7 +274,7 @@ public class Camera implements Cloneable {
     private void castRay(int nX, int nY, int j, int i) {
         Ray ray = constructRay(nX, nY, j, i);
         Color color = rayTracer.traceRay(ray);
-        if(ray.getDirection().equals(new Vector(0.0011249621562064976,-0.008124726683713593,0.9999663610724423)))
+        if (ray.getDirection().equals(new Vector(0.0011249621562064976, -0.008124726683713593, 0.9999663610724423)))
             color = rayTracer.traceRay(ray);
         imageWriter.writePixel(j, i, color);
         Pixel.pixelDone();
@@ -395,6 +404,12 @@ public class Camera implements Cloneable {
             return this;
         }
 
+        /**
+         * function to set multithreading
+         *
+         * @param threads the choosing number of the user
+         * @return the builder with the given position of the thread usage
+         */
         public Builder setMultithreading(int threads) {
             if (threads < -2) throw new IllegalArgumentException("Multithreading must be -2 or higher");
             if (threads >= -1) camera.threadsCount = threads;
@@ -405,6 +420,12 @@ public class Camera implements Cloneable {
             return this;
         }
 
+        /**
+         * function to print the percent of the project while it is running
+         *
+         * @param interval the percent
+         * @return the builder with the new percent
+         */
         public Builder setDebugPrint(double interval) {
             camera.printInterval = interval;
             return this;

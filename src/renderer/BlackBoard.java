@@ -1,6 +1,7 @@
 package renderer;
 
 import primitives.*;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -20,6 +21,9 @@ public class BlackBoard {
      */
     private double amountOfRays = 9;
 
+    /**
+     * random number for the jitter effect
+     */
     private static final Random RANDOM = new Random();
 
     /**
@@ -54,6 +58,7 @@ public class BlackBoard {
      * @param p        the given point
      * @param distance the given distance of the black board
      * @param v        the given direction
+     * @param size     half the width of a square grid
      * @return list of rays
      */
     public List<Vector> beamOfRays(Point p, double distance, double size, Vector v) {
@@ -87,6 +92,12 @@ public class BlackBoard {
         return rayBeam;
     }
 
+    /**
+     * calculate a vector that is vertical to the given vector
+     *
+     * @param n the given vector
+     * @return a vertical vector to n
+     */
     private static Vector calculateVerticalVector(Vector n) {
         try {
             return n.crossProduct(Vector.X).normalize();

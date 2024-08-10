@@ -34,6 +34,7 @@ public class Geometries extends Intersectable {
 
     /**
      * get function for intersectables
+     *
      * @return intersectables
      */
     public List<Intersectable> getIntersectables() {
@@ -42,21 +43,21 @@ public class Geometries extends Intersectable {
 
 
     @Override
-    public void setMinMax(){
+    public void setMinMax() {
         for (Intersectable i : intersectables) {
             i.setMinMax();
 
             //checking if i is an infinite shape
-            if(i.max == null || i.min == null){
+            if (i.max == null || i.min == null) {
                 max = null;
                 min = null;
                 return;
             }
 
             if (i.max.getX() > max.getX())
-                max = new Point(i.max.getX() , max.getY(), max.getZ());
-            if (i.min.getX()  < min.getX())
-                min = new Point(i.min.getX() , min.getY(), min.getZ());
+                max = new Point(i.max.getX(), max.getY(), max.getZ());
+            if (i.min.getX() < min.getX())
+                min = new Point(i.min.getX(), min.getY(), min.getZ());
 
             if (i.max.getY() > max.getY())
                 max = new Point(max.getX(), i.max.getY(), max.getZ());

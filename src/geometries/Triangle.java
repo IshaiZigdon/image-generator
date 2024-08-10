@@ -29,7 +29,7 @@ public class Triangle extends Polygon {
     }
 
     @Override
-    public void setMinMax(){
+    public void setMinMax() {
         super.setMinMax();
     }
 

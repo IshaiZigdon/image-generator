@@ -1,9 +1,7 @@
 package lighting;
 
-import geometries.Plane;
 import primitives.Color;
 import primitives.Point;
-import primitives.Ray;
 import primitives.Vector;
 
 import static primitives.Util.alignZero;
@@ -15,7 +13,8 @@ import static primitives.Util.alignZero;
  * @author Ishai zigdon
  * @author Zaki zafrani
  */
-public class PointLight extends Light implements LightSource { /**
+public class PointLight extends Light implements LightSource {
+    /**
      * the position of the light
      */
     protected final Point position;
@@ -107,7 +106,12 @@ public class PointLight extends Light implements LightSource { /**
         return this;
     }
 
-    public double getRadius(){
+    /**
+     * get funtion for the radius
+     *
+     * @return the radius
+     */
+    public double getRadius() {
         return radius;
     }
 

@@ -22,10 +22,6 @@ public class ShadowTests {
     private final Scene scene = new Scene("Test scene");
 
     /**
-     * blackboard of the test
-     */
-    private final BlackBoard blackBoard = new BlackBoard();
-    /**
      * Camera builder of the tests
      */
     private final Camera.Builder camera = Camera.getBuilder()
@@ -183,7 +179,7 @@ public class ShadowTests {
 
         // Adding a spotlight to the scene, positioned to cast shadows effectively
         scene.lights.add(
-                new PointLight(new Color(1200,900,500), new Point(-140, -40, 0))//, new Vector(1, -1, 0))
+                new PointLight(new Color(1200, 900, 500), new Point(-140, -40, 0))//, new Vector(1, -1, 0))
                         .setKl(4E-4).setKq(2E-5).setRadius(15)
         );
 

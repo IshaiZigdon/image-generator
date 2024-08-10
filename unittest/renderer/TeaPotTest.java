@@ -18,9 +18,13 @@ import static java.awt.Color.YELLOW;
  */
 
 public class TeaPotTest {
-
+    /**
+     * imageWriter for teapot
+     */
     private final ImageWriter imageWriter = new ImageWriter("teapot", 800, 800);
-
+    /**
+     * camera builder for teapot
+     */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             .setLocation(new Point(0, 0, -1000))
             .setDirection(new Vector(0, 0, 1), new Vector(0, 1, 0)) //
@@ -29,11 +33,21 @@ public class TeaPotTest {
             .setImageWriter(imageWriter) //
             .setMultithreading(0).setDebugPrint(0.1);
 
+    /**
+     * the scene fot teapot
+     */
     private final Scene scene = new Scene("Test scene");
-
+    /**
+     * the red color of the teapot
+     */
     private static final Color color = new Color(200, 0, 0);
+    /**
+     * the material of the teapot
+     */
     private static final Material mat = new Material().setKd(0.5).setKs(0.5).setShininess(60);
-
+    /**
+     * an array of points that will generate the triangles for the teapot
+     */
     private static Point[] pnts = new Point[]{null, //
             new Point(40.6266, 28.3457, -1.10804), //
             new Point(40.0714, 30.4443, -1.10804), //

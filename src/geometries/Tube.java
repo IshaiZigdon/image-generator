@@ -34,7 +34,7 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
-    public void setMinMax(){
+    public void setMinMax() {
         min = null;
         max = null;
     }

@@ -22,7 +22,7 @@ public abstract class Intersectable {
     /**
      * the min x,y,z values of the shape
      */
-    public Point min =new Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public Point min = new Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 
     /**
      * setting the max and min values

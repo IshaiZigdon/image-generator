@@ -35,7 +35,7 @@ public class ReflectionRefractionTests {
             .setDirection(Point.ZERO, Vector.Y)
             .setMultithreading(0)
             .setDebugPrint(0.1);
-            //.setRayTracer(new SimpleRayTracer(scene, new BlackBoard()));
+    //.setRayTracer(new SimpleRayTracer(scene, new BlackBoard()));
 
     /**
      * Produce a picture of a sphere lighted by a spotlight

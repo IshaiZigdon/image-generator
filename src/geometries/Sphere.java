@@ -1,6 +1,5 @@
 package geometries;
 
-import primitives.Double3;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -35,12 +34,12 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public void setMinMax(){
+    public void setMinMax() {
         double x = center.getX();
         double y = center.getY();
         double z = center.getZ();
-        max = new Point( x + radius, y + radius,z + radius);
-        min = new Point( x - radius, y - radius,z - radius);
+        max = new Point(x + radius, y + radius, z + radius);
+        min = new Point(x - radius, y - radius, z - radius);
     }
 
     @Override

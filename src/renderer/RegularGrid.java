@@ -407,7 +407,8 @@ public class RegularGrid extends SimpleRayTracer {
 
     /**
      * finding the beginning point of the traversing
-     * @param p the ray head
+     *
+     * @param p            the ray head
      * @param intersection the intersection with the grid
      * @return p if the ray head is inside, otherwise the first intersection with the grid
      */
@@ -490,7 +491,7 @@ public class RegularGrid extends SimpleRayTracer {
         if (intersection == null) return null;
 
         //the first voxel that the ray intersects
-        Point p = beginningPoint(ray.getHead(),intersection);
+        Point p = beginningPoint(ray.getHead(), intersection);
         int[] cellIndex = findVoxel(p);
 
         Vector v = ray.getDirection();

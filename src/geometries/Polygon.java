@@ -91,8 +91,8 @@ public class Polygon extends Geometry {
     }
 
     @Override
-    public void setMinMax(){
-        for (var i: vertices) {
+    public void setMinMax() {
+        for (var i : vertices) {
             double x = i.getX();
             double y = i.getY();
             double z = i.getZ();

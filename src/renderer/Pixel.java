@@ -1,19 +1,68 @@
 package renderer;
 
+/**
+ * A record representing a pixel in an image, defined by its row and column.
+ *
+ * @param row the row
+ * @param col the column
+ */
 record Pixel(int row, int col) {
+    /**
+     * The maximum number of rows in the image
+     */
     private static int maxRows = 0;
+    /**
+     * The maximum number of columns in the image
+     */
     private static int maxCols = 0;
-    private static long totalPixels = 0l;
+    /**
+     * The total number of pixels in the image (maxRows * maxCols)
+     */
+    private static long totalPixels = 0L;
+    /**
+     * The current row being processed (volatile for thread safety)
+     */
     private static volatile int cRow = 0;
+    /**
+     * The current column being processed (volatile for thread safety)
+     */
     private static volatile int cCol = -1;
-    private static volatile long pixels = 0l;
+    /**
+     * The number of pixels processed so far (volatile for thread safety)
+     */
+    private static volatile long pixels = 0L;
+    /**
+     * The last printed percentage of completion (volatile for thread safety)
+     */
     private static volatile int lastPrinted = 0;
+    /**
+     * Flag indicating whether to print progress updates
+     */
     private static boolean print = false;
-    private static long printInterval = 100l;
+    /**
+     * The interval at which progress is printed (in tenths of a percent)
+     */
+    private static long printInterval = 100L;
+    /**
+     * The format string used for printing progress updates
+     */
     private static final String PRINT_FORMAT = "%5.1f%%\r";
-    private static Object mutexNext = new Object();
-    private static Object mutexPixels = new Object();
+    /**
+     * Mutex for synchronizing access to the next pixel generation
+     */
+    private static final Object mutexNext = new Object();
+    /**
+     * Mutex for synchronizing access to pixel processing counters
+     */
+    private static final Object mutexPixels = new Object();
 
+    /**
+     * function that initializes the values
+     *
+     * @param maxRows  the maximum values of rows
+     * @param maxCols  the maximum values of columns
+     * @param interval the print interval
+     */
     static void initialize(int maxRows, int maxCols, double interval) {
         Pixel.maxRows = maxRows;
         Pixel.maxCols = maxCols;
@@ -24,6 +73,11 @@ record Pixel(int row, int col) {
     }
 
 
+    /**
+     * a function that creates the next pixel that need to be colored
+     *
+     * @return the next pixel or null
+     */
     static Pixel nextPixel() {
         synchronized (mutexNext) {
             if (cRow == maxRows) return null;
@@ -67,6 +121,10 @@ record Pixel(int row, int col) {
 //        return -1;
 //    }
 
+    /**
+     * function that prints the percent if the pixel is done and continue
+     * if the work is not done yet
+     */
     static void pixelDone() {
         boolean flag = false;
         int percentage = 0;

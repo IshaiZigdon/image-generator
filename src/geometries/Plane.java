@@ -52,7 +52,7 @@ public class Plane extends Geometry {
     }
 
     @Override
-    public void setMinMax(){
+    public void setMinMax() {
         min = null;
         max = null;
     }

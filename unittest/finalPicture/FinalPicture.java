@@ -5,11 +5,13 @@ import geometries.Polygon;
 import geometries.Sphere;
 import geometries.Triangle;
 import lighting.PointLight;
+import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
 import renderer.Camera;
 import renderer.ImageWriter;
 import renderer.RegularGrid;
+import renderer.SimpleRayTracer;
 import scene.Scene;
 
 import static java.awt.Color.*;
@@ -583,11 +585,11 @@ public class FinalPicture {
                 new Polygon(new Point(100, -50, -300), new Point(1100, -50, -300),
                         new Point(1100, -50, 700), new Point(100, -50, 700))
                         .setEmission(new Color(0, 255, 255))
-                        .setMaterial(new Material().setKr(0.5).setKd(0.05).setShininess(100)),
+                        .setMaterial(new Material().setKr(0.2).setKd(0.05).setShininess(100)),
                 new Polygon(new Point(100, -50, 700), new Point(1100, -50, 700),
                         new Point(1100, -70, 700), new Point(100, -70, 700))
                         .setEmission(new Color(0, 255, 255))
-                        .setMaterial(new Material().setKr(0.5).setKd(0.05).setShininess(100)),
+                        .setMaterial(new Material().setKr(0.2).setKd(0.05).setShininess(100)),
 
                 //screen
                 new Polygon(new Point(100, -50, -300), new Point(1100, -50, -300),
@@ -613,22 +615,22 @@ public class FinalPicture {
                         .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
 
                 //backround
-                new Polygon(new Point(1100, 450, -300), new Point(100, 450, -300),
-                        new Point(100, 950, -300), new Point(1100, 950, -300))
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3)),
                 new Polygon(new Point(-400, -70, -300), new Point(1600, -70, -300),
                         new Point(1600, -70, 1700), new Point(-400, -70, 1700))
                         .setEmission(new Color(BLACK))
                         .setMaterial(new Material().setKd(0.4).setKs(0.3)),
+                new Polygon(new Point(1100, 450, -300), new Point(100, 450, -300),
+                        new Point(100, 950, -300), new Point(1100, 950, -300))
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.1).setKs(0.9)),
                 new Polygon(new Point(100, -1050, -300), new Point(-400, -1050, -300),
                         new Point(-400, 950, -300), new Point(100, 950, -300))
                         .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3)),
+                        .setMaterial(new Material().setKd(0.1).setKs(0.9)),
                 new Polygon(new Point(1100, -1050, -300), new Point(1600, -1050, -300),
                         new Point(1600, 950, -300), new Point(1100, 950, -300))
                         .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3))
+                        .setMaterial(new Material().setKd(0.1).setKs(0.9))
 
         );
         //beyond the screen
@@ -1762,35 +1764,49 @@ public class FinalPicture {
 
         //mirror
         scene.geometries.add(
-                //frame
-                new Cylinder(new Ray(new Point(70 + 1200, -30, 300), new Vector(0, 1, 0)), 3, 130)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-                new Cylinder(new Ray(new Point(50 + 1200, -30, -250), new Vector(0, 1, 0)), 3, 130)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-                new Cylinder(new Ray(new Point(50 + 1200, -30, -250), new Vector(20, 0, 550)), 3, 550)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
-                new Cylinder(new Ray(new Point(50 + 1200, 100, -250), new Vector(20, 0, 550)), 3, 550)
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.4).setKs(0.3).setShininess(5)),
+                //lamp
+                new Sphere(new Point(1220, 470, 300), 50)
+                        .setEmission(new Color(YELLOW))
+                        .setMaterial(new Material().setKd(0.4).setKt(0.9).setShininess(5)),
 
-                // Mirror polygon
-                new Polygon(
-                        new Point(50 + 1200, 100, -250),  // Top-left
-                        new Point(70 + 1200, 100, 300),   // Top-right
-                        new Point(70 + 1200, -30, 300),  // Bottom-right
-                        new Point(50 + 1200, -30, -250)  // Bottom-left
-                )
-                        .setEmission(new Color(30, 30, 30))
-                        .setMaterial(new Material().setKr(0.5).setKd(0.05).setShininess(20))
+                new Cylinder(new Ray(new Point(1200, 450, 300), new Vector(1, 1, -0.5)), 90, 160)
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60)),
+                new Cylinder(new Ray(new Point(1300, -40, 300), new Vector(0, 1, 0)), 20, 500)
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60)),
+                new Cylinder(new Ray(new Point(1300, -70, 300), new Vector(0, 1, 0)), 100, 30)
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60)),
+
+
+                //glass
+                new Cylinder(new Ray(new Point(0, -70, 500), new Vector(0, 1, 0)), 70, 140)
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.05).setKs(0.7).setKt(0.8).setKr(0.1).setShininess(60))
         );
+
+        for(int i = -60;i<60;i += 5){
+            for(int j = -60; j<0;j += 5) {
+                for (int k = 440; k < 560; k += 5) {
+                    scene.geometries.add(
+                            new Sphere(new Point(i, j, k), 1)
+                                    .setEmission(new Color(BLUE))
+                                    .setMaterial(new Material().setKd(0.0).setKs(0.5).setKt(1).setKr(0.1).setShininess(60))
+                    );
+                }
+            }
+        }
 
         scene.setBackground(new Color(64, 128, 128));
 
         scene.lights.add(
-                new PointLight(new Color(WHITE), new Point(600, 500, 700))
+                new SpotLight(new Color(WHITE), new Point(1200, 450, 300), new Vector(-1, -1, 0))
+                        .setKl(0.0004).setKq(0.0000006)
+        );
+
+        scene.lights.add(
+                new PointLight(new Color(WHITE), new Point(600, 500, 300))
                         .setKl(0.0004).setKq(0.0000006)
         );
 
@@ -1805,7 +1821,7 @@ public class FinalPicture {
                 .setDirection(new Point(600, 0, -160), new Vector(0, 1, -120 / 436d))
                 .setImageWriter(new ImageWriter("FinalPicture", 900, 500))
                 .setRayTracer(new RegularGrid(scene))
-                .setMultithreading(0)
+                .setMultithreading(-1)
                 .setDebugPrint(0.1)
                 .build()
                 .renderImage()

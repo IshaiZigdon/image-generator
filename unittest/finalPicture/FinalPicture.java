@@ -1819,7 +1819,7 @@ public class FinalPicture {
                 .setVpDistance(2200)
                 .setVpSize(900, 500)
                 .setDirection(new Point(600, 0, -160), new Vector(0, 1, -120 / 436d))
-                .setImageWriter(new ImageWriter("FinalPicture", 900, 500))
+                .setImageWriter(new ImageWriter("FinalPicture", 1800, 1000))
                 .setRayTracer(new RegularGrid(scene))
                 .setMultithreading(-1)
                 .setDebugPrint(0.1)
